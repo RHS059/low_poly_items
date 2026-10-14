@@ -87,7 +87,7 @@ def main():
     for batch,items in groups.items():
         w=1250;cw=250;ch=282;sheet=Image.new('RGB',(w,75+ch*math.ceil(len(items)/5)),'#f4f1ea');d=ImageDraw.Draw(sheet)
         d.text((22,15),(f'{batch.upper()}  /  {len(items)} assets' if batch!='overview' else f'AMERICAN CITY  /  {len(catalog)} assets — representative selection'),fill='#25343b',font=title)
-        d.text((22,49),'Exported geometry • orthographic software-shaded previews • not scale matched',fill='#59636a',font=small)
+        d.text((22,49),'Geometry • orthographic software-shaded previews • not scale matched',fill='#59636a',font=small)
         for i,(entry,im) in enumerate(items):
             x=(i%5)*cw;y=75+(i//5)*ch
             sheet.paste(im.resize((238,238)),(x+6,y))

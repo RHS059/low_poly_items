@@ -59,7 +59,7 @@ def main():
    # glTF Y is up, Blender Z maps to Y, Blender +Y maps to glTF -Z.
    if abs(lo[1])>1e-4 or abs(lo[0]+hi[0])>1e-4 or abs(lo[2]+hi[2])>1e-4:errors.append(f'{row["name"]}: GLB origin not bottom center')
   for node in doc.get('nodes',[]):
-   if 'mesh' in node and (node.get('translation',[0,0,0])!=[0,0,0] or node.get('scale',[1,1,1])!=[1,1,1]):errors.append(f'{row["name"]}: nonidentity node transform')
+   if 'mesh' in node and (node.get('translation',[0,0,0])!=[0,0,0] or node.get('scale',[1,1,1])!=[1,1,1] or node.get('rotation',[0,0,0,1])!=[0,0,0,1] or node.get('matrix',[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1])!=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]):errors.append(f'{row["name"]}: nonidentity node transform')
   for mat in doc.get('materials',[]):
    name=mat['name'];fingerprint=json.dumps({k:v for k,v in mat.items() if k!='extras'},sort_keys=True)
    if name in material_defs and material_defs[name]!=fingerprint:errors.append(f'{row["name"]}: inconsistent shared material {name}')
@@ -82,6 +82,15 @@ def main():
    obj.data.calc_loop_triangles()
    degenerate=sum(triangle_is_degenerate(*(obj.data.vertices[i].co for i in t.vertices)) for t in obj.data.loop_triangles)
    if degenerate:errors.append(f'{obj.name}: {degenerate} degenerate Blender triangles')
+  for name,fingerprint in material_defs.items():
+   mat=bpy.data.materials.get(name)
+   if mat is None:
+    errors.append(f'Shared GLB material missing from Blender: {name}');continue
+   node=mat.node_tree.nodes.get('Principled BSDF')
+   pbr=json.loads(fingerprint).get('pbrMetallicRoughness',{})
+   exported=pbr.get('baseColorFactor',[1,1,1,1])+[pbr.get('metallicFactor',1),pbr.get('roughnessFactor',1)]
+   source=list(node.inputs['Base Color'].default_value)+[node.inputs['Metallic'].default_value,node.inputs['Roughness'].default_value]
+   if any(abs(a-b)>1e-5 for a,b in zip(exported,source)):errors.append(f'GLB/Blender palette parameters differ: {name}')
   if len(bpy.data.materials)!=len(material_defs):warnings.append(f'Blend has {len(bpy.data.materials)} palette materials; GLBs use {len(material_defs)}')
  report={'passed':not errors,'asset_count':len(rows),'glb_count':len(glbs),'blend_checked':blend_checked,'shared_materials_used':len(material_defs),'total_export_triangles':triangle_total,'maximum_export_to_source_vertex_ratio':round(max_ratio,4),'size_classes':dict(collections.Counter(r['size_class'] for r in rows)),'source_vertices':{'min':min(r['source_vertices'] for r in rows),'max':max(r['source_vertices'] for r in rows),'total':sum(r['source_vertices'] for r in rows)},'export_vertices':{'min':min(r['export_vertices'] for r in rows),'max':max(r['export_vertices'] for r in rows),'total':sum(r['export_vertices'] for r in rows)},'errors':errors,'warnings':warnings}
  (ROOT/'validation_report.json').write_text(json.dumps(report,indent=2)+'\n');(ROOT/'SHA256SUMS').write_text(''.join(f'{v}  {k}\n' for k,v in sorted(file_hashes.items()))+f'{hashlib.sha256((ROOT/"city_items.blend").read_bytes()).hexdigest()}  city_items.blend\n')
