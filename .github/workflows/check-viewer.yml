@@ -1,0 +1,41 @@
+name: Check 3D viewer
+on:
+  push:
+    branches: [main]
+    paths: [index.html, tools/check-viewer.cjs, .github/workflows/check-viewer.yml]
+  workflow_run:
+    workflows: ["Build and publish city assets"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: viewer-check
+  cancel-in-progress: false
+jobs:
+  check:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.51.1
+      - run: npx playwright install --with-deps chromium
+      - name: Browser check and screenshots
+        run: |
+          mkdir -p review
+          python3 -m http.server 8765 > /tmp/viewer-server.log 2>&1 &
+          node tools/check-viewer.cjs
+      - name: Save review evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add review
+          git commit -m 'Record browser checks and vehicle/shadow screenshots' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
