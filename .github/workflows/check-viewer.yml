@@ -2,9 +2,9 @@ name: Check 3D viewer
 on:
   push:
     branches: [main]
-    paths: [index.html, tools/check-viewer.cjs, .github/workflows/check-viewer.yml]
+    paths: [index.html, tools/check-viewer.cjs, .github/workflows/check-viewer.yml, "argon/**"]
   workflow_run:
-    workflows: ["Build and publish city assets"]
+    workflows: ["Build and publish city assets", "Import Argon collection"]
     types: [completed]
     branches: [main]
   workflow_dispatch:
