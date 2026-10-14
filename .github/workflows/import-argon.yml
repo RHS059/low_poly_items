@@ -1,0 +1,57 @@
+name: Import Argon collection
+on:
+  push:
+    branches: [main]
+    paths: ['.imports/argon_bundle/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: import-argon
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Extract the uploaded bundle without changing its files
+        run: |
+          python - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import hashlib, json, zipfile
+          archive=Path('.imports/argon_bundle.zip')
+          parts=sorted(Path('.imports/argon_bundle').glob('part*'))
+          if parts: archive.write_bytes(b''.join(p.read_bytes() for p in parts))
+          if not archive.exists():
+              assert len(list(Path('argon/exports').glob('*.glb')))==1050
+              raise SystemExit(0)
+          assert hashlib.sha256(archive.read_bytes()).hexdigest()=='5df1443fd226a5fdbaec17ffa763f8f46a2fb5868a1b80df626d96d33b938706'
+          with zipfile.ZipFile(archive) as z:
+              for f in z.infolist():
+                  p=PurePosixPath(f.filename)
+                  assert not p.is_absolute() and '..' not in p.parts and '\\' not in f.filename
+                  assert (f.external_attr >> 16) & 0o170000 != 0o120000
+                  z.extract(f, 'argon')
+              for f in z.infolist():
+                  if not f.is_dir(): assert (Path('argon')/f.filename).read_bytes()==z.read(f)
+          m=json.loads(Path('argon/manifest.json').read_text())
+          assert len(m['items'])==1050
+          assert len(list(Path('argon/exports').glob('*.glb')))==1050
+          for a in m['items']:
+              assert (Path('argon')/a['glb_path']).read_bytes()[:4]==b'glTF'
+          archive.unlink()
+          for part in parts: part.unlink()
+          PY
+      - name: Commit extracted Argon models
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add argon
+          git add -u
+          if ! git diff --cached --quiet; then
+            git commit -m "Import 1050 uploaded Argon models unchanged"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
