@@ -4,6 +4,12 @@ A collection of 1,000 original low-poly outdoor props for a midsized American ci
 
 ![Representative models from the collection](previews/overview.jpg)
 
+## Interactive 3D browser
+
+Download [`index.html`](index.html) and open it in your browser to browse all 1,000 objects. It loads the models from this repository when opened directly, and uses local files when served over HTTP. Internet access is required for Three.js. Search the collapsible category list, drag to orbit, right-drag to pan, and scroll to zoom. The viewer uses one directional light, a grid floor, and a gradient background.
+
+For a fully local model collection, run `python -m http.server 8000` in the downloaded repository and visit `http://localhost:8000`.
+
 ## Files
 
 - **[`city_items.blend`](city_items.blend)** — master Blender file containing all source meshes and the shared material palette.
