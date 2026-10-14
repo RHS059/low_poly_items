@@ -1,0 +1,434 @@
+[
+  {
+    "name": "asphalt",
+    "base_color_srgb": "#30363c",
+    "base_color_linear": [
+      0.0295568344378088,
+      0.03688945040110004,
+      0.04518620438567554,
+      1.0
+    ],
+    "metallic": 0.0,
+    "roughness": 0.92
+  },
+  {
+    "name": "concrete",
+    "base_color_srgb": "#a6aaa8",
+    "base_color_linear": [
+      0.38132601143253014,
+      0.4019777798321958,
+      0.39157247774972326,
+      1.0
+    ],
+    "metallic": 0.0,
+    "roughness": 0.88
+  },
+  {
+    "name": "concrete_light",
+    "base_color_srgb": "#d4d1c8",
+    "base_color_linear": [
+      0.6583748172794485,
+      0.6375968739940326,
+      0.5775804404296506,
+      1.0
+    ],
+    "metallic": 0.0,
+    "roughness": 0.85
+  },
+  {
+    "name": "metal",
+    "base_color_srgb": "#73818b",
+    "base_color_linear": [
+      0.1714411007328226,
+      0.2195261997292692,
+      0.2581828529215958,
+      1.0
+    ],
+    "metallic": 0.65,
+    "roughness": 0.43
+  },
+  {
+    "name": "steel",
+    "base_color_srgb": "#aab6be",
+    "base_color_linear": [
+      0.4019777798321958,
+      0.467783796112159,
+      0.5149176653765214,
+      1.0
+    ],
+    "metallic": 0.75,
+    "roughness": 0.35
+  },
+  {
+    "name": "dark_metal",
+    "base_color_srgb": "#303e46",
+    "base_color_linear": [
+      0.0295568344378088,
+      0.04817182422688942,
+      0.06124605423161761,
+      1.0
+    ],
+    "metallic": 0.7,
+    "roughness": 0.44
+  },
+  {
+    "name": "black",
+    "base_color_srgb": "#172127",
+    "base_color_linear": [
+      0.008568125618069307,
+      0.01520851442291271,
+      0.0202885630566524,
+      1.0
+    ],
+    "metallic": 0.1,
+    "roughness": 0.7
+  },
+  {
+    "name": "rubber",
+    "base_color_srgb": "#242b30",
+    "base_color_linear": [
+      0.017641954488384078,
+      0.024157632448504756,
+      0.0295568344378088,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.95
+  },
+  {
+    "name": "white",
+    "base_color_srgb": "#eeeae0",
+    "base_color_linear": [
+      0.8549926081242338,
+      0.8227857543962835,
+      0.7454042095403874,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.62
+  },
+  {
+    "name": "red",
+    "base_color_srgb": "#c43b38",
+    "base_color_linear": [
+      0.5520114015120001,
+      0.043735029256973465,
+      0.03954623527673284,
+      1.0
+    ],
+    "metallic": 0.08,
+    "roughness": 0.58
+  },
+  {
+    "name": "orange",
+    "base_color_srgb": "#ed8539",
+    "base_color_linear": [
+      0.846873231509858,
+      0.23455058216100522,
+      0.04091519690685319,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.6
+  },
+  {
+    "name": "yellow",
+    "base_color_srgb": "#efbc46",
+    "base_color_linear": [
+      0.8631572134541023,
+      0.5028864580325687,
+      0.06124605423161761,
+      1.0
+    ],
+    "metallic": 0.05,
+    "roughness": 0.56
+  },
+  {
+    "name": "green",
+    "base_color_srgb": "#386c50",
+    "base_color_linear": [
+      0.03954623527673284,
+      0.14995978981060856,
+      0.08021982031446832,
+      1.0
+    ],
+    "metallic": 0.1,
+    "roughness": 0.65
+  },
+  {
+    "name": "blue",
+    "base_color_srgb": "#34688d",
+    "base_color_linear": [
+      0.03433980680868217,
+      0.13843161503245183,
+      0.26635560480286247,
+      1.0
+    ],
+    "metallic": 0.15,
+    "roughness": 0.56
+  },
+  {
+    "name": "navy",
+    "base_color_srgb": "#223f57",
+    "base_color_linear": [
+      0.01599629336550963,
+      0.04970656598412723,
+      0.0953074666309647,
+      1.0
+    ],
+    "metallic": 0.12,
+    "roughness": 0.63
+  },
+  {
+    "name": "teal",
+    "base_color_srgb": "#397b7c",
+    "base_color_linear": [
+      0.04091519690685319,
+      0.19806931955994886,
+      0.20155625379439707,
+      1.0
+    ],
+    "metallic": 0.1,
+    "roughness": 0.57
+  },
+  {
+    "name": "wood",
+    "base_color_srgb": "#a97647",
+    "base_color_linear": [
+      0.39675523072562685,
+      0.18116424424986022,
+      0.06301001765316767,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.85
+  },
+  {
+    "name": "wood_dark",
+    "base_color_srgb": "#684d35",
+    "base_color_linear": [
+      0.13843161503245183,
+      0.07421356838014963,
+      0.03560131487502034,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.9
+  },
+  {
+    "name": "wood_light",
+    "base_color_srgb": "#c69b64",
+    "base_color_linear": [
+      0.5647115057049292,
+      0.3277780980565422,
+      0.12743768043564743,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.83
+  },
+  {
+    "name": "brick",
+    "base_color_srgb": "#98624c",
+    "base_color_linear": [
+      0.31398871337571754,
+      0.12213877222960187,
+      0.07227185068231748,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.9
+  },
+  {
+    "name": "terracotta",
+    "base_color_srgb": "#bc7854",
+    "base_color_linear": [
+      0.5028864580325687,
+      0.18782077230067787,
+      0.08865558628577294,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.85
+  },
+  {
+    "name": "sand",
+    "base_color_srgb": "#c7b795",
+    "base_color_linear": [
+      0.5711248294648731,
+      0.47353149614800955,
+      0.3005437944157765,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.97
+  },
+  {
+    "name": "soil",
+    "base_color_srgb": "#584e3e",
+    "base_color_linear": [
+      0.09758734714186246,
+      0.07618538148130785,
+      0.04817182422688942,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 1
+  },
+  {
+    "name": "foliage",
+    "base_color_srgb": "#548254",
+    "base_color_linear": [
+      0.08865558628577294,
+      0.2232279573168085,
+      0.08865558628577294,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.9
+  },
+  {
+    "name": "foliage_dark",
+    "base_color_srgb": "#315a43",
+    "base_color_linear": [
+      0.030713443732993635,
+      0.10224173308810132,
+      0.05612849004960009,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.95
+  },
+  {
+    "name": "foliage_light",
+    "base_color_srgb": "#82a668",
+    "base_color_linear": [
+      0.2232279573168085,
+      0.38132601143253014,
+      0.13843161503245183,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.9
+  },
+  {
+    "name": "glass",
+    "base_color_srgb": "#88b5c3",
+    "base_color_linear": [
+      0.24620132670783548,
+      0.4620769996544071,
+      0.5457244613701866,
+      1.0
+    ],
+    "metallic": 0.25,
+    "roughness": 0.23
+  },
+  {
+    "name": "water",
+    "base_color_srgb": "#518ca3",
+    "base_color_linear": [
+      0.0822827071298148,
+      0.26225065752969623,
+      0.3662525955988395,
+      1.0
+    ],
+    "metallic": 0.15,
+    "roughness": 0.28
+  },
+  {
+    "name": "cream",
+    "base_color_srgb": "#dfd3b1",
+    "base_color_linear": [
+      0.7379104087727308,
+      0.6514056374198242,
+      0.4396571738409188,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.83
+  },
+  {
+    "name": "brown",
+    "base_color_srgb": "#806049",
+    "base_color_linear": [
+      0.21586050011389926,
+      0.11697066775851084,
+      0.06662593864377289,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.86
+  },
+  {
+    "name": "purple",
+    "base_color_srgb": "#775b85",
+    "base_color_linear": [
+      0.184474994500441,
+      0.10461648409110419,
+      0.23455058216100522,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.69
+  },
+  {
+    "name": "pink",
+    "base_color_srgb": "#c78288",
+    "base_color_linear": [
+      0.5711248294648731,
+      0.2232279573168085,
+      0.24620132670783548,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.66
+  },
+  {
+    "name": "silver",
+    "base_color_srgb": "#cad0d1",
+    "base_color_linear": [
+      0.5906188409193369,
+      0.6307571363461468,
+      0.6375968739940326,
+      1.0
+    ],
+    "metallic": 0.8,
+    "roughness": 0.31
+  },
+  {
+    "name": "gold",
+    "base_color_srgb": "#be9744",
+    "base_color_linear": [
+      0.5149176653765214,
+      0.30946892281750854,
+      0.05780543019106723,
+      1.0
+    ],
+    "metallic": 0.7,
+    "roughness": 0.35
+  },
+  {
+    "name": "light",
+    "base_color_srgb": "#ffe4a3",
+    "base_color_linear": [
+      1.0,
+      0.7758222183174236,
+      0.3662525955988395,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.4
+  },
+  {
+    "name": "paper",
+    "base_color_srgb": "#dedbcf",
+    "base_color_linear": [
+      0.7304607400903537,
+      0.7083757798916868,
+      0.6239603916750761,
+      1.0
+    ],
+    "metallic": 0,
+    "roughness": 0.93
+  }
+]

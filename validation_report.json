@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "asset_count": 1000,
+  "glb_count": 1000,
+  "blend_checked": true,
+  "shared_materials_used": 36,
+  "total_export_triangles": 1390789,
+  "maximum_export_to_source_vertex_ratio": 4.2773,
+  "size_classes": {
+    "large": 382,
+    "person": 438,
+    "handheld": 180
+  },
+  "source_vertices": {
+    "min": 42,
+    "max": 3154,
+    "total": 775748
+  },
+  "export_vertices": {
+    "min": 144,
+    "max": 9970,
+    "total": 2851017
+  },
+  "errors": [],
+  "warnings": []
+}
