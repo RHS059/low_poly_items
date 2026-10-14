@@ -43,7 +43,23 @@ const fs = require('fs');
     await page.waitForFunction(()=>document.querySelector('#status').textContent==='');
     if(!page.url().includes('#astra/'))throw Error('Rapid tab switching selected stale model');
     await page.locator('#tab-astra').focus();await page.keyboard.press('ArrowRight');
+    await page.waitForFunction(()=>document.querySelector('#status').textContent===''&&document.querySelector('#tab-vs').getAttribute('aria-selected')==='true');
+    await page.locator('#search').fill('');
+    const common=argon.items.filter(a=>names.has(a.id)).length;
+    if(await page.locator('.item').count()!==common)throw Error('Comparison intersection count mismatch');
+    if(!await page.locator('#comparison').isVisible())throw Error('Comparison panes missing');
+    if((await page.locator('#download-astra').getAttribute('href')).includes('/argon/'))throw Error('Left comparison source incorrect');
+    if(!(await page.locator('#download-argon').getAttribute('href')).includes('/argon/'))throw Error('Right comparison source incorrect');
+    for(const side of ['astra','argon'])if(!(await page.locator('#stats-'+side).textContent()).includes('triangles'))throw Error('Missing comparison stats');
+    await page.screenshot({path:'review/vs-muscle-coupe.png'});
+    await page.mouse.move(650,520);await page.mouse.down();await page.mouse.move(750,570,{steps:10});await page.mouse.up();
+    await page.mouse.move(1150,520);await page.mouse.down({button:'right'});await page.mouse.move(1200,540,{steps:10});await page.mouse.up({button:'right'});
+    await page.locator('#reset').click();
+    await page.reload();await page.waitForFunction(()=>document.querySelector('#status').textContent==='');
+    if(await page.locator('#tab-vs').getAttribute('aria-selected')!=='true'||!page.url().includes('#vs/'))throw Error('Comparison deep link failed');
+    await page.locator('#tab-vs').focus();await page.keyboard.press('ArrowRight');
     await page.waitForFunction(()=>document.querySelector('#status').textContent===''&&document.querySelector('#tab-argon').getAttribute('aria-selected')==='true');
+
   }
   if(errors.length)throw Error(errors.join('\n'));
   fs.writeFileSync('review/viewer-check.json',JSON.stringify({passed:true,checks:[expected+' items','GLB loads','search','empty search','rotate','pan','reset','next item','no page errors','collection tabs, counts, downloads, deep links, rapid switching and keyboard navigation'],date:new Date().toISOString()},null,2)+'\n');
