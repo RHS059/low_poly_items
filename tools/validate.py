@@ -6,6 +6,11 @@ from pathlib import Path
 import argparse, collections, hashlib, json, math, struct, sys
 ROOT=Path(__file__).resolve().parents[1]
 
+def triangle_is_degenerate(a,b,c):
+ u=[b[k]-a[k] for k in range(3)];v=[c[k]-a[k] for k in range(3)]
+ n=(u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0])
+ return sum(x*x for x in n)<1e-22
+
 def read_glb(path,with_binary=False):
  raw=Path(path).read_bytes()
  if len(raw)<20 or raw[:4]!=b'glTF':raise ValueError(f'{path}: not GLB')
@@ -35,15 +40,19 @@ def main():
  if {p.stem for p in glbs}!=names:errors.append('GLB filenames do not exactly match manifest names')
  triangle_total=0;max_ratio=0
  for row in rows:
-  path=ROOT/row['glb'];doc,binary=read_glb(path,True);verts=0;tris=0;coords=[]
+  path=ROOT/row['glb'];doc,binary=read_glb(path,True);verts=0;tris=0;coords=[];degenerate=0
   if len(doc.get('meshes',[]))!=1:errors.append(f'{row["name"]}: expected one mesh')
   for mesh in doc.get('meshes',[]):
    for p in mesh['primitives']:
     pos=accessor_values(doc,binary,p['attributes']['POSITION']);verts+=len(pos);coords.extend(pos)
     indices=accessor_values(doc,binary,p['indices']);tris+=len(indices)//3
     if len(indices)%3 or any(i[0]>=len(pos) for i in indices):errors.append(f'{row["name"]}: invalid triangle indices')
+    else:
+     for i in range(0,len(indices),3):
+      if triangle_is_degenerate(*(pos[indices[i+j][0]] for j in range(3))):degenerate+=1
     if any(not all(math.isfinite(c) for c in v) for v in pos):errors.append(f'{row["name"]}: nonfinite position')
   if verts!=row['export_vertices']:errors.append(f'{row["name"]}: stale manifest vertex count')
+  if degenerate:errors.append(f'{row["name"]}: {degenerate} degenerate exported triangles')
   if verts>row['vertex_limit'] or row['source_vertices']>row['vertex_limit']:errors.append(f'{row["name"]}: vertex limit exceeded ({row["source_vertices"]}/{verts}>{row["vertex_limit"]})')
   if coords:
    lo=[min(v[i] for v in coords) for i in range(3)];hi=[max(v[i] for v in coords) for i in range(3)]
@@ -70,6 +79,9 @@ def main():
    if obj.location.length>1e-7 or obj.rotation_euler.to_quaternion().angle>1e-7 or max(abs(v-1) for v in obj.scale)>1e-7:errors.append(f'{obj.name}: source transform is not identity')
    lo=[min(v.co[i] for v in obj.data.vertices) for i in range(3)];hi=[max(v.co[i] for v in obj.data.vertices) for i in range(3)]
    if abs(lo[2])>1e-5 or abs(lo[0]+hi[0])>1e-5 or abs(lo[1]+hi[1])>1e-5:errors.append(f'{obj.name}: blend pivot not bottom center')
+   obj.data.calc_loop_triangles()
+   degenerate=sum(triangle_is_degenerate(*(obj.data.vertices[i].co for i in t.vertices)) for t in obj.data.loop_triangles)
+   if degenerate:errors.append(f'{obj.name}: {degenerate} degenerate Blender triangles')
   if len(bpy.data.materials)!=len(material_defs):warnings.append(f'Blend has {len(bpy.data.materials)} palette materials; GLBs use {len(material_defs)}')
  report={'passed':not errors,'asset_count':len(rows),'glb_count':len(glbs),'blend_checked':blend_checked,'shared_materials_used':len(material_defs),'total_export_triangles':triangle_total,'maximum_export_to_source_vertex_ratio':round(max_ratio,4),'size_classes':dict(collections.Counter(r['size_class'] for r in rows)),'source_vertices':{'min':min(r['source_vertices'] for r in rows),'max':max(r['source_vertices'] for r in rows),'total':sum(r['source_vertices'] for r in rows)},'export_vertices':{'min':min(r['export_vertices'] for r in rows),'max':max(r['export_vertices'] for r in rows),'total':sum(r['export_vertices'] for r in rows)},'errors':errors,'warnings':warnings}
  (ROOT/'validation_report.json').write_text(json.dumps(report,indent=2)+'\n');(ROOT/'SHA256SUMS').write_text(''.join(f'{v}  {k}\n' for k,v in sorted(file_hashes.items()))+f'{hashlib.sha256((ROOT/"city_items.blend").read_bytes()).hexdigest()}  city_items.blend\n')

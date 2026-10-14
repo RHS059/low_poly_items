@@ -48,11 +48,15 @@ def bevel_candidate(bpy,obj,limit):
  depsgraph=bpy.context.evaluated_depsgraph_get();depsgraph.update()
  candidate=bpy.data.meshes.new_from_object(obj.evaluated_get(depsgraph),depsgraph=depsgraph)
  obj.modifiers.remove(mod)
+ # Clamped bevels can create microscopic collapsed edges at primitive junctions.
+ # Dissolve those before both budget checks and export, preserving materials.
+ import bmesh
+ bm=bmesh.new();bm.from_mesh(candidate);bmesh.ops.dissolve_degenerate(bm,dist=1e-6,edges=list(bm.edges));bm.to_mesh(candidate);bm.free()
  # Flat normals can create one exported vertex per face corner. This conservative
  # bound prevents the chamfer from consuming a model's actual runtime vertex cap.
  if len(candidate.vertices)>limit or len(candidate.loops)>limit:
   bpy.data.meshes.remove(candidate);return False
- old=obj.data;obj.data=candidate;candidate.name=obj.name+'_mesh';bpy.data.meshes.remove(old)
+ old=obj.data;obj.data=candidate;bpy.data.meshes.remove(old);candidate.name=obj.name+'_mesh'
  for p in candidate.polygons:p.use_smooth=False
  obj['bevel_width_m']=width;obj['bevel_segments']=1
  return True
@@ -87,6 +91,10 @@ def main():
  from validate import read_glb
  start=time.time();source=scene_setup(bpy);mats=make_materials(bpy);objects=[];categories={};asset_colls={};manifest=[];errors=[]
  (ROOT/'exports').mkdir(exist_ok=True)
+ # Only whole-registry builds may remove obsolete generated filenames.
+ if not args.batch:
+  for stale in (ROOT/'exports').glob('*.glb'):
+   if stale.stem not in REGISTRY:stale.unlink()
  for i,(name,row) in enumerate(sorted(REGISTRY.items())):
   try:
    a=row['factory']();a.name=name;a.category=row['category'];a.size_class=row['size_class'];a.bottom_center();a.validate()
@@ -101,7 +109,7 @@ def main():
    for v in mesh.vertices:
     for j in range(3):v.co[j]-=shift[j]
    lo=[x-shift[j] for j,x in enumerate(lo)];hi=[x-shift[j] for j,x in enumerate(hi)]
-   mesh.update();dest=ROOT/'exports'/f'{name}.glb'
+   mesh.update();mesh.calc_loop_triangles();dest=ROOT/'exports'/f'{name}.glb'
    if not args.skip_export:
     obj.select_set(True);bpy.context.view_layer.objects.active=obj
     # Official Blender exporter; flat split normals are preserved by default.

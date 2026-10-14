@@ -126,12 +126,12 @@ def b01_rustic_split_log_bench():
 def b01_curve_segment_park_bench():
     a=Asset('b01_curve_segment_park_bench','bench','person')
     def pt(t,r,z): return (r*math.sin(t),1.7-r*math.cos(t),z)
-    for i in range(21):
-        theta=-.8+i*.08
+    for i in range(19):
+        theta=-.8+i*(1.6/18)
         a.beam(pt(theta,1.48,.49),pt(theta,1.92,.49),.108,.052,mat=W)
         a.beam(pt(theta,1.46,.62),pt(theta,1.40,.96),.092,.045,mat=W)
-    for i in range(20):
-        t=-.80+i*.08;q=t+.08
+    for i in range(18):
+        t=-.80+i*(1.6/18);q=t+(1.6/18)
         for r,z in ((1.52,.42),(1.87,.42),(1.40,1.0)):
             rod(a,pt(t,r,z),pt(q,r,z),.027)
     for t in (-.66,0,.66):
