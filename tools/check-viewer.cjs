@@ -5,8 +5,9 @@ const fs = require('fs');
   const page = await browser.newPage({viewport:{width:1440,height:1000}});
   const errors=[]; page.on('pageerror',e=>errors.push(e.message));
   for (const id of ['b03_classic_muscle_coupe','b04_compact_open_debris_skip']) {
-    await page.goto('http://127.0.0.1:8765/#'+id);
+    await page.goto('http://127.0.0.1:8765/?check='+id+'#'+id);
     await page.waitForFunction(()=>document.querySelector('#status').textContent==='',null,{timeout:90000});
+    if(await page.locator('#title').textContent()!==id.replace(/^b\d+_/, '').replaceAll('_',' ')) throw Error('Wrong selected model');
     if(await page.locator('.item').count()!==1000) throw Error('Expected 1000 items');
     await page.screenshot({path:`review/${id}.png`});
   }
