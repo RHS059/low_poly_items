@@ -1,0 +1,58 @@
+name: Build and publish city assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - BUILD_REQUEST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: city-asset-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned Blender Python runtime
+        run: python -m pip install bpy==4.2.0 numpy==1.26.4 Pillow==11.3.0
+      - name: Build Blender collection and individual GLBs
+        run: python tools/build.py
+      - name: Validate deliverables
+        run: python tools/validate.py
+      - name: Render visual catalog
+        run: python tools/preview.py
+      - name: Keep downloadable build archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: american-city-1000-items
+          path: |
+            city_items.blend
+            exports/
+            previews/
+            manifest.json
+            validation_report.json
+          retention-days: 30
+      - name: Commit generated assets
+        run: |
+          test "$(find exports -maxdepth 1 -name '*.glb' | wc -l)" -eq 1000
+          test -s city_items.blend
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add city_items.blend exports previews manifest.json validation_report.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish 1,000 validated city models and Blender master'
+            git push origin HEAD:main
+          fi
