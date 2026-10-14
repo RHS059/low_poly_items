@@ -1,5 +1,5 @@
 """Fifty original handheld food, beverage, packaging and sidewalk litter props.
-Metres; muted, readable, logo-free forms with deliberately low export budgets.
+Metres; muted, readable, logo-free forms with measured handheld export budgets.
 """
 import math
 from assetlib import Asset, register
@@ -40,28 +40,82 @@ def ring(a,p,r,t,m='paper',axis='z',n=10):
 
 
 def ball(a,p,s,m='cream',n=8,rings=3):
-    a.sphere(p,1,m,segments=n,rings=rings,scale=s)
+    a.sphere(p,1,m,segments=max(9,n),rings=max(4,rings),scale=s)
 
+
+def _rect(w,d,c=.09):
+    x=w/2;y=d/2;k=min(w,d)*c
+    return [(-x+k,-y),(x-k,-y),(x,-y+k),(x,y-k),(x-k,y),(-x+k,y),(-x,y-k),(-x,-y+k)]
 
 def taperbox(a,z,h,w0,d0,w1,d1,m='paper'):
-    vs=[(-w0/2,-d0/2,z),(w0/2,-d0/2,z),(w0/2,d0/2,z),(-w0/2,d0/2,z),(-w1/2,-d1/2,z+h),(w1/2,-d1/2,z+h),(w1/2,d1/2,z+h),(-w1/2,d1/2,z+h)]
-    a.mesh(vs,[(3,2,1,0),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7),(4,5,6,7)],m)
-
+    # Eight-sided carton section: four folded corner returns, not a cuboid.
+    vs=[(x,y,zz) for w,d,zz in ((w0,d0,z),(w1,d1,z+h)) for x,y in _rect(w,d)]
+    a.mesh(vs,[tuple(reversed(range(8))),tuple(range(8,16))]+[(i,(i+1)%8,(i+1)%8+8,i+8) for i in range(8)],m)
 
 def tray(a,w,d,h,m='paper'):
-    box(a,(0,0,.003),(w,d,.006),m)
-    for x in (-w/2,w/2): box(a,(x,0,h/2),(.005,d,h),m)
-    for y in (-d/2,d/2): box(a,(0,y,h/2),(w,.005,h),m)
+    # Folded food boat with sloping walls, clipped corners, and an open cavity.
+    rings=[[(x,y,z) for x,y in _rect(ww,dd,.13)] for ww,dd,z in
+           ((w*.81,d*.74,0),(w,d,h),(w-.004,d-.004,h),(w*.81-.004,d*.74-.004,.003))]
+    vs=[p for ring in rings for p in ring];fs=[]
+    for j in range(3):fs += [(j*8+i,j*8+(i+1)%8,(j+1)*8+(i+1)%8,(j+1)*8+i) for i in range(8)]
+    fs += [tuple(reversed(range(8))),tuple(range(24,32))]
+    a.mesh(vs,fs,m)
 
+def _pouch_depth(t,d):
+    rows=((0,.06),(.12,.32),(.45,.50),(.78,.43),(1,.06))
+    for (t0,d0),(t1,d1) in zip(rows,rows[1:]):
+        if t<=t1:return d*(d0+(d1-d0)*(t-t0)/(t1-t0))
+    return d*.06
 
 def pouch(a,w,h,d,m='paper'):
-    # Plump four-sided packet, pinched at both heat-sealed ends.
-    vs=[(-w/2,-.003,0),(w/2,-.003,0),(w/2,.003,0),(-w/2,.003,0),(-w*.56,-d/2,h*.48),(w*.56,-d/2,h*.48),(w*.56,d/2,h*.48),(-w*.56,d/2,h*.48),(-w/2,-.003,h),(w/2,-.003,h),(w/2,.003,h),(-w/2,.003,h)]
-    fs=[(3,2,1,0),(8,9,10,11)]+[(j*4+i,j*4+(i+1)%4,(j+1)*4+(i+1)%4,(j+1)*4+i) for j in range(2) for i in range(4)]
+    # A rounded gusseted packet with a broad pillow face and flat heat seals.
+    vs=[]
+    for t,scale in ((0,.92),(.12,1.01),(.45,1.06),(.78,1.01),(1,.92)):
+        half=_pouch_depth(t,d);xx=w*scale/2
+        plan=[(-xx*.80,-half),(xx*.80,-half),(xx,-half*.53),(xx,half*.53),
+              (xx*.8,half),(-xx*.8,half),(-xx,half*.53),(-xx,-half*.53)]
+        vs += [(x,y,h*t) for x,y in plan]
+    fs=[tuple(reversed(range(8))),tuple(range(32,40))]
+    fs += [(j*8+i,j*8+(i+1)%8,(j+1)*8+(i+1)%8,(j+1)*8+i) for j in range(4) for i in range(8)]
     a.mesh(vs,fs,m)
-    box(a,(0,0,.004),(w,.008,.008),m)
-    box(a,(0,0,h-.004),(w,.008,.008),m)
+    for zz in (.003,h-.003):box(a,(0,0,zz),(w*.92,.009,.006),m)
+    for j in range(5):
+        xx=(j-2)*w*.15
+        box(a,(xx,-d*.06-.0006,.005),(.001,.001,.007),m)
 
+def pouch_label(a,w,h,d,z0,z1,mat):
+    ts=sorted(set([z0,z1]+[t for t in (.12,.45,.78) if z0<t<z1]))
+    vs=[(x,-_pouch_depth(t,d)-.0006,h*t) for t in ts for x in (-w*.38,w*.38)]
+    a.mesh(vs,[(j*2,j*2+1,j*2+3,j*2+2) for j in range(len(ts)-1)],mat)
+
+def sweep(a,points,r,mat='wood_light',sides=6):
+    # Continuous tube avoids the conspicuous cylinder caps at bread bends.
+    vs=[]
+    for j,p in enumerate(points):
+        prev=points[max(0,j-1)];nxt=points[min(len(points)-1,j+1)]
+        dx=nxt[0]-prev[0];dy=nxt[1]-prev[1];le=max(math.hypot(dx,dy),1e-9)
+        for i in range(sides):
+            th=i*math.tau/sides
+            vs.append((p[0]-dy/le*r*math.cos(th),p[1]+dx/le*r*math.cos(th),p[2]+r*math.sin(th)))
+    fs=[tuple(reversed(range(sides))),tuple(range((len(points)-1)*sides,len(points)*sides))]
+    fs += [(j*sides+i,j*sides+(i+1)%sides,(j+1)*sides+(i+1)%sides,(j+1)*sides+i) for j in range(len(points)-1) for i in range(sides)]
+    a.mesh(vs,fs,mat)
+
+def _folded_sheet(a,w,d,mat='paper',crumple=False):
+    n=6;vs=[]
+    for j in range(n):
+        for i in range(n):
+            x=(i/(n-1)-.5)*w;y=(j/(n-1)-.5)*d
+            wave=math.sin(i*1.7+j*.93)
+            z=.004+abs(wave)*(.013 if not crumple else .024)+.007*math.sin(j*2.1-i*.6)
+            if crumple:
+                x+=.012*math.sin(j*1.3+i*.4);y+=.009*math.cos(i*1.8+j*.5)
+            vs.append((x,y,z))
+    fs=[]
+    for j in range(n-1):
+        for i in range(n-1):
+            q=j*n+i;fs += [(q,q+1,q+n+1),(q,q+n+1,q+n)]
+    a.mesh(vs+[(x,y,z-.0007) for x,y,z in vs],fs+[tuple(k+n*n for k in reversed(f)) for f in fs],mat)
 
 def strokes(a,x,y,z,width=.05,lines=3,m='concrete'):
     for i in range(lines): box(a,(x,y+i*.009,z),(width*(1-.11*i),.0025,.0008),m)
@@ -86,7 +140,7 @@ def fountain(a):
 
 @item('aluminum_soda_can')
 def can(a):
-    lathe(a,[(.028,0),(.033,.009),(.033,.113),(.028,.120)],'red',12)
+    lathe(a,[(.026,0),(.030,.003),(.033,.011),(.033,.105),(.031,.115),(.028,.120)],'red',12)
     disk(a,.122,.029,.004,'silver',12)
     disk(a,.003,.029,.004,'silver',12)
     box(a,(0,.008,.125),(.013,.022,.002),'dark_metal')
@@ -95,30 +149,30 @@ def can(a):
 
 @item('crushed_soda_can')
 def crushed(a):
-    n=10
-    specs=[(.029,0,0),(.035,.020,.30),(.023,.040,-.15),(.033,.059,.24)]
-    vs=[]
-    for j,(r,z,phase) in enumerate(specs):
+    n=12;vs=[]
+    # Intact rolled end rims contrast with strongly dented, twisted side walls.
+    for j,(r,z) in enumerate(((.028,0),(.031,.010),(.022,.027),(.032,.042),(.027,.057),(.028,.063))):
         for i in range(n):
-            t=i*math.tau/n+phase
-            rr=r*(.73 if (i+j)%4==0 else 1)
-            vs.append((rr*math.cos(t),rr*math.sin(t),z+.004*math.sin(i*2+j)))
-    fs=[tuple(reversed(range(n))),tuple(range(3*n,4*n))]+[(j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i) for j in range(3) for i in range(n)]
-    a.mesh(vs,fs,['silver','silver']+['blue']*(3*n))
-    box(a,(.007,0,.066),(.014,.019,.003),'silver',rot=(.2,.2,.2))
+            t=i*math.tau/n;dent=(.78+.20*math.sin(t*3+j*.9)) if j in (2,3) else 1
+            vs.append((r*dent*math.cos(t)+(.004 if j==3 else 0),r*dent*math.sin(t),z+(.004*math.cos(t) if j>3 else .002*math.sin(t*2+j))))
+    fs=[tuple(reversed(range(n))),tuple(range(5*n,6*n))]+[(j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i) for j in range(5) for i in range(n)]
+    a.mesh(vs,fs,['silver','silver']+['blue']*(5*n))
+    lid=Asset('rolled rim');ring(lid,(0,0,0),.028,.0015,'silver',n=12)
+    ring(lid,(0,-.004,.002),.007,.0017,'silver',n=8)
+    box(lid,(0,.010,.001),(.011,.012,.001),'dark_metal')
+    lid.rotate((0,-.14,0)).translate((0,0,.064));a.mesh(lid.vertices,lid.faces,lid.face_materials)
 
 
 @item('ribbed_water_bottle')
 def water(a):
-    lathe(a,[(.027,0),(.032,.010),(.032,.117),(.024,.141),(.012,.154),(.012,.166)],'glass',10)
-    for z in (.025,.045,.116): ring(a,(0,0,z),.032,.002,'glass')
+    lathe(a,[(.025,0),(.030,.006),(.032,.018),(.033,.023),(.033,.027),(.031,.031),(.031,.040),(.033,.044),(.033,.048),(.031,.052),(.032,.104),(.034,.114),(.032,.120),(.026,.139),(.016,.151),(.012,.157),(.012,.167)],'glass',10)
     lathe(a,[(.033,.055),(.033,.096)],'paper')
     lathe(a,[(.013,.162),(.014,.180)],'blue')
 
 
 @item('longneck_glass_bottle')
 def glass_bottle(a):
-    lathe(a,[(.028,0),(.031,.012),(.031,.125),(.014,.164),(.012,.221)],'green',10)
+    lathe(a,[(.027,0),(.030,.006),(.031,.016),(.031,.117),(.029,.131),(.024,.143),(.016,.159),(.012,.179),(.012,.213),(.015,.216),(.015,.221)],'green',10)
     lathe(a,[(.032,.041),(.032,.099)],'cream')
     disk(a,.222,.015,.009,'gold')
     box(a,(0,-.0325,.070),(.023,.001,.025),'wood_dark')
@@ -155,7 +209,7 @@ def juice_box(a):
 @item('foil_drink_pouch')
 def drink_pouch(a):
     pouch(a,.089,.145,.035,'silver')
-    box(a,(0,-.019,.079),(.062,.002,.062),'teal')
+    pouch_label(a,.089,.145,.035,.33,.75,'teal')
     rod(a,(.021,0,.143),(.030,0,.191),.0025,'orange',6)
 
 
@@ -199,18 +253,35 @@ def fries(a):
 @item('hotdog_in_paper_boat')
 def hotdog(a):
     tray(a,.195,.075,.021)
-    for y in (-.018,.018): ball(a,(0,y,.041),(.089,.022,.026),'wood_light',10,3)
-    rod(a,(-.073,0,.061),(.073,0,.061),.015,'brick',8)
-    a.tube([(-.065,0,.078),(-.035,-.006,.078),(-.008,.006,.078),(.022,-.005,.078),(.055,.004,.078)],.0025,'yellow',5)
+    for y in (-.018,.018):ball(a,(0,y,.038),(.089,.023,.028),'wood_light',12,4)
+    b=Asset('sausage')
+    lathe(b,[(.004,-.078),(.012,-.072),(.015,-.061),(.015,.061),(.012,.072),(.004,.078)],'brick',10)
+    b.rotate((0,math.pi/2,0)).translate((0,0,.058));a.mesh(b.vertices,b.faces,b.face_materials)
+    sweep(a,[(-.065,0,.074),(-.045,-.004,.074),(-.024,.005,.074),(-.003,-.004,.074),(.019,.004,.074),(.041,-.004,.074),(.062,0,.074)],.002,'yellow',4)
 
 
 @item('street_taco_in_wrapper')
 def taco(a):
-    box(a,(0,0,.003),(.17,.115,.006),'paper',rot=.14)
-    # Standing folded tortilla and visible filling along its mouth.
-    a.mesh([(-.065,-.026,.006),(.065,-.026,.006),(.082,-.018,.053),(.057,-.018,.083),(-.057,-.018,.083),(-.082,-.018,.053),(-.065,.026,.006),(.065,.026,.006),(.082,.018,.053),(.057,.018,.083),(-.057,.018,.083),(-.082,.018,.053)],[(5,4,3,2,1,0),(6,7,8,9,10,11),(0,1,7,6),(1,2,8,7),(2,3,9,8),(3,4,10,9),(4,5,11,10),(5,0,6,11)],'wood_light')
-    for i in range(6):
-        ball(a,(-.050+i*.020,0,.080),(.014,.014,.009),'foliage' if i%2 else 'brick',6,3)
+    box(a,(0,0,.002),(.17,.115,.003),'paper',rot=.14)
+    vs=[];nx=7;nt=7
+    for k in range(2):
+        for i in range(nx):
+            x=-.078+.156*i/(nx-1);h=.074*math.sqrt(max(.04,1-(x/.081)**2))
+            for j in range(nt):
+                th=math.pi*j/(nt-1)
+                vs.append((x,-(.029-k*.002)*math.cos(th),.005+h*(1-math.sin(th))+k*.0015))
+    fs=[];mats=[];off=nx*nt
+    for k in range(2):
+        for i in range(nx-1):
+            for j in range(nt-1):
+                q=k*off+i*nt+j;fs.append((q,q+1,q+nt+1,q+nt));mats.append('wood_light' if k==0 else 'cream')
+    for i in range(nx-1):
+        for j in (0,nt-1):
+            q=i*nt+j;fs.append((q,q+nt,q+nt+off,q+off));mats.append('wood_light')
+    a.mesh(vs,fs,mats)
+    for i in range(5):
+        a.sphere((-.049+i*.024,0,.067),(.015,.017,.009),'foliage' if i%2 else 'brick',segments=7,rings=3)
+    for i in range(3):box(a,(-.035+i*.031,-.004,.077),(.024,.007,.002),'yellow',rot=.25-i*.23)
 
 
 @item('folded_takeout_carton')
@@ -243,16 +314,16 @@ def soup(a):
 def ice_cream_cup(a):
     lathe(a,[(.029,0),(.041,.050)],'paper')
     ring(a,(0,0,.051),.040,.003,'white')
-    ball(a,(0,0,.055),(.036,.036,.021),'cream',10,3)
+    ball(a,(0,0,.055),(.036,.036,.021),'cream',12,5)
     a.beam((.019,.008,.050),(.038,.018,.126),.011,.003,'wood_light')
-    ball(a,(.039,.019,.128),(.012,.006,.012),'wood_light',6,3)
+    ball(a,(.039,.019,.128),(.007,.003,.016),'wood_light',8,4)
 
 
 @item('waffle_ice_cream_cone')
 def cone(a):
     a.cone((0,0,.100),(0,0,0),.036,'wood_light',10)
     ring(a,(0,0,.099),.034,.003,'brown')
-    ball(a,(0,0,.120),(.044,.044,.040),'cream',10,4)
+    ball(a,(0,0,.120),(.044,.044,.040),'cream',12,5)
     for z,r in [(.041,.014),(.062,.022),(.082,.029)]: ring(a,(0,0,z),r,.0015,'brown',n=10)
 
 
@@ -268,34 +339,50 @@ def donut_bag(a):
 @item('sealed_potato_chip_bag')
 def chip_bag(a):
     pouch(a,.125,.202,.060,'cream')
-    box(a,(0,-.032,.105),(.101,.004,.067),'navy')
-    ball(a,(0,-.035,.108),(.031,.004,.019),'wood_light',8,3)
+    pouch_label(a,.125,.202,.060,.36,.69,'navy')
+    ball(a,(0,-.032,.108),(.027,.004,.017),'wood_light',8,3)
 
 
 @item('soft_street_pretzel')
 def pretzel(a):
-    # A characteristic three-loop pretzel, laid flat on a small deli sheet.
-    box(a,(0,0,.002),(.17,.15,.004),'paper',rot=.10)
-    path=[(-.046,-.050,.018),(.051,.031,.018),(.055,.058,.018),(.022,.067,.018),(.005,.046,.018),(0,.012,.020),(-.006,.046,.018),(-.023,.067,.018),(-.055,.057,.018),(-.058,.028,.018),(.044,-.050,.018)]
-    a.tube(path,.010,'wood_light',6)
-    for x,y in [(-.043,.040),(.044,.041),(0,.010),(-.024,-.027),(.026,-.024)]: box(a,(x,y,.029),(.004,.006,.003),'white',rot=.40)
+    box(a,(0,0,.002),(.17,.15,.003),'paper',rot=.10)
+    knots=[(-.033,-.030,.022),(.003,.011,.026),(.037,.049,.019),(.057,.042,.019),(.066,.015,.019),(.049,-.035,.019),(0,-.056,.019),(-.049,-.035,.019),(-.066,.013,.019),(-.057,.044,.019),(-.035,.049,.019),(.006,.008,.017),(.035,-.030,.019)]
+    points=[]
+    for j in range(len(knots)-1):
+        p0,p1,p2,p3=[knots[max(0,min(len(knots)-1,k))] for k in (j-1,j,j+1,j+2)]
+        for t in (0,.5):
+            points.append(tuple(.5*((2*p1[k])+(-p0[k]+p2[k])*t+(2*p0[k]-5*p1[k]+4*p2[k]-p3[k])*t*t+(-p0[k]+3*p1[k]-3*p2[k]+p3[k])*t*t*t) for k in range(3)))
+    points.append(knots[-1]);sweep(a,points,.010,'wood_light',6)
+    for x,y in [(-.054,.028),(.052,.029),(0,-.054),(-.036,-.043),(.036,-.043)]:box(a,(x,y,.029),(.004,.005,.002),'white',rot=.40)
 
 
 @item('popcorn_carton')
 def popcorn(a):
     taperbox(a,0,.137,.065,.056,.095,.079,'paper')
-    for x in (-.030,0,.030): box(a,(x,-.040,.094),(.012,.002,.085),'brick',rot=(.07,0,0))
-    for x,y,z in [(-.031,-.021,.140),(0,-.020,.145),(.031,-.020,.142),(-.023,.010,.150),(.009,.011,.150),(.032,.014,.143)]: ball(a,(x,y,z),(.019,.018,.018),'cream',6,3)
+    for x in (-.030,0,.030):box(a,(x,-.040,.094),(.012,.002,.085),'brick',rot=(.07,0,0))
+    for k,(x,y,z) in enumerate([(-.031,-.021,.126),(0,-.020,.132),(.031,-.020,.128),(-.023,.010,.137),(.009,.011,.136),(.032,.014,.128)]):
+        n=8;vs=[]
+        for j,(r,zz) in enumerate(((.007,0),(.018,.007),(.015,.021),(.005,.027))):
+            for i in range(n):
+                t=i*math.tau/n;rr=r*(1+.22*math.sin(3*t+k*.7+j*.45))
+                vs.append((x+rr*math.cos(t),y+rr*math.sin(t),z+zz+.0025*math.cos(t*3+j)))
+        a.mesh(vs,[tuple(reversed(range(n))),tuple(range(3*n,4*n))]+[(j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i) for j in range(3) for i in range(n)],'cream')
+        if k in (1,3,4):a.mesh([(x-.002,y-.002,z+.027),(x+.003,y-.001,z+.027),(x,y+.002,z+.027)],[(0,1,2)],'wood_light')
 
 
 @item('paper_takeaway_bag')
 def takeaway_bag(a):
-    taperbox(a,0,.204,.136,.074,.140,.080,'wood_light')
-    box(a,(0,0,.205),(.140,.080,.008),'brown')
+    bottom=[(x,y,0) for x,y in _rect(.136,.074,.12)]
+    top=[(x,y,.205+(.003 if i%3==0 else -.001)) for i,(x,y) in enumerate(_rect(.14,.08,.12))]
+    inner=[(x*.977,y*.960,z-.006) for x,y,z in top]
+    a.mesh(bottom+top+inner,[tuple(reversed(range(8)))]+[(i,(i+1)%8,(i+1)%8+8,i+8) for i in range(8)]+[(i+8,(i+1)%8+8,(i+1)%8+16,i+16) for i in range(8)],'wood_light')
+    # The open top exposes the brown inner gussets instead of a solid lid.
+    a.mesh(inner+[(x*.96,y*.94,.012) for x,y,z in bottom],[(i,i+8,(i+1)%8+8,(i+1)%8) for i in range(8)]+[tuple(range(8,16))],'brown')
     for y in (-.027,.027):
-        a.tube([(-.037,y,.206),(-.037,y,.270),(.037,y,.270),(.037,y,.206)],.003,'cream',6)
-    box(a,(0,-.042,.113),(.074,.002,.057),'paper')
-    box(a,(0,-.0435,.111),(.037,.001,.014),'wood_dark')
+        pts=[(-.037,y,.198),(-.037,y,.244),(-.026,y,.266),(0,y,.271),(.026,y,.266),(.037,y,.244),(.037,y,.198)]
+        a.tube(pts,.0027,'cream',sides=5)
+    box(a,(0,-.0408,.113),(.074,.001,.057),'paper')
+    box(a,(0,-.0417,.111),(.037,.0008,.014),'wood_dark')
 
 
 @item('molded_four_cup_carrier')
@@ -322,53 +409,79 @@ def egg_carton(a):
 
 @item('discarded_banana_peel')
 def banana(a):
-    rod(a,(0,0,.012),(0,0,.047),.012,'wood_light',6,r2=.008)
-    # Three tapered curved peel flaps laid outward from the short stem.
+    rod(a,(0,0,.029),(0,0,.056),.009,'wood_light',8,r2=.006)
     for theta in (0,2.15,4.3):
-        c,s=math.cos(theta),math.sin(theta)
-        coords=[(0,-.011,.015),(.035,-.017,.010),(.090,-.012,.007),(.111,0,.018),(.090,.012,.007),(.035,.017,.010),(0,.011,.015)]
-        top=[(x*c-y*s,x*s+y*c,z+.003) for x,y,z in coords]
-        low=[(x*c-y*s,x*s+y*c,z) for x,y,z in coords]
-        n=len(coords)
-        a.mesh(low+top,[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)],'yellow')
-    disk(a,.049,.009,.004,'brown',6)
+        c,ss=math.cos(theta),math.sin(theta);vs=[]
+        for zz in (0,.002):
+            for x,w,z in ((0,.008,.040),(.027,.017,.017),(.056,.018,.007),(.088,.012,.011),(.110,.001,.028)):
+                for t in (-1,0,1):
+                    y=w*t;vs.append((x*c-y*ss,x*ss+y*c,z+zz-.003*(1-t*t)))
+        fs=[];ms=[]
+        for k in range(2):
+            for i in range(4):
+                for j in range(2):
+                    q=k*15+i*3+j;fs.append((q,q+1,q+4,q+3));ms.append('yellow' if k==0 else 'cream')
+        for i in range(4):
+            for j in (0,2):q=i*3+j;fs.append((q,q+3,q+18,q+15));ms.append('yellow')
+        a.mesh(vs,fs,ms)
+    disk(a,.057,.006,.003,'brown',8)
 
 
 @item('discarded_apple_core')
 def apple_core(a):
-    lathe(a,[(.022,0),(.026,.008),(.012,.025),(.011,.049),(.025,.064),(.026,.073)],'cream',8)
-    disk(a,.005,.025,.007,'brick',8)
-    disk(a,.075,.025,.007,'brick',8)
-    rod(a,(0,0,.078),(.006,.001,.098),.003,'wood_dark',6)
-    for z in (.028,.043): ball(a,(.011,0,z),(.002,.004,.005),'brown',6,3)
+    n=12;vs=[]
+    profile=((.013,.002),(.024,.007),(.029,.015),(.014,.028),(.010,.041),(.017,.054),(.027,.063),(.019,.071))
+    for j,(r,z) in enumerate(profile):
+        for i in range(n):
+            t=i*math.tau/n;rr=r*(1+.07*math.sin(t*3)+.045*math.cos(t*5+j*.6))
+            vs.append((rr*math.cos(t)+.002*math.sin(j*.8),rr*math.sin(t),z+.0015*math.cos(t*3+j*.5)))
+    vs += [(0,0,0),(0,0,.067)];fs=[];ms=[]
+    for j in range(len(profile)-1):
+        for i in range(n):fs.append((j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i));ms.append('brick' if j in (0,1,6) else 'cream')
+    for i in range(n):
+        fs.append((i,(i+1)%n,96));ms.append('brick')
+        fs.append((84+i,84+(i+1)%n,97));ms.append('brick')
+    a.mesh(vs,fs,ms)
+    rod(a,(0,0,.066),(.004,.002,.091),.0025,'wood_dark',6,r2=.0018)
+    for z in (.030,.043):a.sphere((.012,-.003,z),(.002,.0035,.004),'brown',segments=6,rings=3)
 
 
 @item('triangular_sandwich_half')
 def sandwich(a):
-    points=[(-.065,-.055),(.065,-.055),(-.065,.075)]
-    a.prism(points,0,.014,'wood_light')
-    a.prism([(-.059,-.049),(.055,-.049),(-.059,.065)],.014,.018,'cream')
-    a.prism(points,.018,.024,'foliage_dark')
-    a.prism([(-.063,-.053),(.062,-.053),(-.063,.070)],.024,.031,'pink')
-    a.prism(points,.031,.036,'yellow')
-    a.prism(points,.036,.050,'wood_light')
-    a.prism([(-.059,-.049),(.055,-.049),(-.059,.065)],.050,.052,'cream')
+    outline=[(-.059,-.055),(.059,-.055),(.063,-.051),(-.060,.072),(-.065,.067),(-.065,-.049)]
+    for base in (0,.037):
+        n=len(outline)
+        vs=[(x*sc,y*sc,base+z) for sc,z in ((.98,0),(1,.006),(.98,.014)) for x,y in outline]
+        fs=[tuple(reversed(range(n))),tuple(range(2*n,3*n))]
+        ms=['cream','cream']
+        for j in range(2):
+            for i in range(n):
+                fs.append((j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i));ms.append('wood_light' if i!=2 else 'cream')
+        a.mesh(vs,fs,ms)
+    leaves=[(-.062,-.056),(.057,-.056),(.064,-.044),(.043,-.025),(.032,-.024),(.020,-.004),(.003,.009),(-.011,.031),(-.028,.040),(-.042,.060),(-.067,.074),(-.063,.045)]
+    a.prism(leaves,.017,.021,'foliage_dark')
+    a.prism([(-.063,-.054),(.062,-.051),(.033,-.022),(.023,-.014),(-.022,.039),(-.062,.072)],.023,.029,'pink')
+    a.prism([(-.062,-.056),(.059,-.056),(.060,-.048),(-.066,.074)],.030,.034,'yellow')
+    # A second ruffled leaf peeks past the filling along the cut face.
+    a.prism([(-.058,-.052),(.058,-.052),(.044,-.030),(.013,.001),(.006,.014),(-.039,.057),(-.065,.067)],.034,.037,'foliage')
 
 
 @item('broken_chocolate_chip_cookie')
 def cookie(a):
-    a.prism([(-.038,-.017),(-.018,-.036),(.011,-.039),(.038,-.019),(.039,.012),(.018,.035),(-.007,.038),(.002,.015),(-.019,.017),(-.023,.001),(-.038,.006)],0,.009,'wood_light')
-    for x,y in [(-.018,-.014),(.005,-.019),(.023,-.007),(.019,.017),(-.005,.025)]: box(a,(x,y,.011),(.007,.006,.004),'wood_dark',rot=.30)
+    outline=[(-.038,-.017),(-.018,-.036),(.011,-.039),(.038,-.019),(.039,.012),(.018,.035),(-.007,.038),(.002,.015),(-.019,.017),(-.023,.001),(-.038,.006)]
+    n=len(outline);vs=[(x*sc,y*sc,z) for sc,z in ((.95,0),(1,.005),(.93,.011)) for x,y in outline]
+    a.mesh(vs,[tuple(reversed(range(n))),tuple(range(2*n,3*n))]+[(j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i) for j in range(2) for i in range(n)],'wood_light')
+    for x,y in [(-.018,-.014),(.005,-.019),(.023,-.007),(.019,.017),(-.005,.025)]:
+        a.sphere((x,y,.011),(.0047,.0037,.0028),'wood_dark',segments=6,rings=3)
     a.prism([(-.055,.017),(-.036,.019),(-.044,.039)],.001,.009,'wood_light')
+    for x,y in [(-.035,.035),(-.026,.024),(-.050,.014)]:a.sphere((x,y,.003),(.0028,.002,.0025),'cream',segments=5,rings=3)
 
 
 @item('crumpled_food_wrapper')
 def food_wrapper(a):
-    # Uneven, triangulated sheet; both sides have an outward winding.
-    vs=[(-.10,-.07,.012),(0,-.08,0),(.09,-.06,.019),(-.11,0,.028),(0,0,.023),(.10,.005,.006),(-.08,.075,.008),(.005,.069,.026),(.082,.075,.015)]
-    triangles=[(0,1,4),(0,4,3),(1,2,5),(1,5,4),(3,4,7),(3,7,6),(4,5,8),(4,8,7)]
-    a.mesh(vs+[(x,y,z+.001) for x,y,z in vs],[tuple(reversed(t)) for t in triangles]+[tuple(i+9 for i in t) for t in triangles],['silver']*8+['paper']*8)
-    box(a,(.015,.012,.025),(.050,.012,.001),'brick',rot=(.08,.04,.2))
+    start=len(a.faces);_folded_sheet(a,.21,.15,'paper')
+    # Printed ink belongs to the folded paper faces, never a hovering label.
+    for i in (22,23,24,25):a.face_materials[start+i]='brick' 
 
 
 @item('rolled_newspaper')
@@ -401,10 +514,7 @@ def receipt(a):
 
 @item('crumpled_paper_napkin')
 def napkin(a):
-    ball(a,(0,0,.022),(.041,.035,.021),'paper',7,3)
-    box(a,(-.019,-.013,.023),(.038,.044,.002),'white',rot=(.15,.40,.35))
-    box(a,(.017,.009,.038),(.040,.024,.002),'paper',rot=(-.22,-.36,-.5))
-    box(a,(.004,-.020,.035),(.042,.022,.002),'cream',rot=(.36,.14,.7))
+    _folded_sheet(a,.105,.087,'paper',True)
 
 
 @item('disposable_plastic_fork')
@@ -415,9 +525,16 @@ def fork(a):
 
 @item('disposable_plastic_spoon')
 def spoon(a):
-    box(a,(0,-.036,.003),(.012,.122,.005),'cream')
-    ball(a,(0,.045,.006),(.023,.036,.006),'cream',10,3)
-    ball(a,(0,.045,.0085),(.018,.030,.003),'paper',10,3)
+    a.prism([(-.004,-.098),(.004,-.098),(.006,-.087),(.006,.023),(-.006,.023),(-.006,-.087)],0,.004,'cream')
+    n=12;vs=[]
+    for xx,yy,z in ((.023,.036,.010),(.019,.031,.006),(.008,.013,.004)):
+        vs += [(xx*math.cos(i*math.tau/n),.045+yy*math.sin(i*math.tau/n),z) for i in range(n)]
+    vs.append((0,.045,.004));fs=[]
+    for j in range(2):fs += [(j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i) for i in range(n)]
+    fs += [(24+i,24+(i+1)%n,36) for i in range(n)]
+    # Concave upper bowl and a thin closed underside, rather than overlaid blobs.
+    below=[(x,y,z-.002) for x,y,z in vs];base=len(vs)
+    a.mesh(vs+below,fs+[tuple(base+i for i in reversed(f)) for f in fs]+[(i,(i+1)%n,base+(i+1)%n,base+i) for i in range(n)],'cream')
 
 
 @item('serrated_takeout_knife')
@@ -445,18 +562,28 @@ def plate(a):
 
 @item('rectangular_foil_takeaway_pan')
 def foil_pan(a):
-    box(a,(0,0,.003),(.173,.115,.006),'silver')
-    for x in (-.091,.091): box(a,(x,0,.025),(.005,.127,.046),'silver',rot=(0,-.13 if x<0 else .13,0))
-    for y in (-.064,.064): box(a,(0,y,.025),(.183,.005,.046),'silver',rot=(.13 if y<0 else -.13,0,0))
-    for x in (-.094,.094): rod(a,(x,-.067,.047),(x,.067,.047),.003,'steel',6)
-    for y in (-.067,.067): rod(a,(-.094,y,.047),(.094,y,.047),.003,'steel',6)
-    for x in (-.068,-.034,0,.034,.068): box(a,(x,-.067,.027),(.005,.004,.033),'steel')
+    def plan(w,d):
+        pts=[];r=.013
+        for cx,cy,start in ((w/2-r,d/2-r,0),(-w/2+r,d/2-r,math.pi/2),(-w/2+r,-d/2+r,math.pi),(w/2-r,-d/2+r,math.pi*1.5)):
+            for j in range(4):
+                th=start+j*math.pi/6;pts.append((cx+r*math.cos(th),cy+r*math.sin(th)))
+        return pts
+    rows=[[(x,y,z) for x,y in plan(w,d)] for w,d,z in ((.171,.111,0),(.191,.134,.046),(.197,.140,.049),(.191,.134,.050),(.181,.124,.044),(.162,.102,.006))]
+    n=16;vs=[p for row in rows for p in row];fs=[]
+    for j in range(5):fs += [(j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i) for i in range(n)]
+    fs += [tuple(reversed(range(n))),tuple(range(5*n,6*n))]
+    a.mesh(vs,fs,'silver')
+    for sy in (-1,1):
+        for x in (-.063,-.042,-.021,0,.021,.042,.063):
+            a.beam((x,sy*.056,.009),(x,sy*.067,.044),.0022,.0013,'steel')
+    for sx in (-1,1):
+        for y in (-.033,0,.033):a.beam((sx*.086,y,.009),(sx*.096,y,.044),.0022,.0013,'steel')
 
 
 @item('ketchup_sachet')
 def ketchup(a):
     pouch(a,.038,.076,.010,'brick')
-    box(a,(0,-.006,.037),(.026,.0015,.030),'paper')
+    pouch_label(a,.038,.076,.010,.28,.70,'paper')
     for x in (-.011,0,.011): box(a,(x,0,.004),(.002,.010,.006),'terracotta')
 
 
@@ -472,11 +599,17 @@ def sugar(a):
 
 @item('baguette_in_paper_sleeve')
 def baguette(a):
-    box(a,(0,-.043,.020),(.070,.195,.040),'cream')
-    ball(a,(0,.093,.026),(.031,.124,.025),'wood_light',10,4)
-    for y in (.031,.075,.119,.163): box(a,(0,y,.050),(.040,.005,.002),'cream',rot=.45)
-    box(a,(0,-.052,.041),(.041,.067,.002),'wood_dark')
-    box(a,(0,.054,.020),(.074,.006,.042),'paper')
+    # Crimped paper sleeve has a real open mouth around the bread.
+    section=[(-.034,.004),(-.035,.031),(-.024,.046),(.024,.046),(.035,.031),(.034,.004)]
+    vs=[(x,y,z) for y in (-.140,.056) for x,z in section]
+    a.mesh(vs,[tuple(reversed(range(6)))]+[(i,(i+1)%6,(i+1)%6+6,i+6) for i in range(6)],'cream')
+    inner=[(x*.95,.056,z*.96+.001) for x,z in section]
+    a.mesh(vs[6:]+inner,[(i,(i+1)%6,(i+1)%6+6,i+6) for i in range(6)],'paper')
+    ball(a,(0,.087,.026),(.031,.130,.026),'wood_light',12,4)
+    for y in (.070,.111,.151,.187):
+        z=.026+.026*math.sqrt(max(0,1-((y-.087)/.130)**2))
+        a.beam((-.016,y-.007,z),(.016,y+.007,z),.004,.001,'cream')
+    box(a,(0,-.052,.047),(.039,.061,.001),'wood_dark')
 
 
 @item('discarded_six_pack_rings')

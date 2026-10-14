@@ -1,0 +1,3415 @@
+{
+  "scope": "Quality review and purposeful geometry revision; no count padding or subdivision-only additions.",
+  "reviewed_count": 200,
+  "revised_count": 113,
+  "retained_count": 87,
+  "palette_preserved": true,
+  "ids_preserved": true,
+  "runtime_validation": "Isolated Blender build and GLB export; per-asset budgets checked.",
+  "assets": [
+    {
+      "id": "b05_backflow_preventer_assembly",
+      "status": "retain",
+      "reason": "flanged valves, handwheels, gauge, drain branch and supported pipe loop already define the assembly.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 424,
+      "authored_face_corners": 1372,
+      "size_class": "large",
+      "export_vertices": 3448,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "17d1caeb1952d894a6772fa3cd97d1381ed3c93a47757e4a85631883733a536a"
+    },
+    {
+      "id": "b05_breakaway_barrel_hydrant",
+      "status": "retain",
+      "reason": "bolted breakaway flanges, outlet collars, stem and marker rod have a readable hydrant silhouette.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 390,
+      "authored_face_corners": 1204,
+      "size_class": "person",
+      "export_vertices": 3386,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "07ce9acd64f795b33c160f57f648d74f04c0d1ee5e8cf108525de23b9fed5864"
+    },
+    {
+      "id": "b05_classic_fire_hydrant",
+      "status": "retain",
+      "reason": "domed bonnet, three distinct outlets, nut caps and retaining chain are correctly differentiated.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 390,
+      "authored_face_corners": 1214,
+      "size_class": "person",
+      "export_vertices": 3266,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "06348d463b375b92fe2e666925cfd57af6a7b8396dd96bb2aeb5975298c04666"
+    },
+    {
+      "id": "b05_coax_cable_junction_pedestal",
+      "status": "retain",
+      "reason": "octagonal removable cap, base collar, lock and access cover suit this simple sealed enclosure.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 94,
+      "authored_face_corners": 308,
+      "size_class": "person",
+      "export_vertices": 784,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "ce8139a5059fd90a452a5b73ed95481af863f351b85d20626da36950dfbb2c25"
+    },
+    {
+      "id": "b05_concrete_utility_pole",
+      "status": "revised",
+      "reason": "tapered concrete shaft gives realistic structural proportions without extra subdivisions.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 432,
+      "authored_face_corners": 1296,
+      "size_class": "large",
+      "export_vertices": 3208,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "703693111d86511911ad5eb03da174bbb941f280e5a8164fd2c673e8ac2f8fa3"
+    },
+    {
+      "id": "b05_curb_inlet_storm_drain",
+      "status": "revised",
+      "reason": "true open throat between concrete cheeks, recessed drain cavity and cast grille.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 128,
+      "authored_face_corners": 384,
+      "size_class": "person",
+      "export_vertices": 1440,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "24db885dc549a5e3647516bafb00214a39d4a0ee1304838c7a261a0ddc8ca537"
+    },
+    {
+      "id": "b05_curb_stop_valve_cover",
+      "status": "retain",
+      "reason": "cast collar, recessed lid, key lug and bolts already express the small access cap.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 100,
+      "authored_face_corners": 300,
+      "size_class": "handheld",
+      "export_vertices": 860,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "9f12724ddb83c04e69a4ec3589f9e9796f13efc1098ab60ed602739d7cc0114d"
+    },
+    {
+      "id": "b05_double_panel_sump_grate",
+      "status": "revised",
+      "reason": "hollow concrete curb, supported bar grates and raised lifting loops replace painted recesses.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 304,
+      "authored_face_corners": 912,
+      "size_class": "person",
+      "export_vertices": 3648,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "156faa8e5cdc8fb0bd882eae5c26ae607f98d8384e373d53f29957bdde36bd19"
+    },
+    {
+      "id": "b05_evaporative_cooler",
+      "status": "revised",
+      "reason": "pitched weather louvers sit over a recessed plenum; legs, duct outlet and water feed remain clear.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 240,
+      "authored_face_corners": 720,
+      "size_class": "person",
+      "export_vertices": 2808,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "af3ca9e01f2a3d6a630a2ba57bcc384d88333e80fa7f999e95a37189781c73d8"
+    },
+    {
+      "id": "b05_fiber_distribution_cabinet",
+      "status": "revised",
+      "reason": "recessed door gasket, hinge barrels and lock make the cabinet a serviceable enclosure.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 184,
+      "authored_face_corners": 552,
+      "size_class": "person",
+      "export_vertices": 2176,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "ec0ee44c99d70306cce1b51610742ece9e387212058f8dc1937bf5e8c9be46ac"
+    },
+    {
+      "id": "b05_four_meter_service_bank",
+      "status": "retain",
+      "reason": "four separate meter collars, register faces, breaker doors and conduits are already readable.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 400,
+      "authored_face_corners": 1200,
+      "size_class": "large",
+      "export_vertices": 3520,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "22a11fe18db51af0ee7746a02f70ba148f571d474da91ead5f98a55aac57f730"
+    },
+    {
+      "id": "b05_gas_pressure_regulator_station",
+      "status": "retain",
+      "reason": "regulator diaphragm, shutoff handle, gauge, vent and flanged pipe loop are purposeful construction.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 282,
+      "authored_face_corners": 880,
+      "size_class": "large",
+      "export_vertices": 2144,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "2e00ea4264f42cfbed7e2f6df18cc8d1258c12ced3233776ce128127fdfe6cb4"
+    },
+    {
+      "id": "b05_gas_vent_riser",
+      "status": "retain",
+      "reason": "narrow hooked riser, threaded collars and protected outlet have the required simple silhouette.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 172,
+      "authored_face_corners": 516,
+      "size_class": "person",
+      "export_vertices": 1284,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "74bfc3a5b13c905b384802118b9c0342a6d04d3871627283ab747dad5dbabdad"
+    },
+    {
+      "id": "b05_generator_transfer_switch",
+      "status": "revised",
+      "reason": "inset door seals, real hinge barrels and pitched ventilation improve cabinet construction.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 292,
+      "authored_face_corners": 876,
+      "size_class": "person",
+      "export_vertices": 3148,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "7b22e02d8392bfc89667ca835945619989ab6d10bb95fbc6136524102ea78b8a"
+    },
+    {
+      "id": "b05_gooseneck_roof_vent",
+      "status": "retain",
+      "reason": "bent duct, mounting flashing, outlet collar and mesh bars already identify this compact vent.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 224,
+      "authored_face_corners": 672,
+      "size_class": "person",
+      "export_vertices": 1680,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "df9015023fae9e295fd188cebffe3ec9a72ec19e3d64fbb1543cd61545b3d582"
+    },
+    {
+      "id": "b05_guyed_corner_power_pole",
+      "status": "revised",
+      "reason": "tapered timber shaft supports the existing dual crossarms, insulators and guy cable.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 444,
+      "authored_face_corners": 1332,
+      "size_class": "large",
+      "export_vertices": 3512,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "b7924bc4751ae03f4d0ae7316c44f8bf293937dfd10cea91573170e88c722cce"
+    },
+    {
+      "id": "b05_industrial_axial_exhaust_fan",
+      "status": "revised",
+      "reason": "hollow shroud, swept blade plates, separate grille, flange rings and anchored mounting feet.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 576,
+      "authored_face_corners": 2040,
+      "size_class": "large",
+      "export_vertices": 4160,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "82934fbd22167d8e15f40eee0b1a7c9c87e011aeade75af264b7c115c4e455d1"
+    },
+    {
+      "id": "b05_irrigation_valve_access_box",
+      "status": "retain",
+      "reason": "dark buried box, removable ribbed lid and key recess suit an intentionally simple service cover.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 88,
+      "authored_face_corners": 264,
+      "size_class": "handheld",
+      "export_vertices": 264,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "dbd22a88244ab333965f0160cdf4e88644c79208aac1a8506f33897dacac8d14"
+    },
+    {
+      "id": "b05_linear_trench_drain",
+      "status": "revised",
+      "reason": "actual recessed channel under individually supported grate bars.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 256,
+      "authored_face_corners": 768,
+      "size_class": "person",
+      "export_vertices": 3072,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "aa14d6fa596b4bfa531c8a1899a9a3cab8651f10c59aaa5d4989d8fce6da72b7"
+    },
+    {
+      "id": "b05_long_rooftop_air_handler",
+      "status": "revised",
+      "reason": "gasketed service doors, louvers and a hollow fan curb with cutout sheet and swept rotor.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 1024,
+      "authored_face_corners": 3408,
+      "size_class": "large",
+      "export_vertices": 3232,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "a6e9b7c4843a2b123a1e2f69d9850a9ddeabe67514d56e941c67d859b3103a14"
+    },
+    {
+      "id": "b05_louvered_air_intake_tower",
+      "status": "revised",
+      "reason": "pitched front weather louvers show depth and an intake plenum beneath the cap.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 240,
+      "authored_face_corners": 720,
+      "size_class": "large",
+      "export_vertices": 2880,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "b103dad642f4dfb61bdb3247aa3b70fe59c52f41b39743af3774521651a28e25"
+    },
+    {
+      "id": "b05_mini_split_outdoor_unit",
+      "status": "revised",
+      "reason": "framed enclosure, real circular front aperture, rotor blades, cross grille and valved line outlets.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 478,
+      "authored_face_corners": 1542,
+      "size_class": "person",
+      "export_vertices": 4470,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "bd3715d6822790c74decda01f0e2a9e05866a317b7d3a69e98840697d61fb695"
+    },
+    {
+      "id": "b05_mushroom_roof_exhaust",
+      "status": "revised",
+      "reason": "open neck and cap supports under a spun low-dome weather hood with rolled lip.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 360,
+      "authored_face_corners": 1256,
+      "size_class": "person",
+      "export_vertices": 2544,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "e01fefb7d9d887a08d041546181a694bae6dfa4906c9301f3e9a8e47289dad49"
+    },
+    {
+      "id": "b05_outdoor_fused_disconnect",
+      "status": "revised",
+      "reason": "fitted sealing door, actual hinge barrels and lock complement the side switch and conduits.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 212,
+      "authored_face_corners": 636,
+      "size_class": "person",
+      "export_vertices": 2288,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "f17238673838675250c8f43e94bc131fbf37dd0e1312620fffe2abac69f39186"
+    },
+    {
+      "id": "b05_overhead_service_mast",
+      "status": "retain",
+      "reason": "weatherhead, drip loops, meter can and wall mounting brackets already form a complete service mast.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 224,
+      "authored_face_corners": 672,
+      "size_class": "large",
+      "export_vertices": 1984,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "24d0fa5ca5fa56b12cdbda8dd1e06c182b1a82ac17c7ec99a089ac5d7e51ebf3"
+    },
+    {
+      "id": "b05_padmount_transformer",
+      "status": "revised",
+      "reason": "twin gasketed service doors, hinge barrels and locks define maintenance access on the radiator enclosure.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 312,
+      "authored_face_corners": 936,
+      "size_class": "large",
+      "export_vertices": 3648,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "49f0c78ecb8f8dddd247f90d2e3dfb648fac61dffead2a013160dffb4127d257"
+    },
+    {
+      "id": "b05_polemount_transformer_can",
+      "status": "retain",
+      "reason": "cylindrical tank, lid rim, pole brackets, bushings and porcelain insulators are correctly separated.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 376,
+      "authored_face_corners": 1128,
+      "size_class": "person",
+      "export_vertices": 2816,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "8d8591182b06564e8bce66f09c67d8bbd5e02c96bf6c7e076b1a4d64b8264651"
+    },
+    {
+      "id": "b05_post_indicator_valve",
+      "status": "retain",
+      "reason": "narrow stem, status housing, window and turning wrench already convey the valve.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 128,
+      "authored_face_corners": 384,
+      "size_class": "person",
+      "export_vertices": 1184,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "185c2d92d564c83aba2b68efb16637b115cedf6ddb91e1850bed273fc5563ab4"
+    },
+    {
+      "id": "b05_residential_ac_condenser",
+      "status": "revised",
+      "reason": "open framed cabinet, recessed coils, fan aperture, swept rotor, guard and realistic refrigerant lines.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 1008,
+      "authored_face_corners": 3280,
+      "size_class": "person",
+      "export_vertices": 3216,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "668b0cc0a87f56e04b4250ffa6922cdad9bc96855ccf8a27720b5a918b892357"
+    },
+    {
+      "id": "b05_residential_gas_meter",
+      "status": "revised",
+      "reason": "chamfered diaphragm body with bolted split flange, union fittings, regulator and separate register.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 348,
+      "authored_face_corners": 1044,
+      "size_class": "person",
+      "export_vertices": 3088,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "93cd882bfdb3117dd53054065ec4082ca19f2e436be5c0624893a659493ef708"
+    },
+    {
+      "id": "b05_rooftop_packaged_hvac",
+      "status": "revised",
+      "reason": "twin physical fan openings, swept blades and guards plus fitted service door and louvers.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 1392,
+      "authored_face_corners": 4848,
+      "size_class": "large",
+      "export_vertices": 4496,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "e59cf588cd1600a1ab7d2e26e956a02c4717d3a3595b0360f5d0252f25899e6e"
+    },
+    {
+      "id": "b05_round_landscape_area_drain",
+      "status": "revised",
+      "reason": "open pipe collar and actual radial grate; removed solid disks filling its slots.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 160,
+      "authored_face_corners": 576,
+      "size_class": "handheld",
+      "export_vertices": 480,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "92fe20fc89264d31e856c495e846b8602411ccb7127b5bc56b57c51940ba4ae5"
+    },
+    {
+      "id": "b05_sanitary_manhole_cover",
+      "status": "retain",
+      "reason": "solid patterned lid, lift recesses and cast perimeter are appropriate for a sealed manhole cover.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 288,
+      "authored_face_corners": 928,
+      "size_class": "person",
+      "export_vertices": 2656,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "79a6295f2f8ed7ca40b12e3f3f114ab1c46eb9ede54f8bb93a9c35db9a42faa5"
+    },
+    {
+      "id": "b05_sewer_cleanout_access_cap",
+      "status": "retain",
+      "reason": "socket collar, screw-cap rings and square turning lug suit the simple threaded cleanout.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 148,
+      "authored_face_corners": 524,
+      "size_class": "handheld",
+      "export_vertices": 524,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "6e8816fd6a498fada6da157bd09cbc7fe0863dd0122be15b6704849a16790631"
+    },
+    {
+      "id": "b05_siamese_fire_department_connection",
+      "status": "retain",
+      "reason": "dual angled brass caps, retaining chains, red standpipe and identification plate are complete.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 212,
+      "authored_face_corners": 636,
+      "size_class": "person",
+      "export_vertices": 1724,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "7a1d12aceb78ec34673a7652a4db9154159d4085586d0251442bc80100e366e4"
+    },
+    {
+      "id": "b05_small_cell_network_pole",
+      "status": "revised",
+      "reason": "tapered steel shaft supports the antenna shroud, radios, brackets and conduit.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 260,
+      "authored_face_corners": 780,
+      "size_class": "large",
+      "export_vertices": 2560,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "7e36705bb18e8ab983cba655888409fdb8db41fb5f4d2c9e1a8334e693ec518c"
+    },
+    {
+      "id": "b05_square_catch_basin_grate",
+      "status": "revised",
+      "reason": "hollow catch-basin curb, supported slotted grate and retaining bolts.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 208,
+      "authored_face_corners": 624,
+      "size_class": "person",
+      "export_vertices": 2496,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "c4b044ebf527d19d7844f926c8a194861fcfba64a47e6158f7877b50d2b12ce8"
+    },
+    {
+      "id": "b05_storm_sewer_radial_cover",
+      "status": "revised",
+      "reason": "annular concrete/cast frame around open radial bars with a recessed drain floor.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 508,
+      "authored_face_corners": 1844,
+      "size_class": "person",
+      "export_vertices": 4236,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "9b04818498df74bcdcf9ccd027eeb2dd413f30a6512e2282707a8688d48ca39d"
+    },
+    {
+      "id": "b05_streetlight_control_cabinet",
+      "status": "revised",
+      "reason": "fitted access door, hinge barrels and pitched louvers give the controller a manufactured enclosure.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 266,
+      "authored_face_corners": 824,
+      "size_class": "person",
+      "export_vertices": 2784,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "6ac39bb260e52a59f0baf792ffb9bd57a20f75391a876fe935bb09d2e77f1e31"
+    },
+    {
+      "id": "b05_telecom_splice_pole",
+      "status": "revised",
+      "reason": "tapered timber shaft preserves the mounted splice case, cable loop and support crossarm.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 256,
+      "authored_face_corners": 864,
+      "size_class": "large",
+      "export_vertices": 1984,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "a547092260e0342ddb7d7d4cf16793efc25a4cdbcfaae46afbca7d38a4727ffe"
+    },
+    {
+      "id": "b05_telecom_vault_access_cover",
+      "status": "retain",
+      "reason": "twin solid ribbed service lids, lifting recesses and center support match this vault cover.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 152,
+      "authored_face_corners": 456,
+      "size_class": "person",
+      "export_vertices": 1824,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "a96e5e9b031f089e5d732d8097a27c63057ff57f80a2cf7f33bf7dd88b6a7ee1"
+    },
+    {
+      "id": "b05_telephone_distribution_pedestal",
+      "status": "retain",
+      "reason": "rain cap, inset access panel, lock and louvers suffice for the narrow telecom terminal.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 68,
+      "authored_face_corners": 204,
+      "size_class": "person",
+      "export_vertices": 816,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "7f04064ad4b0a597c53c6cdd9d0d9ecf36d25ed4c611e6ae3811548e4524a874"
+    },
+    {
+      "id": "b05_three_phase_transformer_rack",
+      "status": "retain",
+      "reason": "three separate transformer cans, paired bushings, jumpers and steel support rack are well resolved.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 840,
+      "authored_face_corners": 2520,
+      "size_class": "large",
+      "export_vertices": 6792,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "6df217514cd6fea8240a28aef52793bf47e318a17db9a3740950a851315f68cb"
+    },
+    {
+      "id": "b05_traffic_signal_controller_cabinet",
+      "status": "revised",
+      "reason": "gasketed door, hinge barrels, lock and weather louvers improve service cabinet depth.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 240,
+      "authored_face_corners": 720,
+      "size_class": "large",
+      "export_vertices": 2832,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "3b9e9a044a2a112201415139fd5329cab73270a81e5961d0d546345dfab20470"
+    },
+    {
+      "id": "b05_utility_meter_pedestal",
+      "status": "retain",
+      "reason": "separate meter socket, register, breaker door and capped pedestal already read correctly.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 104,
+      "authored_face_corners": 312,
+      "size_class": "person",
+      "export_vertices": 976,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "a226fcb5ed541cef6b16066c95d008f3eddabcab0b85639f5e9eedb44e545abf"
+    },
+    {
+      "id": "b05_wall_fire_hose_connection",
+      "status": "retain",
+      "reason": "wall plate, three angled hose ports, brass caps and identification panel form a clear fitting.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 168,
+      "authored_face_corners": 504,
+      "size_class": "person",
+      "export_vertices": 1476,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "ea9b61bd7bcc453e770d43850d65acf09cff243b06c816445fe8d51c4cc8e2c4"
+    },
+    {
+      "id": "b05_water_meter_lid_box",
+      "status": "retain",
+      "reason": "cast meter lid, grip ribs, lift recess and fasteners suit its compact access-box form.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 112,
+      "authored_face_corners": 336,
+      "size_class": "handheld",
+      "export_vertices": 336,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "2e7bebadfd46ad9ecf0ddb322f2bc2db438e1d9aed7ce0f8ab8dd0aabccfcf83"
+    },
+    {
+      "id": "b05_water_sampling_station",
+      "status": "revised",
+      "reason": "gasketed cabinet door and hinge barrels support the existing sample tap and valve.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 204,
+      "authored_face_corners": 612,
+      "size_class": "person",
+      "export_vertices": 2160,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "c56c73c0edcc03e0203ae9eb968510f1868765de8812fb444f4ac1689212aca2"
+    },
+    {
+      "id": "b05_wind_turbine_roof_vent",
+      "status": "revised",
+      "reason": "curved overlapping louver vanes around a spindle replace the solid spherical placeholder.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 378,
+      "authored_face_corners": 1118,
+      "size_class": "person",
+      "export_vertices": 2102,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "19e415fc86167d8f64e6db5e058bd172564dd055020195cb05665817296a02ca"
+    },
+    {
+      "id": "b05_wood_distribution_power_pole",
+      "status": "revised",
+      "reason": "tapered timber pole gives proper mass beneath braced crossarm and insulators.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 360,
+      "authored_face_corners": 1080,
+      "size_class": "large",
+      "export_vertices": 3080,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "1325484c2c75d4d9681a76ea215bbee0a2e18e28052ebab21e5239a3ed450dfb"
+    },
+    {
+      "id": "b06_adjustable_wrench",
+      "status": "revised",
+      "reason": "removed material through the hanging eye and reshaped its connection to the handle; jaws and worm remain functional.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 138,
+      "authored_face_corners": 502,
+      "size_class": "handheld",
+      "export_vertices": 414,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "89f1621b2d56e8a7847bafe21546c9ddd04bc56e94195bd945577519a3c324ec"
+    },
+    {
+      "id": "b06_angle_grinder",
+      "status": "revised",
+      "reason": "connected contoured side grip gives a hand-shaped palm swell while retaining disc, guard and gearbox.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 280,
+      "authored_face_corners": 864,
+      "size_class": "handheld",
+      "export_vertices": 864,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "4b07f466bae8f7fb6cf5b7a1d553688b18431d38dd23e28cf1e08ddab2bb1b26"
+    },
+    {
+      "id": "b06_aviation_snips",
+      "status": "revised",
+      "reason": "rounded grip sleeves over separate pivoted steel arms retain the compound cutting linkage.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 146,
+      "authored_face_corners": 494,
+      "size_class": "handheld",
+      "export_vertices": 474,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "52de2901cf8ebfb22c8e7694a6de2daefb1e727c0e4409c17c58c44203e02722"
+    },
+    {
+      "id": "b06_ball_peen_hammer",
+      "status": "revised",
+      "reason": "connected palm-swell handle replaces a uniform cylindrical stick.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 122,
+      "authored_face_corners": 416,
+      "size_class": "handheld",
+      "export_vertices": 880,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "4221789f1747f5112de7cbd956138541a5a5012d0c9ceef1e0c8047b95b03760"
+    },
+    {
+      "id": "b06_bolt_cutters",
+      "status": "revised",
+      "reason": "contoured end grips improve grasp shape while compound jaws and linkage remain distinct.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 188,
+      "authored_face_corners": 644,
+      "size_class": "handheld",
+      "export_vertices": 612,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "c77d1b3cb6dbbeda2de7c41083e014814e35005206cfd2898fc0bd2019662931"
+    },
+    {
+      "id": "b06_carpenters_square",
+      "status": "retain",
+      "reason": "thin L blade and short tick marks already give the correct simple measuring-tool profile.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 164,
+      "authored_face_corners": 504,
+      "size_class": "handheld",
+      "export_vertices": 492,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "d6ff85eb1a85d7db7aee027f0044134cd0c49facb8cc95a70e4528e7c04acbd6"
+    },
+    {
+      "id": "b06_caulking_gun",
+      "status": "retain",
+      "reason": "hollow cartridge rings, open frame, nozzle, hooked plunger rod and squeeze trigger are complete.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 189,
+      "authored_face_corners": 652,
+      "size_class": "handheld",
+      "export_vertices": 572,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "f3c9120607ab1c39a14c6bf5be053b8d3953cb9fad55afa0d364eeeb78d937e9"
+    },
+    {
+      "id": "b06_chalk_line_reel",
+      "status": "retain",
+      "reason": "shaped case, crank, handle, outlet eye, cord and end hook already resolve its mechanism.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 98,
+      "authored_face_corners": 310,
+      "size_class": "handheld",
+      "export_vertices": 876,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "5ff8e8f60d611f88df684867965b6887c56bf005876b04d86a1d557c7314cc28"
+    },
+    {
+      "id": "b06_circular_saw",
+      "status": "revised",
+      "reason": "connected toothed blade silhouette and a real slot through the shoe replace cube teeth and a filled plate.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 206,
+      "authored_face_corners": 750,
+      "size_class": "handheld",
+      "export_vertices": 618,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "f16f0a230de48e78ff9060acaf57a6b51bfeafbbfea7e79f84848a5581a3bb73"
+    },
+    {
+      "id": "b06_claw_hammer",
+      "status": "revised",
+      "reason": "contoured handle with palm swell and end transition; split curved claw and striking face retained.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 132,
+      "authored_face_corners": 436,
+      "size_class": "handheld",
+      "export_vertices": 420,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "c46f9abed876b84e02f959908f909b17c0b7bb4261afb2287d6ecbb85278f362"
+    },
+    {
+      "id": "b06_club_hammer",
+      "status": "revised",
+      "reason": "connected handle and rubber grip profiles now have shaped grasp surfaces beneath the forged head.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 136,
+      "authored_face_corners": 476,
+      "size_class": "handheld",
+      "export_vertices": 928,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "757805d06d0782a186e3b9d9ee25d993e9136a4ce9a65f84e9f156111ec32bee"
+    },
+    {
+      "id": "b06_cold_chisel",
+      "status": "retain",
+      "reason": "hexagonal shaft, flared cutting edge and striking cap are appropriate for this simple solid tool.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 48,
+      "authored_face_corners": 148,
+      "size_class": "handheld",
+      "export_vertices": 496,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "685ce778958b1b39633a20fd4db896dab398d8db9dee8d48ca2886c7072d7942"
+    },
+    {
+      "id": "b06_combination_pliers",
+      "status": "revised",
+      "reason": "contoured grip sleeves cover distinct steel arms while preserving jaw teeth and pivot.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 172,
+      "authored_face_corners": 568,
+      "size_class": "handheld",
+      "export_vertices": 552,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "03cb0581557fc64cd0e3eb8fc9f3666d0180e8132d55387ba80120cfd0df0612"
+    },
+    {
+      "id": "b06_combination_wrench",
+      "status": "retain",
+      "reason": "true ring opening, open jaw and recessed handle already reproduce the essential forged form.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 66,
+      "authored_face_corners": 254,
+      "size_class": "handheld",
+      "export_vertices": 602,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "c3d6ca50353ee1edb68fbea49e3e7a477b8608a0e4adcd95dfae851d348d664c"
+    },
+    {
+      "id": "b06_coping_saw",
+      "status": "retain",
+      "reason": "thin U frame, tensioned blade, clamps and tapered wooden handle read correctly.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 148,
+      "authored_face_corners": 444,
+      "size_class": "handheld",
+      "export_vertices": 444,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "7b05d67bd306daec75d59ccea875b519757368ac44da88b05aca69a4e99aff20"
+    },
+    {
+      "id": "b06_cordless_drill",
+      "status": "revised",
+      "reason": "chamfered battery pack with release tabs and interface rail improves the tool base and assembly.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 246,
+      "authored_face_corners": 770,
+      "size_class": "handheld",
+      "export_vertices": 738,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "e039a9f7c59c047bc156e273ac43d0450f5632db4371b2a7c9d3fc679fe6b2b4"
+    },
+    {
+      "id": "b06_crowbar",
+      "status": "retain",
+      "reason": "continuous hooked shaft and forged flat ends provide an economical but recognizable pry-bar silhouette.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 76,
+      "authored_face_corners": 232,
+      "size_class": "handheld",
+      "export_vertices": 912,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "b6e32e1cd6990dd81c47973389313743010ac3ade9531a45616a4cb02bbe5287"
+    },
+    {
+      "id": "b06_flat_nail_pull_bar",
+      "status": "retain",
+      "reason": "flat offset body and split hooked nail-pulling end already have purposeful negative space.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 44,
+      "authored_face_corners": 168,
+      "size_class": "handheld",
+      "export_vertices": 468,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "0f6cd46b98b129579e7845f652d8f141afad318b17edd54cf5a02cf7aa4c9f56"
+    },
+    {
+      "id": "b06_flat_screwdriver",
+      "status": "retain",
+      "reason": "tapered fluted handle, collar, shaft and flattened tip have correct proportions.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 88,
+      "authored_face_corners": 268,
+      "size_class": "handheld",
+      "export_vertices": 736,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "00c44da9dbd091b2a19f55e9a0e203153d18a0103a3f43ed4a28b9221dcb0e44"
+    },
+    {
+      "id": "b06_folding_hex_key_set",
+      "status": "retain",
+      "reason": "open twin side plates, pivot pins, stowed keys and three deployed keys are already differentiated.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 176,
+      "authored_face_corners": 568,
+      "size_class": "handheld",
+      "export_vertices": 528,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "cd5529688a3cf577faaf8db093dd3f11633d57bf09698079b367d65d3b1a65dd"
+    },
+    {
+      "id": "b06_hacksaw",
+      "status": "retain",
+      "reason": "open bowed frame, tensioned toothed blade, pivot clamps and shaped grip already make the cutting assembly clear.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 184,
+      "authored_face_corners": 564,
+      "size_class": "handheld",
+      "export_vertices": 552,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "d3fabeb49025e3bbcd2d66123d3c32e02f23372b395c49b98855ce2ba037b04c"
+    },
+    {
+      "id": "b06_hand_plane",
+      "status": "revised",
+      "reason": "rebuilt wooden tote around a real finger opening while preserving frog, cutter, knob and adjuster.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 132,
+      "authored_face_corners": 462,
+      "size_class": "handheld",
+      "export_vertices": 422,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "e4a0aba30d00018462d40fe4f4f29b9420c4889d6585f3b61e1e6a2266a9593f"
+    },
+    {
+      "id": "b06_handsaw",
+      "status": "retain",
+      "reason": "tapered steel blade, modeled teeth, hollow pistol grip and fixing bolts are already clear.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 184,
+      "authored_face_corners": 584,
+      "size_class": "handheld",
+      "export_vertices": 552,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "91ae00a11cdba0b228c702df062ec9a41d5daf380148e5cff190eb624cb5fb64"
+    },
+    {
+      "id": "b06_hatchet",
+      "status": "retain",
+      "reason": "curved wooden shaft, wedge blade with cutting bevel and opposing poll have a convincing silhouette.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 68,
+      "authored_face_corners": 240,
+      "size_class": "handheld",
+      "export_vertices": 676,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "3dd1f91ad89f1f550e72290ffa3bcd257f9767779e991f52bd999ce90759203d"
+    },
+    {
+      "id": "b06_heat_gun",
+      "status": "retain",
+      "reason": "stepped hot nozzle with open ring, vented motor, grip, switch and cord form a complete tool.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 210,
+      "authored_face_corners": 682,
+      "size_class": "handheld",
+      "export_vertices": 630,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "f08ab9aa6460b525ada7136b7e4c461834a66ddb1add1a92eac0fd8e1c80613e"
+    },
+    {
+      "id": "b06_hex_key",
+      "status": "retain",
+      "reason": "hexagonal L shaft with short end bevels needs no extra geometry.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 48,
+      "authored_face_corners": 144,
+      "size_class": "handheld",
+      "export_vertices": 576,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "b1aa18923be0b9c4464f0f7c6c0711370bb6e20589898a9e975fce10891aebca"
+    },
+    {
+      "id": "b06_impact_driver",
+      "status": "revised",
+      "reason": "chamfered battery casing, release tabs and interface rail define the removable pack.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 237,
+      "authored_face_corners": 746,
+      "size_class": "handheld",
+      "export_vertices": 714,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "60f2a2a2e8de27c8a171dbef3a716c054852b9fd8499c05dd02e81cf4124a618"
+    },
+    {
+      "id": "b06_jigsaw",
+      "status": "revised",
+      "reason": "open shoe slot, separate guide roller and toothed reciprocating blade make the cutting path physically legible.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 190,
+      "authored_face_corners": 614,
+      "size_class": "handheld",
+      "export_vertices": 570,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "28fe85bdd8d14ce6f29c586004d70eb25fb6ef7275c5cdd3862b6214fdccfa6b"
+    },
+    {
+      "id": "b06_locking_pliers",
+      "status": "retain",
+      "reason": "curved jaws, adjustment screw, locking link and release lever already capture the mechanism.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 148,
+      "authored_face_corners": 500,
+      "size_class": "handheld",
+      "export_vertices": 444,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "842275b2be24a017eaebacb01b3ab41bb63cb3749891ca3bdd1f9a6386f9ddc9"
+    },
+    {
+      "id": "b06_masonry_bolster",
+      "status": "retain",
+      "reason": "flared cutting blade, hex shank, impact cap and protective hand guard are correct.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 80,
+      "authored_face_corners": 252,
+      "size_class": "handheld",
+      "export_vertices": 700,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "c5f990ccc5ad76ecd54d0456cb98d83f6ded0c56ca6d0757f69e03f006e97d59"
+    },
+    {
+      "id": "b06_masonry_trowel",
+      "status": "retain",
+      "reason": "broad shaped blade, bent shank, ferrule and wood handle already read as a working trowel.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 78,
+      "authored_face_corners": 234,
+      "size_class": "handheld",
+      "export_vertices": 756,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "bd9d52a00398025134d4e6753e27b3fc6d2ca56b71284446c46a2914daa0345e"
+    },
+    {
+      "id": "b06_needle_nose_pliers",
+      "status": "revised",
+      "reason": "tapered grip sleeves cover separate steel arms leading to the slender serrated jaws.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 168,
+      "authored_face_corners": 548,
+      "size_class": "handheld",
+      "export_vertices": 540,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "dedd3bdf3f02c54d163a35cf5ef8b62dbca1378695da6f4bbc51721bcee0b2cb"
+    },
+    {
+      "id": "b06_orbital_sander",
+      "status": "retain",
+      "reason": "stepped sanding pad, shaped palm housing, vents, switch and dust collector are well differentiated.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 170,
+      "authored_face_corners": 544,
+      "size_class": "handheld",
+      "export_vertices": 544,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "62ff7a3aaa7b89749e56ef592717755ed16fd4be5dfd3c51dab7b2155e9ea9c8"
+    },
+    {
+      "id": "b06_pipe_wrench",
+      "status": "retain",
+      "reason": "open serrated jaws, sliding shank, adjuster and recessed cast handle already express the mechanism.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 142,
+      "authored_face_corners": 446,
+      "size_class": "handheld",
+      "export_vertices": 426,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "8d95c8129e14279cda21e037577eda552bafdb3108f5c9e9be1ea643b7c61a91"
+    },
+    {
+      "id": "b06_plastering_float",
+      "status": "retain",
+      "reason": "thin float plate, raised mounting posts and horizontal grasp bar have correct simple construction.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 72,
+      "authored_face_corners": 216,
+      "size_class": "handheld",
+      "export_vertices": 784,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "7d05777a96dbd0f2cb2409c5a1fee7f0a5e88c340c6294554639f100b34b42b1"
+    },
+    {
+      "id": "b06_plumb_bob",
+      "status": "retain",
+      "reason": "pointed brass mass, neck, string and wooden reel provide the expected simple silhouette.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 113,
+      "authored_face_corners": 344,
+      "size_class": "handheld",
+      "export_vertices": 776,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "17ef065daa3fbc8e04478465394078c4b09572611b6111b9a5da1d7fe0c1d868"
+    },
+    {
+      "id": "b06_pointing_trowel",
+      "status": "retain",
+      "reason": "narrow pointed blade, offset tang and compact rubber grip are already proportioned correctly.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 70,
+      "authored_face_corners": 210,
+      "size_class": "handheld",
+      "export_vertices": 680,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "a2e9f7250e1f5a840092a7d3d710573fdd7346535b79ca614a27a58b230e803f"
+    },
+    {
+      "id": "b06_pruning_secateurs",
+      "status": "retain",
+      "reason": "hooked anvil, swept blade, pivot, spring and latch are distinct in the low-poly silhouette.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 100,
+      "authored_face_corners": 364,
+      "size_class": "handheld",
+      "export_vertices": 300,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "c8fdff4208d2f66aec68af842ae6de2fab3e2a08b4238a4dd1cec178ca9ecde1"
+    },
+    {
+      "id": "b06_reciprocating_saw",
+      "status": "retain",
+      "reason": "D handle, trigger, gearbox nose, shoe and toothed blade are already visible.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 156,
+      "authored_face_corners": 488,
+      "size_class": "handheld",
+      "export_vertices": 468,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "e5f7e8c8740334763ffa0a3b75d30a1dcdf3f0378abeb8c8e2c15891f339fbe1"
+    },
+    {
+      "id": "b06_retractable_tape_measure",
+      "status": "retain",
+      "reason": "shaped case, belt clip, lock, extended ruled tape and end hook are complete.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 172,
+      "authored_face_corners": 536,
+      "size_class": "handheld",
+      "export_vertices": 516,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "01848d360119a32bc55da03d0a11d0e4eff0c7b14d723571b0c0e8024b3b8cb5"
+    },
+    {
+      "id": "b06_rivet_gun",
+      "status": "revised",
+      "reason": "rounded grip sleeves are fitted to distinct lever arms beneath the rivet head and nozzle.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 170,
+      "authored_face_corners": 554,
+      "size_class": "handheld",
+      "export_vertices": 546,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "31ffdc024a0b847b06b00260d27a7eef8d100a42f364a80721ca796539b95db0"
+    },
+    {
+      "id": "b06_rotary_hammer",
+      "status": "revised",
+      "reason": "side handle has a connected palm-swell profile; depth rod, chuck, bit and selector remain functional.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 224,
+      "authored_face_corners": 696,
+      "size_class": "handheld",
+      "export_vertices": 696,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "eaceb237c3c9bf9754b6775a50e493352a48c0c2c98081e161e3a3114071f4ba"
+    },
+    {
+      "id": "b06_rubber_mallet",
+      "status": "revised",
+      "reason": "contoured wooden handle and butt transition improve grasp proportions beneath the broad rubber head.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 132,
+      "authored_face_corners": 420,
+      "size_class": "handheld",
+      "export_vertices": 932,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "420bbd19951121ebccf17558b8e01f9b79fe0bcb36a8abc1e7638b7affe4bbb7"
+    },
+    {
+      "id": "b06_socket_ratchet",
+      "status": "revised",
+      "reason": "sculpted rubber grip has an end chamfer and palm swell; open socket and selector remain intact.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 132,
+      "authored_face_corners": 452,
+      "size_class": "handheld",
+      "export_vertices": 420,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "8b40c8e65162bb8d9ed0b48d22aab79707535ca5a4c14c1af7551b6c1245bd0c"
+    },
+    {
+      "id": "b06_spirit_level",
+      "status": "revised",
+      "reason": "end vials are vertical and angled while the center vial stays horizontal, matching their measuring roles.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 160,
+      "authored_face_corners": 480,
+      "size_class": "handheld",
+      "export_vertices": 480,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "15e51acda8c857f2e92d3bac93e930899cae842c09df82905d81bf9081671565"
+    },
+    {
+      "id": "b06_stubby_phillips_screwdriver",
+      "status": "revised",
+      "reason": "tapered pointed driver tip replaces square-ended crossed bars.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 104,
+      "authored_face_corners": 316,
+      "size_class": "handheld",
+      "export_vertices": 840,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "2b50e98ba0e7a45641758c0e6e8ee2bf276f32fdc264227b3d4cb0f4e8baa7b4"
+    },
+    {
+      "id": "b06_torque_wrench",
+      "status": "revised",
+      "reason": "connected contoured grip profile works with the scale collar, index markings and ratchet head.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 216,
+      "authored_face_corners": 672,
+      "size_class": "handheld",
+      "export_vertices": 672,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "78f7eb1af0106768b2146ef2a417488875cc867b10ccc61cb02c1042791ab91a"
+    },
+    {
+      "id": "b06_utility_knife",
+      "status": "retain",
+      "reason": "shaped body, grip insert, slider channel, exposed trapezoid blade and fixing screw are clear.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 66,
+      "authored_face_corners": 222,
+      "size_class": "handheld",
+      "export_vertices": 752,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "e7b363b1e3753e59a2146c145c34507f7059123ea3c7c13fd1b36cd1d43a2d09"
+    },
+    {
+      "id": "b06_wire_stripper",
+      "status": "revised",
+      "reason": "four actual open graduated wire notches and ergonomic grip sleeves replace black disks on solid jaws.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 208,
+      "authored_face_corners": 828,
+      "size_class": "handheld",
+      "export_vertices": 660,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "a5762ea13abc4465a281c56b19c3b8a630400231ccc3bb846def79786f3c3da5"
+    },
+    {
+      "id": "b06_wood_rasp",
+      "status": "revised",
+      "reason": "staggered raised cutting points replace transverse decorative stripes on the rasp face.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 162,
+      "authored_face_corners": 494,
+      "size_class": "handheld",
+      "export_vertices": 486,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "6180c68bb0a49d9a7cbea3a6bedb706113e564099e0cdf126b2707691bf7450c"
+    },
+    {
+      "id": "b12_arched_wood_entry",
+      "status": "revised",
+      "reason": "handle escutcheon and keyhole add functional hardware to the paneled arched entry.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 364,
+      "authored_face_corners": 1118,
+      "size_class": "person",
+      "export_vertices": 4006,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "85c50f34df542d41f45d4b9658996cba55cdd20ac449fdfbef536083575fa2aa"
+    },
+    {
+      "id": "b12_barrel_entrance_awning",
+      "status": "retain",
+      "reason": "segmented curved canopy, front rib, wall rail and side supports already define the awning.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 200,
+      "authored_face_corners": 600,
+      "size_class": "large",
+      "export_vertices": 2400,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "fda62167454daab974169018599a82bb8932be38d8b4e1e07d3143e3b16cb888"
+    },
+    {
+      "id": "b12_basement_hopper_window",
+      "status": "revised",
+      "reason": "visibly tilted bottom-hinged sash, hinge pins, stays and rebated frame.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 176,
+      "authored_face_corners": 528,
+      "size_class": "person",
+      "export_vertices": 2000,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "651c9b1758091432b49234c34bb9db6ad37f8a83709c68165c49c5e1836b96d0"
+    },
+    {
+      "id": "b12_board_and_batten_shutters",
+      "status": "retain",
+      "reason": "separate boards, battens, diagonal braces, hinges and bolts provide authentic construction.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 224,
+      "authored_face_corners": 672,
+      "size_class": "person",
+      "export_vertices": 2688,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "4ed0d336ff39168abfef31275f04345c87a90b80b8143c83b185432e9a49b44f"
+    },
+    {
+      "id": "b12_brick_arch_window_lintel",
+      "status": "retain",
+      "reason": "individually tapered voussoirs, protruding keystone and spring blocks already give a built arch.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 144,
+      "authored_face_corners": 432,
+      "size_class": "person",
+      "export_vertices": 1728,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "2297c3d7853ac5f5b606201e9907e183dc87c030e01a3f73448a5e67efba9027"
+    },
+    {
+      "id": "b12_brownstone_entry_stair",
+      "status": "revised",
+      "reason": "heavier terminal railing posts, base plates and anchors distinguish supports from slender pickets.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 864,
+      "authored_face_corners": 2592,
+      "size_class": "large",
+      "export_vertices": 9600,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "1fbbfaa1816ef2acde5afe27eb56a1b113c0a78ca818a0b18266775593480067"
+    },
+    {
+      "id": "b12_cantilever_apartment_balcony",
+      "status": "revised",
+      "reason": "railing posts and bolted feet provide a clear connection to the supported slab.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 520,
+      "authored_face_corners": 1560,
+      "size_class": "large",
+      "export_vertices": 5664,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "2a299df51c962464a28226aa8cebe8f8fcf07cee1276b271638146b945ca4b20"
+    },
+    {
+      "id": "b12_canvas_wedge_shop_awning",
+      "status": "retain",
+      "reason": "pitched striped canvas, side cheeks, valance and structural edge bars already resolve the canopy.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 204,
+      "authored_face_corners": 612,
+      "size_class": "large",
+      "export_vertices": 2448,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "115191af89c4d093fe9f574e69ccbda2d4eb50d7d47a977adae95f08c1ebaa02"
+    },
+    {
+      "id": "b12_carriage_house_garage_doors",
+      "status": "revised",
+      "reason": "frame rebates and outer casing provide weather stops around the braced paneled leaves.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 472,
+      "authored_face_corners": 1416,
+      "size_class": "large",
+      "export_vertices": 5664,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "732bb89deb9fae59f4ae41af7b6533aa591b8e93beb0f01661816dbf0ff36f89"
+    },
+    {
+      "id": "b12_classical_entry_pediment",
+      "status": "retain",
+      "reason": "fluted pilasters, layered capitals, triangular pediment and molding have purposeful architectural massing.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 150,
+      "authored_face_corners": 450,
+      "size_class": "large",
+      "export_vertices": 1790,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "f05d3e85378ede8b6ce8f0179fb7954d9ce87e55f3411a35e0e7e8ed299e5fc9"
+    },
+    {
+      "id": "b12_commercial_glass_entry",
+      "status": "revised",
+      "reason": "rebated jambs, casing and threshold clarify the door stop around existing closer and pull hardware.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 180,
+      "authored_face_corners": 540,
+      "size_class": "person",
+      "export_vertices": 2160,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "6362b82895935a21bab5883a0880fbb506f55296829676c69120023a91ff15ba"
+    },
+    {
+      "id": "b12_curb_mounted_skylight",
+      "status": "retain",
+      "reason": "raised curb, inclined glazing, retaining frame, mullion and flashing are adequately constructed.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 112,
+      "authored_face_corners": 336,
+      "size_class": "person",
+      "export_vertices": 1344,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "1a88dbaa6ea1dc757ad1554b2b64d24c4f909f8f6c7c2ba4faca0eb3eb0d287c"
+    },
+    {
+      "id": "b12_dentil_cornice_section",
+      "status": "retain",
+      "reason": "stepped entablature, individual dentils and bracket supports give this trim its correct silhouette.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 232,
+      "authored_face_corners": 696,
+      "size_class": "large",
+      "export_vertices": 2784,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "3b5528c849b99d8d49d7c1845f1fe76ff3824eb98fcf69da6edfef9790f27634"
+    },
+    {
+      "id": "b12_double_hung_sash_window",
+      "status": "revised",
+      "reason": "inner frame stops, casing and projecting sill clarify the offset sliding sash construction.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 216,
+      "authored_face_corners": 648,
+      "size_class": "person",
+      "export_vertices": 2592,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "8af455d1e23312a9f2f200fd833c583ac6a2a94e4631ade6593fff7b4e254a88"
+    },
+    {
+      "id": "b12_double_steel_service_door",
+      "status": "revised",
+      "reason": "rebated frame and projecting casing support the existing double leaves and panic hardware.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 320,
+      "authored_face_corners": 960,
+      "size_class": "large",
+      "export_vertices": 3840,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "ee0e98391bf5350c0598968a12ce5894c1e025d1c1ba170af4d0fac42b406121"
+    },
+    {
+      "id": "b12_entrance_threshold_ramp",
+      "status": "retain",
+      "reason": "solid low wedge, textured tread, side curbs, landing and anchors form a complete ramp.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 210,
+      "authored_face_corners": 630,
+      "size_class": "large",
+      "export_vertices": 2414,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "82dd586ff7f29f5df62ae61805898f1cb864631f12121a604a01e53ff68603d7"
+    },
+    {
+      "id": "b12_fire_escape_drop_ladder",
+      "status": "revised",
+      "reason": "sliding guide sleeves and retaining catch now explain the drop-ladder mechanism.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 560,
+      "authored_face_corners": 1680,
+      "size_class": "large",
+      "export_vertices": 5216,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "55ac7b60ea01862df4fba943d53ad6b64eb766c053dc9e48b3186468d0e08553"
+    },
+    {
+      "id": "b12_fire_escape_landing",
+      "status": "revised",
+      "reason": "terminal posts with bolted base plates structurally anchor the rail to the open grating platform.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 712,
+      "authored_face_corners": 2136,
+      "size_class": "large",
+      "export_vertices": 7968,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "1652875dce8fd81061c6ee3802fad6344bc6c4fde5af41aab4785ce01c9d753e"
+    },
+    {
+      "id": "b12_fire_escape_stair_flight",
+      "status": "revised",
+      "reason": "heavier structural rail posts and anchored feet contrast with slender infill pickets.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 880,
+      "authored_face_corners": 2640,
+      "size_class": "large",
+      "export_vertices": 2640,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "b03ceb34aba79936da070465a663acd722509a09eaad11f6491d6c33f5bb2fb1"
+    },
+    {
+      "id": "b12_foundation_crawlspace_hatch",
+      "status": "revised",
+      "reason": "rebated surround and casing create a closing stop for the strapped hatch leaf.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 300,
+      "authored_face_corners": 932,
+      "size_class": "person",
+      "export_vertices": 3440,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "bc6fe1abdc1eb3db568d93e8f5b8cace504dae6024720223a8a28c5f06fc6e4a"
+    },
+    {
+      "id": "b12_gable_dormer_window",
+      "status": "revised",
+      "reason": "host-roof flashing, eave fascia and rebated window frame complete the exterior assembly.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 302,
+      "authored_face_corners": 906,
+      "size_class": "large",
+      "export_vertices": 3624,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "476ae4684934d61c93cbac7f69549204b9e71a8e0f2ff34da0dee2fe85fe7541"
+    },
+    {
+      "id": "b12_gabled_entry_portico",
+      "status": "revised",
+      "reason": "side bearing beams, knee braces, rafters and wall ledger support the gabled roof.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 190,
+      "authored_face_corners": 570,
+      "size_class": "large",
+      "export_vertices": 2280,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "eee6b7cb47de621d85e8beec4cea9920fd1a61c738d9e0074c35c5b3e06e41bc"
+    },
+    {
+      "id": "b12_glass_block_window_panel",
+      "status": "revised",
+      "reason": "stepped casing, sill and frame stops resolve the perimeter of the individually glazed blocks.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 768,
+      "authored_face_corners": 2304,
+      "size_class": "person",
+      "export_vertices": 2304,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "1ec4d98bc0ea6fac2494e8487f024b20dcd28686ab9eb25da78e872438318156"
+    },
+    {
+      "id": "b12_industrial_steel_grid_window",
+      "status": "revised",
+      "reason": "rebated masonry surround and casing give the steel grid a defined mounting/closing depth.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 208,
+      "authored_face_corners": 624,
+      "size_class": "large",
+      "export_vertices": 2496,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "71f43e335b524263ab6333daaa6d30b67a5fc075f970193b9f10dbc769c0fb1b"
+    },
+    {
+      "id": "b12_limestone_window_surround",
+      "status": "retain",
+      "reason": "jointed stone jambs, layered lintel, keystone, projecting sill and brackets are already distinct.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 128,
+      "authored_face_corners": 384,
+      "size_class": "person",
+      "export_vertices": 1536,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "fee055da34827b910297e9480318cb741935db85d5957995540d8e7c4f4d90c9"
+    },
+    {
+      "id": "b12_loading_dock_door_seal",
+      "status": "retain",
+      "reason": "deep compression pads, mounting frames, segmented face and guide strips are appropriate.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 392,
+      "authored_face_corners": 1176,
+      "size_class": "large",
+      "export_vertices": 4416,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "da62223763dd6d6c418598d9f3a174bac3f779ff2542cfc1aefa040d4120da59"
+    },
+    {
+      "id": "b12_louvered_window_shutters",
+      "status": "retain",
+      "reason": "angled individual louvers, perimeter stiles, cross rail and hinges already read correctly.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 400,
+      "authored_face_corners": 1200,
+      "size_class": "person",
+      "export_vertices": 4800,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "2eed98bf38811cf849ccea8476907f027f2e67b6b18fff32a3cf55571b3347dd"
+    },
+    {
+      "id": "b12_masonry_chimney_stack",
+      "status": "retain",
+      "reason": "brick bond, overhanging cap, hollow twin clay flues and roof flashing are complete.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 808,
+      "authored_face_corners": 2424,
+      "size_class": "large",
+      "export_vertices": 6816,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "68e3f73cabf0774e9f62994f4dff4601a6f66ab33b2108ad614bc95d04eca981"
+    },
+    {
+      "id": "b12_open_casement_window",
+      "status": "revised",
+      "reason": "hinges, sill crank and operating arm accompany a genuinely pivoted sash and rebated frame.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 228,
+      "authored_face_corners": 684,
+      "size_class": "person",
+      "export_vertices": 2664,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "216297bd0ae8dbdc986156b2e8e18f11a562bdd73f93bc63e3462213ac779740"
+    },
+    {
+      "id": "b12_open_rooftop_access_hatch",
+      "status": "revised",
+      "reason": "sealing gasket, inner stiffeners, gas spring and latch make the open lid mechanically supported.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 180,
+      "authored_face_corners": 540,
+      "size_class": "person",
+      "export_vertices": 1884,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "baa83be9545d0db5a015406f7d23a052c6f7cf9cc225629b81175427c33e93ee"
+    },
+    {
+      "id": "b12_ornamental_juliet_balcony",
+      "status": "retain",
+      "reason": "mounting arms, perimeter rails, bars and circular motifs already form a believable shallow guard.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 310,
+      "authored_face_corners": 1080,
+      "size_class": "person",
+      "export_vertices": 3120,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "2f2a9bad826bbc6fbdfb0783f4f52ef3bf77b3c1fef1fbf5b54cff4fbb36c3c1"
+    },
+    {
+      "id": "b12_parapet_coping_corner",
+      "status": "retain",
+      "reason": "L-plan brickwork, mortar joints, overhanging coping and cap joints resolve the corner.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 456,
+      "authored_face_corners": 1368,
+      "size_class": "large",
+      "export_vertices": 5376,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "759fd84adcb4812b7c281d54d5d8dea7eec7c3c615ad2886e876ffb7f573df42"
+    },
+    {
+      "id": "b12_projecting_bay_window",
+      "status": "revised",
+      "reason": "fitted hipped metal roof and eave trim replace the generic rectangular lid over angled glazing.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 214,
+      "authored_face_corners": 642,
+      "size_class": "large",
+      "export_vertices": 2548,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "7862b5ec2d562744d69b87cec2870b03182aadbe312ea11dc2f0dca0e7cd48ce"
+    },
+    {
+      "id": "b12_raised_loading_dock_platform",
+      "status": "revised",
+      "reason": "dock-leveler hinge barrels, front lip and lifting recesses explain the inset loading plate.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 296,
+      "authored_face_corners": 888,
+      "size_class": "large",
+      "export_vertices": 2784,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "856fc87f610c5b8128661ec1dc536e81d393201fec1bc61d3710772f41132121"
+    },
+    {
+      "id": "b12_retractable_shop_awning",
+      "status": "retain",
+      "reason": "roller cassette, articulated arms with elbow pivots, wall mounts and fabric valance are clear.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 300,
+      "authored_face_corners": 900,
+      "size_class": "large",
+      "export_vertices": 3340,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "7bfb204d1e30ec75ecc7e003e8c757a2ee445094e4be24c75aa62db506fbf6fe"
+    },
+    {
+      "id": "b12_revolving_glass_entry",
+      "status": "retain",
+      "reason": "cylindrical outer glazing, intentional entry gaps and three radial door leaves already capture its operation.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 352,
+      "authored_face_corners": 1056,
+      "size_class": "large",
+      "export_vertices": 3824,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "4c72ac7528668a31d92f6164042d069cdd4e130376c8e15ac4ac1f6cb34185be"
+    },
+    {
+      "id": "b12_roll_up_storefront_shutter",
+      "status": "revised",
+      "reason": "guide tracks, anchoring bolts, axle ends and motor housing complete the shutter mechanism.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 616,
+      "authored_face_corners": 1848,
+      "size_class": "large",
+      "export_vertices": 6944,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "a4081e582718f9c9e5465a6d2d45f8e836f3d3c5901171485bc57e23beea599d"
+    },
+    {
+      "id": "b12_rooftop_stair_headhouse",
+      "status": "revised",
+      "reason": "door hinges, drip hood, detailed brick bond, gutter and downpipe resolve the otherwise plain enclosure.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 782,
+      "authored_face_corners": 2372,
+      "size_class": "large",
+      "export_vertices": 8884,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "1dc49c73754c577cecb949c5468533d674f3813afcbc0b781771cfd34679e3c6"
+    },
+    {
+      "id": "b12_round_attic_window",
+      "status": "retain",
+      "reason": "faceted circular surround, glazing rebate and radial muntins provide a clear circular-window silhouette.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 192,
+      "authored_face_corners": 704,
+      "size_class": "person",
+      "export_vertices": 1504,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "d32108c0cf18d7d5ca9ca393bbd9c9e43e54ebd12283d0dfc12060e19809407e"
+    },
+    {
+      "id": "b12_sawtooth_roof_glazing_module",
+      "status": "revised",
+      "reason": "triangular rafters, base ties, roof seams and gutter complete the glazed roof support system.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 172,
+      "authored_face_corners": 516,
+      "size_class": "large",
+      "export_vertices": 2064,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "77a7c086d8644cec684c84a74d1bddaa2c5d5e94e46c50b70025b27cfdf670a9"
+    },
+    {
+      "id": "b12_screen_storm_door",
+      "status": "revised",
+      "reason": "stepped frame stops and casing establish the screen door closing plane.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 388,
+      "authored_face_corners": 1164,
+      "size_class": "person",
+      "export_vertices": 4656,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "53dc8eb0d188825bc54b7e6e592dded21a9db41bf266af13f08f4438afeab79d"
+    },
+    {
+      "id": "b12_sectional_residential_garage",
+      "status": "revised",
+      "reason": "rebated casing and weather stops frame the existing sectional leaves and upper lights.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 560,
+      "authored_face_corners": 1680,
+      "size_class": "large",
+      "export_vertices": 6720,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "1f3f7257e70ffec4c6f4511f00be01bcb2fd7a37578841bf7fd30983e0ad5369"
+    },
+    {
+      "id": "b12_side_entry_stair_landing",
+      "status": "revised",
+      "reason": "distinguish structural railing posts and anchored base plates at landing and stair transitions.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 688,
+      "authored_face_corners": 2064,
+      "size_class": "large",
+      "export_vertices": 7488,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "da2e5a03cf2cbcacc68fd80cdfb9a06cc9a45f089125ce025b01622816d12242"
+    },
+    {
+      "id": "b12_sidelight_transom_entry",
+      "status": "revised",
+      "reason": "rebated frame stops, casing and keyed handle escutcheon give the glazed entrance depth and hardware.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 490,
+      "authored_face_corners": 1496,
+      "size_class": "large",
+      "export_vertices": 5648,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "8ff780a7a043232ffb11b7671cc897f145d212e87f794b4f79710bc2e1a0b4b0"
+    },
+    {
+      "id": "b12_six_panel_front_door",
+      "status": "revised",
+      "reason": "frame rebates, outer casing, projecting threshold and keyed escutcheon refine the paneled entry.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 454,
+      "authored_face_corners": 1388,
+      "size_class": "person",
+      "export_vertices": 1388,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "271dfb88557d7a22cfb3b532f2bfb8c35d6c8a81640969e26f435c80657e0e76"
+    },
+    {
+      "id": "b12_sliding_patio_door",
+      "status": "revised",
+      "reason": "casing and inner stops define the frame depth around offset sliding tracks and panels.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 220,
+      "authored_face_corners": 660,
+      "size_class": "large",
+      "export_vertices": 2640,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "d7a1d35cfe54b81c06098d89e277518297291e17445caa8cddd6da3b2ffd23ef"
+    },
+    {
+      "id": "b12_sloped_cellar_bulkhead",
+      "status": "revised",
+      "reason": "full hinge pins, leaf hinge straps and lifting handles explain the sloped double doors.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 220,
+      "authored_face_corners": 660,
+      "size_class": "large",
+      "export_vertices": 2264,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "f82044158ad4745056ec1569b87956d40736e621fb4b1fc4aed32cf25fa2f7bb"
+    },
+    {
+      "id": "b12_standing_seam_metal_canopy",
+      "status": "revised",
+      "reason": "wall-mount anchor bolts make the existing triangular cantilever brackets visibly attachable.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 184,
+      "authored_face_corners": 552,
+      "size_class": "large",
+      "export_vertices": 2016,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "0c3e6288c66c9f5cc5cab44383f1ac925bec4c58edba01d51432d802fdf6bcf7"
+    },
+    {
+      "id": "b12_suspended_glass_entry_canopy",
+      "status": "revised",
+      "reason": "bolted anchor plates define how the suspension rods attach to the building and canopy.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 224,
+      "authored_face_corners": 672,
+      "size_class": "large",
+      "export_vertices": 2304,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "5a8704f4a009962ab8d00b6525e3a344c0e6e65d649ba80759dec23c74325954"
+    },
+    {
+      "id": "b12_three_step_front_stoop",
+      "status": "revised",
+      "reason": "terminal railing posts, foot plates and anchors clarify the guard mounting on the concrete stoop.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 512,
+      "authored_face_corners": 1536,
+      "size_class": "large",
+      "export_vertices": 5376,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "e7de6e7c27ea60c26e427e5792ef84c624817c5de1bcd70f09cbd04191760668"
+    },
+    {
+      "id": "b18_acorn_globe_park_lamp",
+      "status": "revised",
+      "reason": "base collar and fastened service hatch complete the existing ornate pole and framed acorn globe.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 483,
+      "authored_face_corners": 1564,
+      "size_class": "large",
+      "export_vertices": 3884,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "01fa38ba574d61f3123fc0b8f88c83796658d1ac891b95fb3f9030908893be29"
+    },
+    {
+      "id": "b18_american_flag_civic_pole",
+      "status": "retain",
+      "reason": "tapered pole, halyard, cleat and folded thirteen-stripe flag already provide proper civic construction.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 904,
+      "authored_face_corners": 2766,
+      "size_class": "large",
+      "export_vertices": 8604,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "b0587bbb4108f3c2cdb2fa702337ed676307b79e9642c6009e891399d86c29da"
+    },
+    {
+      "id": "b18_angled_awning_wash_light",
+      "status": "retain",
+      "reason": "wall plates, angled brackets, pivot discs and recessed linear lens are adequately resolved.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 128,
+      "authored_face_corners": 384,
+      "size_class": "person",
+      "export_vertices": 1376,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "ce5c347613d61174b3be78b76403bc84013de9a7c87ef23ea2dd4a846835fc9f"
+    },
+    {
+      "id": "b18_angled_building_flagpole",
+      "status": "retain",
+      "reason": "angled bracket mount, finial, hanging pennant and central crest already define the fixture.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 134,
+      "authored_face_corners": 456,
+      "size_class": "large",
+      "export_vertices": 1014,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "d8d223b521dc9f11cbee645b11321ae381de1700f91e8f11bad4503f9e8673f6"
+    },
+    {
+      "id": "b18_backlit_address_pedestal",
+      "status": "retain",
+      "reason": "framed light box, readable address strokes, supporting legs and weather cap are complete.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 120,
+      "authored_face_corners": 360,
+      "size_class": "person",
+      "export_vertices": 1440,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "a6cfc69dc4051eb1c663139c5b603cea2a3b406507973912bfa3e8911d2231be"
+    },
+    {
+      "id": "b18_barn_gooseneck_wall_light",
+      "status": "revised",
+      "reason": "spun shade with open rolled rim, internal socket and diffuser replaces a capped primitive cone.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 302,
+      "authored_face_corners": 1020,
+      "size_class": "person",
+      "export_vertices": 1812,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "2cdb044fa73a360f338b537ee8ac5cc1e6f2c4f3ec42110f8bdb0b2478712731"
+    },
+    {
+      "id": "b18_carved_boundary_milestone",
+      "status": "retain",
+      "reason": "stepped base, inset crest, inscription strokes and pitched cap suit this simple stone marker.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 58,
+      "authored_face_corners": 174,
+      "size_class": "person",
+      "export_vertices": 632,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "2313ee03a055bbfe3cd3e21495df3ce1235670d1508103485800a223783190b3"
+    },
+    {
+      "id": "b18_catenary_lighting_span",
+      "status": "revised",
+      "reason": "suspended heads have formed housings, gasketed segmented optics and cooling ribs.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 700,
+      "authored_face_corners": 2100,
+      "size_class": "large",
+      "export_vertices": 7088,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "5575ce9e5416841ea385a3e77e58bc4ebbc1391b713d11159a02345ff06d2868"
+    },
+    {
+      "id": "b18_civic_bell_memorial",
+      "status": "revised",
+      "reason": "open flared bell with separate inner wall, rolled lip, clapper and crown replaces closed stacked cones.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 550,
+      "authored_face_corners": 1864,
+      "size_class": "large",
+      "export_vertices": 3788,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "f74d2e4cceb9b3cc88fbab1d5c61f0afaaf2bcdcc499b561c3f8fd9fcdde2054"
+    },
+    {
+      "id": "b18_coach_house_wall_lantern",
+      "status": "revised",
+      "reason": "separate tapered glass panes, corner stiles, frame rails, socket and service hinges form the lantern.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 337,
+      "authored_face_corners": 1084,
+      "size_class": "person",
+      "export_vertices": 3096,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "f190f957b8427ba3b6658653d92d8f528161219ccdeabc285b7c48caf68c1c64"
+    },
+    {
+      "id": "b18_cobrahead_roadway_lamp",
+      "status": "revised",
+      "reason": "shaped cast housing, curved refractor, service cover, latch points and photocell replace ellipsoid-only head.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 314,
+      "authored_face_corners": 976,
+      "size_class": "large",
+      "export_vertices": 2772,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "9051e298af9b39a5ba48db2f4848cfa8580e2983bbe7793c95600ea01b76e34a"
+    },
+    {
+      "id": "b18_conical_path_lamp",
+      "status": "retain",
+      "reason": "narrow post, broad glare shield and recessed underside emitter correctly capture the simple path fixture.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 83,
+      "authored_face_corners": 256,
+      "size_class": "person",
+      "export_vertices": 544,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "cac54bff7c6e682b14fb18826ddeae977a298f42d92a2f02b4178cde3f2c11a4"
+    },
+    {
+      "id": "b18_cylindrical_up_down_sconce",
+      "status": "revised",
+      "reason": "hollow tubular housing with recessed lenses and separate retaining bezels at both ends.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 264,
+      "authored_face_corners": 936,
+      "size_class": "handheld",
+      "export_vertices": 792,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "e2aca711f151d084027607ca1821cd1a25f778a26a9a48dc129d529f66246f30"
+    },
+    {
+      "id": "b18_directional_weather_vane_column",
+      "status": "revised",
+      "reason": "collar and fastened access hatch finish the pole beneath the functional vane and direction arms.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 591,
+      "authored_face_corners": 2044,
+      "size_class": "large",
+      "export_vertices": 4424,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "765aef6dd5f04445e49b30fe0b98cc0bd9b1d0f73c43bf1ac436ac1702aaf400"
+    },
+    {
+      "id": "b18_double_arm_boulevard_light",
+      "status": "revised",
+      "reason": "both lamp heads have formed housings, optical cells, retaining fasteners and cooling fins.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 632,
+      "authored_face_corners": 1896,
+      "size_class": "large",
+      "export_vertices": 5976,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "93ad60ff524aeea34eb4e207fdd2dfa35463126d0eeffe5c30a0e3dcaec0804c"
+    },
+    {
+      "id": "b18_double_face_sidewalk_clock",
+      "status": "revised",
+      "reason": "fastened service access and base collar complete the pole under the dual hand-modeled clock faces.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 878,
+      "authored_face_corners": 2848,
+      "size_class": "large",
+      "export_vertices": 7184,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "8af9b47178d6e159150de973e469159bd0aee6ca69a51e8e83952d3c5981c76e"
+    },
+    {
+      "id": "b18_festoon_bulb_cable",
+      "status": "retain",
+      "reason": "sagging cable, separate sockets, pendants, bulbs and hanging eyes already read convincingly.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 666,
+      "authored_face_corners": 2384,
+      "size_class": "large",
+      "export_vertices": 5152,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "732002ae9244ed064a7ff5e25024f2ef7807f3b2f7a2de13bbee16178ac8b580"
+    },
+    {
+      "id": "b18_flat_led_roadway_lamp",
+      "status": "revised",
+      "reason": "chamfered housing, segmented LED lenses, gasket, retaining screws and cooling fins define the lamp head.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 352,
+      "authored_face_corners": 1056,
+      "size_class": "large",
+      "export_vertices": 3520,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "2111a130c86012a5f5aeddb22939f413cf6933371a77af1d52ab3be76df751b5"
+    },
+    {
+      "id": "b18_flush_inground_uplight",
+      "status": "revised",
+      "reason": "recessed optical well, annular stainless bezel, retaining screws and cable gland replace stacked full disks.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 188,
+      "authored_face_corners": 612,
+      "size_class": "handheld",
+      "export_vertices": 564,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "e98f95c4fe82282517563872d43c5ef8336ec95978cc708d7668f1605d114d7e"
+    },
+    {
+      "id": "b18_four_face_town_clock",
+      "status": "revised",
+      "reason": "housing corner fasteners, pole service access and base collar refine the clock enclosure.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 1332,
+      "authored_face_corners": 4370,
+      "size_class": "large",
+      "export_vertices": 4370,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "64a28a7d5428b8d9debaa9e434a0b59c2371ee9585852bc8afb21014b9498291"
+    },
+    {
+      "id": "b18_four_lantern_plaza_standard",
+      "status": "revised",
+      "reason": "each lantern is framed around separate tapered panes, internal socket and service hinge hardware.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 1338,
+      "authored_face_corners": 4160,
+      "size_class": "large",
+      "export_vertices": 4160,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "8e30693b493f1cb4cb705d289d718d979d41153025bab7f2bb0bbb06f832c03c"
+    },
+    {
+      "id": "b18_gooseneck_industrial_post_light",
+      "status": "revised",
+      "reason": "open spun shade, rolled lip and internal socket replace the solid shade primitive.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 446,
+      "authored_face_corners": 1452,
+      "size_class": "large",
+      "export_vertices": 3108,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "ba5cd237c62164969fdf4e6642c2e80d2b3a377ddf40ad30da0e365fca0a0d34"
+    },
+    {
+      "id": "b18_granite_civic_obelisk",
+      "status": "retain",
+      "reason": "stepped plinth, tapering faceted shaft, pyramidal tip and inscribed plaque are proper monument massing.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 77,
+      "authored_face_corners": 232,
+      "size_class": "large",
+      "export_vertices": 800,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "5df43c867956a395ab3ccacc25dc6719f109157b4aed4faa96675f854575055f"
+    },
+    {
+      "id": "b18_ground_stake_spotlight",
+      "status": "revised",
+      "reason": "recessed lens in hollow front bezel, pivot bracket and trailing cable complete the adjustable head.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 155,
+      "authored_face_corners": 508,
+      "size_class": "handheld",
+      "export_vertices": 468,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "54880ce961ce09faf32a1b64fe7f0591be8a099844a68e741318ade9b0566e88"
+    },
+    {
+      "id": "b18_historic_teardrop_streetlight",
+      "status": "revised",
+      "reason": "open spun upper shade and socket plus pole access fasteners improve the hanging refractor assembly.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 567,
+      "authored_face_corners": 1820,
+      "size_class": "large",
+      "export_vertices": 3956,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "9ea6f2c448a53f328637cb0726ee129b85fb38170a37e2e543a857c5f36d0fbc"
+    },
+    {
+      "id": "b18_industrial_pendant_light",
+      "status": "retain",
+      "reason": "tapered reflector, diffuser, wire guard, socket body and ceiling stem already form a complete pendant.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 204,
+      "authored_face_corners": 612,
+      "size_class": "person",
+      "export_vertices": 1804,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "8beb99b13688cbb73e490ceba5b1a2b46ad3b16ace7833d966127a13a6994d9e"
+    },
+    {
+      "id": "b18_interlocking_steel_ribbon_sculpture",
+      "status": "retain",
+      "reason": "two independently shaped interlocking ribbons and base plaque already provide the intended public-art silhouette.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 112,
+      "authored_face_corners": 336,
+      "size_class": "large",
+      "export_vertices": 1344,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "1452e0f8596966ff292de7b6f76d12237b9ef252d96109564e5f06c84eeb0f0b"
+    },
+    {
+      "id": "b18_linear_canopy_strip_light",
+      "status": "retain",
+      "reason": "long recessed diffuser, end caps and mounting clamps suit the simple linear fixture.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 72,
+      "authored_face_corners": 216,
+      "size_class": "person",
+      "export_vertices": 864,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "24b2866c944dfeeeac11d518b706ec9f2ee016e26a27444734782551cf646612"
+    },
+    {
+      "id": "b18_louvered_cylinder_light_bollard",
+      "status": "retain",
+      "reason": "separate shade rings, luminous core, cap and grounded cylindrical base are well resolved.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 265,
+      "authored_face_corners": 804,
+      "size_class": "person",
+      "export_vertices": 2100,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "cf96703051bb160a29d00f68f0430411161613c47314ac8fbf10a7c906ef0d29"
+    },
+    {
+      "id": "b18_low_mushroom_landscape_light",
+      "status": "retain",
+      "reason": "shallow overhanging cap, shielded diffuser, slender stem and base are appropriate at this small scale.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 84,
+      "authored_face_corners": 252,
+      "size_class": "handheld",
+      "export_vertices": 608,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "970e38cd80dd78200189aa3079228950703900c2dc65144022117b9b290f5707"
+    },
+    {
+      "id": "b18_modern_cube_downlight",
+      "status": "revised",
+      "reason": "four housing walls around an actual underside recess and emitter replace a solid cube with painted panel.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 112,
+      "authored_face_corners": 336,
+      "size_class": "handheld",
+      "export_vertices": 336,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "8f0fa75d51161a267e5bb98bad555a538257c4882649a3618ec5f2f61bcba1ee"
+    },
+    {
+      "id": "b18_ornamental_hanging_basket_standard",
+      "status": "revised",
+      "reason": "fastened service hatch and pole base collar support the existing scroll arms, chains and baskets.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 694,
+      "authored_face_corners": 2236,
+      "size_class": "large",
+      "export_vertices": 5364,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "8aa94b36683cf5544b8297edc003a9d105a913d2e5d6b61ca0fd40194190dfb0"
+    },
+    {
+      "id": "b18_recessed_brick_step_light",
+      "status": "retain",
+      "reason": "inset lens, separate glare louvers, trim and face screws already define a recessed step light.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 72,
+      "authored_face_corners": 216,
+      "size_class": "handheld",
+      "export_vertices": 864,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "6ecc1e0bbe8bbe4240d5318188831efa4ae108be8df3e0e46545972126b0a3d8"
+    },
+    {
+      "id": "b18_recessed_square_light_bollard",
+      "status": "revised",
+      "reason": "real open lighting pocket, side cheeks, concealed upper emitter and lower reflector shelf.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 96,
+      "authored_face_corners": 288,
+      "size_class": "person",
+      "export_vertices": 1152,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "00af9f5176821b0b1ac2ef6a2028553f1be769ad85254dd5f1c9b11f8d9450f5"
+    },
+    {
+      "id": "b18_rectangular_caged_wall_light",
+      "status": "retain",
+      "reason": "raised diffuser, cage stiles and protective cross bars already express a sturdy wall lamp.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 80,
+      "authored_face_corners": 240,
+      "size_class": "handheld",
+      "export_vertices": 960,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "6523a064329145cc276715b67c547cad93725e7867e71e6814e4fffa375bc2c3"
+    },
+    {
+      "id": "b18_rectangular_frame_promenade_light",
+      "status": "retain",
+      "reason": "open inverted frame with a protected vertical emitter and service cover has a purposeful modern silhouette.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 128,
+      "authored_face_corners": 384,
+      "size_class": "large",
+      "export_vertices": 1304,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "8b43cacd381daca68e6e43a2e3930af63218896f52e9e0d80a09bd1483b758fc"
+    },
+    {
+      "id": "b18_round_bulkhead_wall_light",
+      "status": "retain",
+      "reason": "cast round housing, domed lens, retaining bezel and protective bars are clear.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 144,
+      "authored_face_corners": 492,
+      "size_class": "handheld",
+      "export_vertices": 492,
+      "vertex_limit": 999,
+      "source_geometry_sha256": "1bc626fa1e26457fbb5a8692b941785758e8dec481039b1d5eeedd941d98fdec"
+    },
+    {
+      "id": "b18_schoolhouse_globe_lamp",
+      "status": "revised",
+      "reason": "fastened pole access and base collar complement the existing shaped schoolhouse refractor.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 365,
+      "authored_face_corners": 1104,
+      "size_class": "large",
+      "export_vertices": 2888,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "842cb755f528619612a7c0282dffe9a39ac503d50cdb87818cc0a27a980d5839"
+    },
+    {
+      "id": "b18_shepherd_hook_lantern_light",
+      "status": "revised",
+      "reason": "tapered framed glass panes, internal socket and service hinges refine the suspended lantern.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 365,
+      "authored_face_corners": 1158,
+      "size_class": "person",
+      "export_vertices": 3118,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "b49ddae88499758df5c6e09e870e49553bbbff5aeed72fec3fe966b08c887b86"
+    },
+    {
+      "id": "b18_shielded_mushroom_posttop",
+      "status": "revised",
+      "reason": "fastened access hatch and base collar complete the supporting pole beneath the shielded emitter.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 300,
+      "authored_face_corners": 900,
+      "size_class": "large",
+      "export_vertices": 2620,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "4fbd5aa7e3b5165ae9cd0026e626fc26e0c5b081155b62c6bbb0141b8f489465"
+    },
+    {
+      "id": "b18_single_banner_street_standard",
+      "status": "revised",
+      "reason": "folded cloth surface and attachment collars replace the flat banner slab; pole has service fasteners.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 322,
+      "authored_face_corners": 1008,
+      "size_class": "large",
+      "export_vertices": 2768,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "0269e5383da2d2e94e1c1322abd61e88cd58c356d66fd25a1a3516dc64c328b1"
+    },
+    {
+      "id": "b18_sloped_memorial_plaque_pedestal",
+      "status": "retain",
+      "reason": "real sloped stone top, fitted bronze plaque, fixings and inscription strokes are complete.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 224,
+      "authored_face_corners": 888,
+      "size_class": "person",
+      "export_vertices": 1254,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "5e8fde370195f4d6920ff95263b78a175d070fb8064be9457a051845098eb048"
+    },
+    {
+      "id": "b18_solar_panel_street_lamp",
+      "status": "revised",
+      "reason": "formed LED housing, gasketed optical cells and cooling fins accompany the angled solar array.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 416,
+      "authored_face_corners": 1248,
+      "size_class": "large",
+      "export_vertices": 4288,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "92616916377f8937f0bb36bc07647b1ec1b3c4b84ee3b6b8260fae4f072e81bf"
+    },
+    {
+      "id": "b18_stadium_floodlight_mast",
+      "status": "revised",
+      "reason": "individual recessed reflectors, segmented optics, heat-sink ribs and pivot shafts refine all six floodlights.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 964,
+      "authored_face_corners": 2892,
+      "size_class": "large",
+      "export_vertices": 2892,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "00c8a5d5c7060cfb27a09d869fa1eec9e7f661f0f67739914b8ae341acbff97e"
+    },
+    {
+      "id": "b18_stone_pedestal_sundial",
+      "status": "retain",
+      "reason": "faceted stone pedestal, brass dial, hour ticks and thick triangular gnomon have correct distinct forms.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 182,
+      "authored_face_corners": 546,
+      "size_class": "person",
+      "export_vertices": 1440,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "1eaea3888e311cf24c05e38f96d1135fc74acaed56f52146c273a0039e7a82e7"
+    },
+    {
+      "id": "b18_tapered_lantern_avenue_lamp",
+      "status": "revised",
+      "reason": "hollow lantern with separate tapered panes, structural stiles, frame rails and socket.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 511,
+      "authored_face_corners": 1556,
+      "size_class": "large",
+      "export_vertices": 4584,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "3d944fcd15574fce943e1399b3c75b23aa25b6346298e4b5041313b7ac2a92b0"
+    },
+    {
+      "id": "b18_twin_motion_sensor_security_light",
+      "status": "retain",
+      "reason": "two independently angled lamp heads, adjustable arms and separate sensor lens are already functional forms.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 186,
+      "authored_face_corners": 584,
+      "size_class": "person",
+      "export_vertices": 1724,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "11f77adfa30e8b4f7c0dd117b944d4f1825a1791bc14b52ffb95218d9017b29c"
+    },
+    {
+      "id": "b18_twin_shoebox_parking_lamp",
+      "status": "revised",
+      "reason": "both heads have chamfered housings, separate optical cells, gasketed covers and cooling fins.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 488,
+      "authored_face_corners": 1464,
+      "size_class": "large",
+      "export_vertices": 5048,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "9b957513c036877fb6f804b6923c125f5072a0b35340107b4831dba1ea2b495b"
+    },
+    {
+      "id": "b18_twin_vertical_banner_gateway",
+      "status": "retain",
+      "reason": "paired pennant silhouettes, crossarm, finials and simple graphic panels are already differentiated.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": false,
+      "authored_vertices": 228,
+      "authored_face_corners": 684,
+      "size_class": "large",
+      "export_vertices": 2120,
+      "vertex_limit": 10000,
+      "source_geometry_sha256": "2868a2d08c77ac9ebcfa7a6afc40d787ef44225100eaf751d8fcd794f331d156"
+    },
+    {
+      "id": "b18_yoke_mounted_rectangular_floodlight",
+      "status": "revised",
+      "reason": "continuous anchored yoke base, framed recessed reflector and three separate optic cells make the lamp mechanically coherent.",
+      "review_basis": [
+        "all-asset contact sheet",
+        "builder source",
+        "revised exported contact sheet"
+      ],
+      "source_geometry_changed": true,
+      "authored_vertices": 152,
+      "authored_face_corners": 456,
+      "size_class": "person",
+      "export_vertices": 1664,
+      "vertex_limit": 5000,
+      "source_geometry_sha256": "da68fea5235ce873a7ecb781e4fc5d1f4ff462805eac4e076e61eaf2cd4145f2"
+    }
+  ],
+  "isolated_validation_passed": true,
+  "isolated_validation_errors": [],
+  "isolated_validation_warnings": [],
+  "isolated_export_count": 200
+}

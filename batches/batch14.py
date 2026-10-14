@@ -5,6 +5,44 @@ from assetlib import Asset, register
 CAT='mail_delivery_cargo'
 M='dark_metal'; S='steel'; W='wood'; WD='wood_dark'; K='rubber'
 
+def shell(a,p,size,mat,edge=.035):
+    """Formed enclosure with broad rolled corners and distinct edge shoulders."""
+    x,y,z=p;w,d,h=size;e=min(edge,w*.22,d*.22,h*.25)
+    vs=[]
+    for zz,inset in ((z-h/2,e*.5),(z-h/2+e,0),(z+h/2-e,0),(z+h/2,e*.65)):
+        hw=w/2-inset;hd=d/2-inset;c=min(e,hw*.35,hd*.35)
+        vs += [(x+xx,y+yy,zz) for xx,yy in ((-hw+c,-hd),(hw-c,-hd),(hw,-hd+c),(hw,hd-c),(hw-c,hd),(-hw+c,hd),(-hw,hd-c),(-hw,-hd+c))]
+    fs=[tuple(reversed(range(8))),tuple(range(24,32))]
+    fs += [(k*8+j,k*8+(j+1)%8,(k+1)*8+(j+1)%8,(k+1)*8+j) for k in range(3) for j in range(8)]
+    a.mesh(vs,fs,mat)
+
+
+def fabric(a,p,size,mat='cream',open_top=False):
+    """Twelve-sided bulged textile volume; open hampers include inside walls."""
+    x,y,z=p;w,d,h=size
+    outline=[(-.38,-.48),(0,-.52),(.38,-.48),(.48,-.32),(.52,0),(.48,.32),(.38,.48),(0,.52),(-.38,.48),(-.48,.32),(-.52,0),(-.48,-.32)]
+    rings=[(-.5,.78),(-.05,1.0),(.5,.85 if not open_top else .97)]
+    vs=[(x+px*w*sc,y+py*d*sc,z+zz*h) for zz,sc in rings for px,py in outline]
+    fs=[tuple(reversed(range(12)))]
+    fs += [(k*12+j,k*12+(j+1)%12,(k+1)*12+(j+1)%12,(k+1)*12+j) for k in range(2) for j in range(12)]
+    if not open_top:fs.append(tuple(range(24,36)))
+    else:
+        vs += [(x+px*w*.89,y+py*d*.89,z+h*.47) for px,py in outline]
+        vs += [(x+px*w*.70,y+py*d*.70,z-h*.39) for px,py in outline]
+        fs += [(24+j,24+(j+1)%12,36+(j+1)%12,36+j) for j in range(12)]
+        fs += [(36+j,36+(j+1)%12,48+(j+1)%12,48+j) for j in range(12)]
+        fs.append(tuple(range(48,60)))
+    a.mesh(vs,fs,mat)
+
+
+def fork_blade(a,x,y0,y1,z,w,h,mat):
+    """A tapered forged toe with clipped nose corners, not a rectangular bar."""
+    c=min(.035,w*.20);tip=min(.16,(y1-y0)*.18)
+    plan=[(-w/2+c,y0),(w/2-c,y0),(w/2,y0+tip),(w/2,y1),(-w/2,y1),(-w/2,y0+tip)]
+    vs=[(x+xx,yy,z) for xx,yy in plan]+[(x+xx,yy,z+(h*.38 if yy==y0 else h)) for xx,yy in plan]
+    a.mesh(vs,[(5,4,3,2,1,0),(6,7,8,9,10,11)]+[(j,(j+1)%6,(j+1)%6+6,j+6) for j in range(6)],mat)
+
+
 def b(a,p,s,m=M,rot=None): a.box(p,s,m,rot=rot)
 def r(a,p,q,t=.025,m=M,n=8): a.cylinder(p,q,t,m,n)
 def line(a,points,t=.02,m=M): a.tube(points,t,m,sides=6)
@@ -14,8 +52,14 @@ def bolt(a,p,axis='y'):
 def handle(a,x,y,z,w=.16,m=M):
     line(a,[(x-w/2,y+.035,z),(x-w/2,y,z),(x+w/2,y,z),(x+w/2,y+.035,z)],.014,m)
 def wheel(a,x,y,z,radius=.10,width=.055):
-    r(a,(x-width/2,y,z),(x+width/2,y,z),radius,K,10)
-    r(a,(x-width*.55,y,z),(x+width*.55,y,z),radius*.40,S,8)
+    # A shouldered industrial tyre; separate recessed hub and axle ends.
+    vs=[]
+    for xx,rr in ((x-width/2,radius*.83),(x-width*.30,radius),(x+width*.30,radius),(x+width/2,radius*.83)):
+        vs.extend((xx,y+rr*math.cos(j*math.tau/10),z+rr*math.sin(j*math.tau/10)) for j in range(10))
+    fs=[tuple(reversed(range(10))),tuple(range(30,40))]+[(k*10+j,k*10+(j+1)%10,(k+1)*10+(j+1)%10,(k+1)*10+j) for k in range(3) for j in range(10)]
+    a.mesh(vs,fs,K)
+    r(a,(x-width*.54,y,z),(x+width*.54,y,z),radius*.47,S,8)
+    r(a,(x-width*.59,y,z),(x+width*.59,y,z),radius*.17,M,6)
 def caster(a,x,y,z=.10,radius=.08):
     wheel(a,x,y,z,radius,.045)
     b(a,(x,y,z+radius),(.055,.10,.045),S)
@@ -46,14 +90,17 @@ def pallet(a,w=1.2,d=1.,z=0,plastic=False):
         for i in range(7): b(a,(-w/2+(i+.5)*w/7,0,z+.165),(w/7-.025,d,.055),'blue')
         for y in (-d*.46,d*.46):b(a,(0,y,z+.13),(w,.07,.05),'blue')
     else:
-        for x in (-w*.38,0,w*.38): b(a,(x,0,z+.09),(.09,d,.12),WD)
+        for x in (-w*.38,0,w*.38):
+            # Raised stringer web leaves two functional fork-entry notches.
+            b(a,(x,0,z+.123),(.09,d,.054),WD)
+            for yy in (-d*.43,0,d*.43):b(a,(x,yy,z+.063),(.09,d*.14,.067),WD)
         for y in (-d*.39,0,d*.39): b(a,(0,y,z+.026),(w,.12,.05),W)
         for i in range(6):
             x=-w/2+(i+.5)*w/6
             b(a,(x,0,z+.175),(w/6-.023,d,.045),'wood_light' if i%2 else W)
             for y in (-d*.36,d*.36): b(a,(x,y,z+.201),(.015,.014,.004),M)
 def carton(a,x,y,z,w,d,h):
-    b(a,(x,y,z+h/2),(w,d,h),'cream')
+    shell(a,(x,y,z+h/2),(w,d,h),'cream',min(w,d,h)*.025)
     b(a,(x,y,z+h+.003),(.042,d+.006,.006),'sand')
     b(a,(x,y-d/2-.004,z+h*.52),(.042,.007,h),'sand')
     label(a,x+w*.2,y-d/2-.011,z+h*.6,w*.26,h*.22)
@@ -65,12 +112,14 @@ def band(a,x,y,z,w,d,h,axis='x'):
         for yy in (y-d/2-.009,y+d/2+.009):b(a,(x,yy,z+h/2),(w,.015,.03),M)
         for xx in (x-w/2-.009,x+w/2+.009):b(a,(xx,y,z+h/2),(.015,d,.03),M)
 def drum(a,x,y,z,rad=.28,h=.87,m='navy'):
-    r(a,(x,y,z+.025),(x,y,z+h-.025),rad,m,12)
-    for zz in (z+.045,z+h*.30,z+h*.70,z+h-.025):
-        r(a,(x,y,zz-.017),(x,y,zz+.017),rad+.012,M,12)
+    rings=[(.018,.955),(.04,1.),(.085,1.),(.115,.972),(.27,.972),(.29,1.018),(.32,.972),(.68,.972),(.71,1.018),(.74,.972),(.90,.972),(.955,1.),(.982,.955)]
+    vs=[(x+rad*rr*math.cos(j*math.tau/12),y+rad*rr*math.sin(j*math.tau/12),z+zz*h) for zz,rr in rings for j in range(12)]
+    fs=[tuple(reversed(range(12))),tuple(range((len(rings)-1)*12,len(rings)*12))]
+    fs += [(k*12+j,k*12+(j+1)%12,(k+1)*12+(j+1)%12,(k+1)*12+j) for k in range(len(rings)-1) for j in range(12)]
+    a.mesh(vs,fs,m)
     r(a,(x+rad*.45,y,z+h-.028),(x+rad*.45,y,z+h+.003),.035,S,8)
 def deck_cart(a,w,d,z=.23,m='navy'):
-    b(a,(0,0,z),(w,d,.065),m)
+    shell(a,(0,0,z),(w,d,.065),m,.024)
     for x in (-w*.4,w*.4):
         for y in (-d*.39,d*.39):caster(a,x,y,.095,.078)
 def register_asset(name,size='person'):
@@ -93,7 +142,7 @@ def mailbox(a):
 
 @register_asset('wall_letterbox_with_flap','handheld')
 def wall_mail(a):
-    b(a,(0,0,.22),(.34,.15,.44),'green')
+    shell(a,(0,0,.22),(.34,.15,.44),'green',.018)
     b(a,(0,-.092,.34),(.30,.032,.087),M,(-.20,0,0))
     b(a,(0,-.083,.15),(.285,.02,.21),'green');latch(a,0,-.10,.22)
     for x in (-.145,.145): bolt(a,(x,-.08,.38))
@@ -102,7 +151,7 @@ def wall_mail(a):
 @register_asset('curbside_cluster_mail_station')
 def cluster_mail(a):
     b(a,(0,0,.065),(.58,.46,.13),M);b(a,(0,0,.52),(.19,.19,.88),S)
-    b(a,(0,0,1.27),(1.10,.47,.74),'metal')
+    shell(a,(0,0,1.27),(1.10,.47,.74),'metal',.027)
     for row in range(4):
         for col in range(4):
             x=(col-1.5)*.259;z=.96+row*.175
@@ -125,7 +174,7 @@ def wall_bank(a):
 
 @register_asset('electronic_parcel_locker')
 def locker(a):
-    feet(a,1.9,.59,.12);b(a,(0,0,1.09),(2.05,.70,1.96),'navy')
+    feet(a,1.9,.59,.12);shell(a,(0,0,1.09),(2.05,.70,1.96),'navy',.035)
     for x,w,rows in ((-.73,.52,3),(-.13,.52,4),(.64,.86,2)):
         h=1.79/rows
         for i in range(rows):
@@ -148,7 +197,7 @@ def collection(a):
 
 @register_asset('drive_through_mail_chute')
 def drive_chute(a):
-    b(a,(0,0,.065),(.57,.49,.13),M);b(a,(0,0,.78),(.51,.48,1.43),'navy')
+    b(a,(0,0,.065),(.57,.49,.13),M);shell(a,(0,0,.78),(.51,.48,1.43),'navy',.037)
     b(a,(0,-.18,1.42),(.68,.90,.24),'navy',(.16,0,0))
     b(a,(0,-.626,1.45),(.56,.035,.11),K)
     b(a,(0,-.65,1.52),(.68,.12,.045),S)
@@ -173,7 +222,7 @@ def relay(a):
 
 @register_asset('home_delivery_lock_chest')
 def chest(a):
-    feet(a,.65,.48,.08);b(a,(0,0,.43),(.76,.60,.70),'brown')
+    feet(a,.65,.48,.08);shell(a,(0,0,.43),(.76,.60,.70),'brown',.035)
     b(a,(0,0,.81),(.82,.67,.08),'dark_metal',(.075,0,0))
     for x in (-.27,.27):b(a,(x,.31,.79),(.11,.035,.075),S)
     latch(a,0,-.33,.74);handle(a,0,-.35,.47,.20)
@@ -186,17 +235,15 @@ def sack_stand(a):
         for y in (-.20,.20):
             r(a,(x,y,0),(x,y,1.0),.025,S)
         r(a,(x,-.20,.07),(x,.20,.07),.025,S)
-    b(a,(0,0,.46),(.43,.33,.75),'sand')
-    b(a,(0,0,.865),(.47,.37,.08),'cream')
-    b(a,(0,0,.909),(.40,.30,.015),WD)
+    fabric(a,(0,0,.51),(.46,.36,.78),'sand',True)
     for y in (-.20,.20):r(a,(-.25,y,1.),(.25,y,1.),.022,S)
     for x in (-.25,.25):r(a,(x,-.20,1.),(x,.20,1.),.022,S)
     for x in (-.16,.16):line(a,[(x,-.17,.86),(x,-.205,1.02),(x,-.20,.93)],.014,WD)
-    label(a,0,-.173,.51,.19,.09)
+    label(a,0,-.196,.51,.19,.09)
 
 @register_asset('postal_carrier_satchel','handheld')
 def satchel(a):
-    b(a,(0,0,.145),(.38,.14,.29),'navy')
+    fabric(a,(0,0,.145),(.38,.14,.29),'navy')
     b(a,(0,-.078,.22),(.40,.025,.15),'blue',(-.05,0,0))
     b(a,(0,-.094,.10),(.15,.025,.085),'blue')
     for x in (-.17,.17):line(a,[(x,0,.28),(x,.012,.50),(x*.7,.005,.57)],.018,WD)
@@ -221,13 +268,15 @@ def hamper(a):
     deck_cart(a,.78,.62,.23,'metal')
     for x in (-.38,.38):
         for y in (-.30,.30):r(a,(x,y,.23),(x,y,1.03),.023,S)
-    b(a,(0,0,.58),(.69,.52,.66),'cream')
-    b(a,(0,0,.932),(.72,.55,.045),'sand')
-    b(a,(0,0,.956),(.62,.45,.012),WD)
+    fabric(a,(0,0,.61),(.72,.55,.69),'cream',True)
     for y in (-.31,.31):r(a,(-.39,y,1.01),(.39,y,1.01),.025,S)
     for x in (-.39,.39):r(a,(x,-.31,1.01),(x,.31,1.01),.025,S)
     line(a,[(-.30,.31,.88),(-.30,.44,1.11),(.30,.44,1.11),(.30,.31,.88)],.025,M)
-    label(a,0,-.267,.62,.28,.13)
+    label(a,0,-.292,.62,.28,.13)
+    for x in (-.28,.28):
+        for y in (-.30,.30):
+            a.beam((x,y*.85,.925),(x,y,1.026),.045,.014,'sand')
+            a.beam((x,y,1.026),(x,y*.89,.94),.045,.014,'sand')
 
 @register_asset('parcel_hand_truck')
 def handtruck(a):
@@ -278,9 +327,9 @@ def rollcage(a):
 @register_asset('manual_pallet_jack')
 def palletjack(a):
     for x in (-.22,.22):
-        b(a,(x,-.30,.11),(.17,1.13,.095),'yellow')
+        fork_blade(a,x,-.865,.265,.063,.17,.095,'yellow')
         wheel(a,x,-.73,.07,.07,.10)
-    b(a,(0,.31,.17),(.61,.26,.22),'yellow')
+    shell(a,(0,.31,.17),(.61,.26,.22),'yellow',.05)
     r(a,(0,.32,.10),(0,.32,.43),.075,M,10)
     for x in (-.11,.11):wheel(a,x,.32,.125,.125,.072)
     r(a,(0,.32,.37),(0,.62,1.13),.036,M)
@@ -289,26 +338,43 @@ def palletjack(a):
 
 @register_asset('warehouse_counterbalance_forklift','large')
 def forklift(a):
-    b(a,(0,.18,.49),(1.04,1.42,.51),'yellow')
-    b(a,(0,.78,.64),(1.01,.31,.65),'yellow')
+    shell(a,(0,.18,.49),(1.04,1.42,.51),'yellow',.115)
+    shell(a,(0,.78,.64),(1.01,.31,.65),'yellow',.12)
     b(a,(0,.91,.87),(.79,.05,.29),M)
     for x in (-.54,.54):
         for y in (-.43,.61):wheel(a,x,y,.29,.29,.15)
-    b(a,(0,.08,.82),(.45,.46,.13),K);b(a,(0,.29,1.03),(.46,.11,.44),K,(-.12,0,0))
+    shell(a,(0,.08,.82),(.45,.46,.13),K,.045);b(a,(0,.29,1.03),(.46,.11,.44),K,(-.12,0,0))
     for x in (-.46,.46):
         for y in (-.49,.53):b(a,(x,y,1.38),(.056,.056,1.34),M)
-    b(a,(0,.03,2.07),(1.05,1.19,.07),M)
+    for x in (-.50,.50):b(a,(x,.03,2.07),(.055,1.19,.07),M)
+    for y in (-.54,.60):b(a,(0,y,2.07),(1.05,.055,.07),M)
     for x in (-.36,-.12,.12,.36):b(a,(x,.03,2.11),(.048,1.12,.035),S)
     for x in (-.35,.35):b(a,(x,-.67,1.14),(.12,.14,2.06),M)
     for z in (.32,1.35,2.13):b(a,(0,-.67,z),(.77,.11,.08),S)
     r(a,(0,-.71,.36),(0,-.71,1.75),.044,S,8)
     b(a,(0,-.80,.59),(.94,.08,.39),M)
     for x in (-.28,.28):
-        b(a,(x,-.84,.38),(.10,.09,.68),M);b(a,(x,-1.35,.075),(.13,1.07,.085),M)
+        b(a,(x,-.84,.38),(.10,.09,.68),M);fork_blade(a,x,-1.885,-.815,.0325,.13,.085,M)
     r(a,(.10,-.29,.74),(.10,-.38,1.20),.022,S)
     a.torus((.10,-.38,1.22),.14,.018,K,axis=(0,-.5,1),segments=10,sides=5)
     for x in (-.40,.40):b(a,(x,-.54,1.82),(.12,.10,.10),'light')
     r(a,(.35,.38,2.10),(.35,.38,2.22),.057,'orange',8)
+    # Tilt cylinders, telescoping mast channels and load carriage rollers.
+    for x in (-.35,.35):
+        r(a,(x,-.23,.49),(x,-.63,.92),.045,M,8)
+        r(a,(x,-.50,.78),(x,-.67,.97),.024,S,8)
+        for yy in (-.598,-.742):b(a,(x,yy,1.14),(.15,.025,2.04),S)
+        for zz in (.66,1.65):r(a,(x-.072,-.67,zz),(x+.072,-.67,zz),.062,M,10)
+    # Rear-mounted LPG bottle, valve and straps clear the driver's seat.
+    r(a,(-.34,.64,1.10),(.34,.64,1.10),.145,'concrete_light',12)
+    for x in (-.22,.22):a.torus((x,.64,1.10),.151,.014,M,axis='x',segments=12,sides=4)
+    r(a,(.34,.64,1.10),(.42,.64,1.10),.035,S,8)
+    for zz in (.43,.52,.61):b(a,(0,.945,zz),(.66,.018,.028),M)
+    for x in (-.30,.30):
+        b(a,(x,-.34,.79),(.14,.19,.025),M,rot=(.20,0,0))
+        r(a,(x,.18,.88),(x,.11,1.07),.009,S,6)
+        r(a,(x,.10,1.065),(x,.10,1.10),.022,K,8)
+
 
 @register_asset('empty_wood_shipping_pallet')
 def woodpallet(a):pallet(a)
@@ -342,8 +408,8 @@ def cement(a):
     for z in range(5):
         for x in (-.29,.29):
             for y in (-.235,.235):
-                b(a,(x,y,.285+z*.145),(.54,.43,.125),'sand')
-                b(a,(x,y-.218,.285+z*.145),(.27,.009,.052),'paper')
+                fabric(a,(x,y,.285+z*.145),(.54,.43,.125),'sand')
+                b(a,(x,y-.228,.285+z*.145),(.27,.009,.052),'paper')
                 b(a,(x,y,.353+z*.145),(.32,.30,.008),'cream')
     for x in (-.36,.36):
         b(a,(x,0,.955),(.025,.96,.012),M)
@@ -397,7 +463,7 @@ def reel(a):
 @register_asset('ibc_tote_with_valve')
 def ibc(a):
     pallet(a,1.2,1.,plastic=True)
-    b(a,(0,0,.69),(1.01,.83,.99),'cream')
+    shell(a,(0,0,.69),(1.01,.83,.99),'cream',.105)
     for x in (-.53,.53):
         for y in (-.43,.43):r(a,(x,y,.22),(x,y,1.23),.02,S,6)
     for z in (.30,.62,.93,1.21):
@@ -460,7 +526,7 @@ def mailing_tube(a):
 
 @register_asset('insulated_medical_shipping_chest')
 def coldchest(a):
-    b(a,(0,0,.25),(.59,.42,.46),'cream');b(a,(0,0,.50),(.63,.45,.07),'white')
+    shell(a,(0,0,.25),(.59,.42,.46),'cream',.035);shell(a,(0,0,.50),(.63,.45,.07),'white',.025)
     for x in (-.30,.30):
         line(a,[(x,-.11,.39),(x*1.12,-.11,.31),(x*1.12,.11,.31),(x,.11,.39)],.022,'blue')
     for x in (-.19,.19):latch(a,x,-.232,.45)
@@ -476,7 +542,7 @@ def single_drum(a):
 
 @register_asset('stackable_attached_lid_delivery_tote')
 def tote(a):
-    b(a,(0,0,.19),(.62,.42,.35),'blue')
+    shell(a,(0,0,.19),(.62,.42,.35),'blue',.042)
     b(a,(0,0,.382),(.66,.455,.045),'navy')
     for x in (-.16,.16):b(a,(x,0,.410),(.304,.445,.016),'metal')
     for x in (-.27,-.09,.09,.27):
@@ -488,7 +554,7 @@ def tote(a):
 @register_asset('skidded_wrapped_appliance')
 def appliance(a):
     pallet(a,.83,.79)
-    b(a,(0,0,1.03),(.68,.62,1.64),'white')
+    shell(a,(0,0,1.03),(.68,.62,1.64),'white',.06)
     b(a,(0,-.322,1.11),(.62,.022,1.47),'paper')
     for x in (-.35,.35):
         for y in (-.323,.323):b(a,(x,y,1.03),(.05,.047,1.69),'sand')
@@ -502,15 +568,13 @@ def appliance(a):
 @register_asset('bulk_fertilizer_sack_on_pallet')
 def bulkbag(a):
     pallet(a,1.10,1.10)
-    # A tapered sack, four corner lifting loops and tied filling neck.
-    pts=[(-.43,-.43,.2),(.43,-.43,.2),(.43,.43,.2),(-.43,.43,.2),(-.49,-.49,.88),(.49,-.49,.88),(.49,.49,.88),(-.49,.49,.88),(-.29,-.29,1.15),(.29,-.29,1.15),(.29,.29,1.15),(-.29,.29,1.15)]
-    faces=[(3,2,1,0),(8,9,10,11)]+[(j*4+i,j*4+(i+1)%4,(j+1)*4+(i+1)%4,(j+1)*4+i) for j in range(2) for i in range(4)]
-    a.mesh(pts,faces,'cream')
+    # Filled woven sack has soft shoulder folds and a cinched crown.
+    fabric(a,(0,0,.68),(1.0,1.0,.96),'cream')
     for x in (-.40,.40):
         for y in (-.40,.40):line(a,[(x,y,.85),(x,y,1.26),(x*.70,y*.70,1.31),(x*.70,y*.70,1.11)],.024,'sand')
     r(a,(0,0,1.12),(0,0,1.29),.09,'paper',8)
     r(a,(0,0,1.20),(0,0,1.23),.095,WD,8)
-    label(a,0,-.465,.60,.33,.25)
+    label(a,0,-.522,.60,.33,.25)
 
 @register_asset('cargo_net_secured_mixed_freight')
 def netload(a):
@@ -534,8 +598,11 @@ def container(a):
         for y in (-3.04,3.04):b(a,(0,y,z),(2.47,.10,.10),M)
     for i in range(24):
         y=-2.86+i*.248
-        for x in (-1.237,1.237):b(a,(x,y,1.29),(.034,.085,2.34),'blue')
-        b(a,(0,y,2.573),(2.30,.08,.035),'blue')
+        for side in (-1,1):
+            vs=[(side*(1.239+lift),y+yy,z) for z in (.12,2.46) for yy,lift in ((-.09,0),(-.035,.029),(.035,.029),(.09,0))]
+            a.mesh(vs,[(j,j+1,j+5,j+4) for j in range(3)],'blue')
+        vs=[(x,y+yy,2.572+lift) for x in (-1.15,1.15) for yy,lift in ((-.09,0),(-.035,.029),(.035,.029),(.09,0))]
+        a.mesh(vs,[(j,j+1,j+5,j+4) for j in range(3)],'blue')
     for x in (-.595,.595):
         b(a,(x,-3.091,1.29),(1.14,.03,2.35),'metal')
         for xx in (x-.36,x+.36):
@@ -616,7 +683,7 @@ def floorscale(a):
 
 @register_asset('countertop_parcel_postage_scale','handheld')
 def postagescale(a):
-    b(a,(0,0,.07),(.39,.30,.14),'metal')
+    shell(a,(0,0,.07),(.39,.30,.14),'metal',.025)
     b(a,(0,.035,.165),(.41,.29,.04),S)
     b(a,(0,-.13,.074),(.35,.11,.055),M,rot=(-.22,0,0))
     b(a,(-.053,-.181,.09),(.155,.015,.054),'black')

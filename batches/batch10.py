@@ -17,6 +17,28 @@ def prop(name, category='retail_food_service', size='person'):
     return wrap
 
 
+def formed(a,p,size,mat='steel',edge=.025):
+    """Folded sheet-metal enclosure with useful corner and shoulder facets."""
+    x,y,z=p;w,d,h=size;e=min(edge,w*.20,d*.20,h*.24)
+    vs=[]
+    for zz,shrink in ((z-h/2,e*.55),(z-h/2+e,0),(z+h/2-e,0),(z+h/2,e*.55)):
+        hw=w/2-shrink;hd=d/2-shrink;c=min(e,hw*.3,hd*.3)
+        vs.extend((x+xx,y+yy,zz) for xx,yy in ((-hw+c,-hd),(hw-c,-hd),(hw,-hd+c),(hw,hd-c),(hw-c,hd),(-hw+c,hd),(-hw,hd-c),(-hw,-hd+c)))
+    fs=[tuple(reversed(range(8))),tuple(range(24,32))]
+    fs += [(k*8+j,k*8+(j+1)%8,(k+1)*8+(j+1)%8,(k+1)*8+j) for k in range(3) for j in range(8)]
+    a.mesh(vs,fs,mat)
+
+
+def tyre(a,p,radius,width,axis='x'):
+    x,y,z=p;vs=[]
+    for off,rr in ((-width/2,.83),(-width*.30,1),(width*.30,1),(width/2,.83)):
+        for j in range(10):
+            t=2*pi*j/10
+            vs.append((x+off,y+radius*rr*cos(t),z+radius*rr*sin(t)) if axis=='x' else (x+radius*rr*cos(t),y+off,z+radius*rr*sin(t)))
+    fs=[tuple(reversed(range(10))),tuple(range(30,40))]+[(k*10+j,k*10+(j+1)%10,(k+1)*10+(j+1)%10,(k+1)*10+j) for k in range(3) for j in range(10)]
+    a.mesh(vs,fs,'rubber')
+
+
 def rod(a, p, q, r=.016, mat='steel', n=8):
     a.cylinder(p, q, r, mat, n)
 
@@ -36,12 +58,12 @@ def casters(a,w,d,z=.11,r=.075):
     for x in (-w/2,w/2):
         for y in (-d/2,d/2):
             a.box((x,y,z+.055),(.04,.09,.11),'steel')
-            rod(a,(x-.026,y,z-.025),(x+.026,y,z-.025),r,'rubber',10)
+            tyre(a,(x,y,z-.025),r,.052)
             rod(a,(x-.032,y,z-.025),(x+.032,y,z-.025),r*.4,'steel',8)
 
 
 def wheel(a,x,y,z,r=.23):
-    rod(a,(x,y-.045,z),(x,y+.045,z),r,'rubber',12)
+    tyre(a,(x,y,z),r,.09,'y')
     rod(a,(x,y-.049,z),(x,y+.049,z),r*.7,'metal',10)
     rod(a,(x,y-.055,z),(x,y+.055,z),.045,'steel',8)
 
@@ -67,9 +89,9 @@ def script(a,x,y,z,w=.3,n=3,mat='cream'):
 
 
 def cabinet(a,w,d,h,z=.15,mat='teal'):
-    a.box((0,0,z+h/2),(w,d,h),mat)
+    formed(a,(0,0,z+h/2),(w,d,h),mat,min(.035,w*.035))
     a.box((0,0,z+.035),(w+.035,d+.035,.07),'dark_metal')
-    a.box((0,0,z+h+.018),(w+.05,d+.05,.036),'steel')
+    formed(a,(0,0,z+h+.018),(w+.05,d+.05,.036),'steel',.008)
 
 
 def framed_panel(a,x,y,z,w,h,mat='glass'):
@@ -79,31 +101,42 @@ def framed_panel(a,x,y,z,w,h,mat='glass'):
 
 def serving_counter(a,w=1.3,d=.65,h=.92,mat='steel'):
     legs(a,w-.14,d-.14,h-.06,'steel',r=.027)
-    a.box((0,0,h),(w,d,.075),mat)
+    formed(a,(0,0,h),(w,d,.075),mat,.018)
     a.box((0,0,.25),(w-.08,d-.08,.035),'steel')
 
 
 def pan(a,x,y,z,w,d):
-    a.box((x,y,z),(w,d,.025),'dark_metal')
-    for xx in (x-w/2,x+w/2): a.box((xx,y,z+.05),(.02,d+.02,.11),'steel')
-    for yy in (y-d/2,y+d/2): a.box((x,yy,z+.05),(w,.02,.11),'steel')
+    # Pressed gastronorm pan with a deep interior and sloping, chamfered corners.
+    vs=[]
+    for zz,ww,dd in ((z-.012,w*.84,d*.84),(z+.105,w,d),(z+.105,w-.025,d-.025),(z+.012,w*.82,d*.82)):
+        c=min(.026,ww*.12,dd*.12);hw=ww/2;hd=dd/2
+        vs.extend((x+xx,y+yy,zz) for xx,yy in ((-hw+c,-hd),(hw-c,-hd),(hw,-hd+c),(hw,hd-c),(hw-c,hd),(-hw+c,hd),(-hw,hd-c),(-hw,-hd+c)))
+    fs=[tuple(reversed(range(8))),tuple(range(24,32))]+[(k*8+j,k*8+(j+1)%8,(k+1)*8+(j+1)%8,(k+1)*8+j) for k in range(3) for j in range(8)]
+    a.mesh(vs,fs,['steel','dark_metal']+['steel']*(len(fs)-2))
 
 
 def awning(a,w,d,z,mat='cream',x=0,y=0):
-    # An eight-panel pitched fabric cover, with a striped, hanging scallop-like valance.
-    for side in (-1,1):
-        for i in range(4):
-            xx=x-w/2+(i+.5)*w/4
-            a.box((xx,y+side*d/4,z+.08),(w/4,d*.52,.035),mat if i%2 else 'teal',rot=(side*-.18,0,0))
-        for i in range(8):
-            a.box((x-w/2+(i+.5)*w/8,y+side*d/2,z-.065),(w/8,.022,.16),mat if i%2 else 'teal')
+    # Curved fabric panels retain a soft ridge, hem and hanging scalloped valance.
+    profile=[(-d/2,z),(-d*.28,z+.07),(0,z+.20),(d*.28,z+.07),(d/2,z)]
+    for i in range(4):
+        x0=x-w/2+i*w/4;x1=x0+w/4;color=mat if i%2 else 'teal'
+        vs=[(xx,y+yy,zz) for xx in (x0,x1) for yy,zz in profile]
+        a.mesh(vs,[(j+5,j+6,j+1,j) for j in range(4)],color)
+        for side in (-1,1):
+            yy=y+side*d/2
+            pts=[(x0,yy,z),(x1,yy,z),(x1,yy,z-.07),(x1-w*.035,yy,z-.13),(x0+w*.035,yy,z-.13),(x0,yy,z-.07)]
+            a.mesh(pts,[tuple(reversed(range(6))) if side<0 else tuple(range(6))],color)
+    for xx in (x-w*.47,x+w*.47):
+        for (y0,z0),(y1,z1) in zip(profile,profile[1:]):
+            rod(a,(xx,y+y0,z0-.016),(xx,y+y1,z1-.016),.012,'metal',6)
 
 
 def tub(a,x,y,z,r,h,mat='steel'):
-    rod(a,(x,y,z),(x,y,z+h),r*.75,mat,10)
-    a.cylinder((x,y,z),(x,y,z+h),r*.76,mat,10,radius2=r)
-    disc(a,x,y,z+h,r,.022,mat,10)
-    disc(a,x,y,z+h+.023,r*.82,.004,'black',10)
+    vs=[]
+    for zz,rr in ((z,r*.75),(z+h,r),(z+h-.012,r-.012),(z+.025,r*.72)):
+        vs.extend((x+rr*cos(j*2*pi/10),y+rr*sin(j*2*pi/10),zz) for j in range(10))
+    fs=[tuple(reversed(range(10))),tuple(range(30,40))]+[(k*10+j,k*10+(j+1)%10,(k+1)*10+(j+1)%10,(k+1)*10+j) for k in range(3) for j in range(10)]
+    a.mesh(vs,fs,[mat,'dark_metal']+[mat]*(len(fs)-2))
 
 
 def crate(a,x,y,z,w=.42,d=.32,h=.23):
@@ -142,9 +175,17 @@ def coffee(a):
     a.box((0,-.60,.56),(1.75,.12,.93),'wood')
     for x in (-.72,-.48,-.24,0,.24,.48,.72): a.box((x,-.67,.56),(.027,.023,.90),'wood_light')
     a.box((0,-.66,1.05),(2.08,.52,.075),'wood_dark')
-    a.box((0,.02,2.25),(2.18,1.73,.12),'dark_metal',rot=(.06,0,0))
+    formed(a,(0,.02,2.25),(2.18,1.73,.12),'dark_metal',.028)
+    for x in (-.91,.91):
+        a.beam((x,-.66,1.88),(x,-.35,2.18),.055,mat='wood_dark')
+    a.box((0,.76,2.32),(2.12,.048,.07),'dark_metal')
     sign(a,0,-.708,1.94,1.42,.31,'black');script(a,0,-.738,2.00,.75,2)
-    a.box((-.44,.1,1.22),(.62,.40,.48),'steel');a.box((-.44,-.115,1.25),(.52,.022,.20),'black')
+    formed(a,(-.44,.1,1.22),(.62,.40,.48),'steel',.038);a.box((-.44,-.115,1.25),(.52,.022,.20),'black')
+    for xx in (-.57,-.30):
+        rod(a,(xx,-.13,1.33),(xx,-.15,1.33),.044,'silver',10)
+        a.box((xx,-.119,1.05),(.19,.13,.025),'dark_metal')
+    a.box((.50,-.27,1.20),(.23,.22,.16),'dark_metal',rot=(.10,0,0))
+    a.box((.50,-.392,1.24),(.18,.01,.07),'glass')
     for x in (-.57,-.30): rod(a,(x,-.13,1.19),(x,-.23,1.19),.022,'steel')
     disc(a,.53,-.6,1.09,.065,.14,'cream',8)
     a.box((.48,.46,1.26),(.47,.025,.48),'black');script(a,.48,.441,1.40,.31,5)
@@ -204,7 +245,7 @@ def newspaper(a):
 def weekly(a):
     a.box((0,0,.045),(.50,.44,.09),'black')
     a.cylinder((0,0,.09),(0,0,.66),.15,'dark_metal',8,radius2=.12)
-    a.box((0,.03,.83),(.49,.38,.37),'green')
+    formed(a,(0,.03,.83),(.49,.38,.37),'green',.035)
     a.box((0,-.172,.82),(.41,.026,.19),'black')
     for i in range(4): a.box((0,-.187,.77+i*.009),(.36,.13,.008),'paper')
     a.box((0,0,1.06),(.58,.49,.13),'green',rot=(-.14,0,0))
@@ -279,11 +320,15 @@ def garment(a):
         rod(a,(x,0,.19),(x,0,1.66),.026,'steel')
     rod(a,(-.58,0,1.66),(.58,0,1.66),.026,'steel')
     for i in range(5):
-        x=-.40+i*.20
-        a.tube([(x-.075,0,1.43),(x,0,1.56),(x+.075,0,1.43),(x-.075,0,1.43)],.008,'wood_dark',5)
-        # Distinct hanging coats with shoulder taper and split sleeve forms.
-        a.box((x,0,1.12),(.15,.07,.62),('navy','brown','cream')[i%3])
-        for side in (-1,1): a.beam((x+side*.062,0,1.42),(x+side*.115,0,1.14),.06,.07,('navy','brown','cream')[i%3])
+        x=-.40+i*.20;mat=('navy','brown','cream')[i%3]
+        a.tube([(x,-.15,1.43),(x,0,1.57),(x,.15,1.43),(x,-.15,1.43)],.007,'wood_dark',5)
+        vs=[]
+        for zz,ww,th in ((.81,.35,.05),(1.14,.27,.07),(1.42,.30,.055)):
+            vs.extend((x+dx,yy,zz) for dx,yy in ((-th/2,-ww/2),(th/2,-ww/2),(th/2,ww/2),(-th/2,ww/2)))
+        fs=[(3,2,1,0),(8,9,10,11)]+[(k*4+j,k*4+(j+1)%4,(k+1)*4+(j+1)%4,(k+1)*4+j) for k in range(2) for j in range(4)]
+        a.mesh(vs,fs,mat)
+        for side in (-1,1):a.beam((x,side*.13,1.40),(x,side*.23,1.07),.067,.065,mat)
+        a.box((x,-.153,1.31),(.019,.014,.18),'dark_metal')
     rod(a,(-.55,0,.36),(.55,0,.36),.02,'steel')
 
 
@@ -340,7 +385,7 @@ def menu_podium(a):
 @prop('digital_restaurant_menu_totem')
 def digital(a):
     a.box((0,0,.04),(.66,.47,.08),'dark_metal')
-    a.box((0,0,1.05),(.58,.18,1.96),'dark_metal')
+    formed(a,(0,0,1.05),(.58,.18,1.96),'dark_metal',.034)
     framed_panel(a,0,-.101,1.29,.50,1.24,'navy')
     for j in range(3):
         z=.95+j*.33
@@ -402,7 +447,7 @@ def umbrella_table(a):
 def griddle(a):
     casters(a,1.02,.49,.11)
     serving_counter(a,1.30,.68,.87)
-    a.box((0,0,1.01),(1.12,.59,.24),'steel')
+    formed(a,(0,0,1.01),(1.12,.59,.24),'steel',.032)
     a.box((0,-.01,1.14),(1.04,.53,.025),'dark_metal')
     for x in (-.54,.54): a.box((x,0,1.20),(.025,.60,.16),'steel')
     a.box((0,.29,1.24),(1.12,.025,.23),'steel')
@@ -433,8 +478,13 @@ def pizza(a):
     legs(a,1.10,.74,.81,'dark_metal',z=.16,r=.035)
     a.box((0,0,.99),(1.36,1.02,.12),'concrete_light')
     a.sphere((0,.12,1.12),.55,'terracotta',segments=12,rings=4,scale=(.60,.49,.52))
-    a.box((0,-.32,1.12),(.73,.12,.33),'brick')
-    a.box((0,-.39,1.12),(.49,.015,.26),'black')
+    pts=[(-.25,-.399,1.035),(.25,-.399,1.035)]+[(.25*cos(j*pi/6),-.399,1.18+.25*sin(j*pi/6)) for j in range(7)]
+    a.mesh(pts,[tuple(range(len(pts)))],'black')
+    for j in range(6):
+        t0=j*pi/6;t1=(j+1)*pi/6
+        vs=[(rr*cos(t),yy,1.18+rr*sin(t)) for yy in (-.43,-.30) for rr,t in ((.25,t0),(.25,t1),(.34,t1),(.34,t0))]
+        a.mesh(vs,[(3,2,1,0),(4,5,6,7),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7)],'brick' if j%2 else 'terracotta')
+    for x in (-.295,.295):a.box((x,-.365,1.115),(.09,.13,.17),'brick')
     rod(a,(.25,.22,1.49),(.25,.22,2.02),.095,'dark_metal',10)
     disc(a,.25,.22,2.01,.14,.033,'steel',10)
     a.box((0,-.52,.98),(1.16,.24,.065),'concrete_light')
@@ -471,7 +521,7 @@ def lemonade(a):
 @prop('shaved_ice_vendor_cart')
 def shaved_ice(a):
     cabinet(a,1.08,.63,.61,.26,'teal');casters(a,.88,.47,.15,.095)
-    a.box((-.15,0,.96),(.45,.39,.17),'cream')
+    formed(a,(-.15,0,.96),(.45,.39,.17),'cream',.035)
     rod(a,(-.15,0,1.03),(-.15,0,1.37),.12,'steel',10)
     disc(a,-.15,0,1.37,.17,.05,'teal',10)
     a.box((-.15,-.19,1.09),(.16,.20,.10),'steel',rot=(.25,0,0))
@@ -491,7 +541,7 @@ def popcorn(a):
         for y in (-.26,.26): a.box((x,y,1.16),(.035,.035,.66),'gold')
     a.box((0,.27,1.18),(.87,.015,.61),'glass')
     for x in (-.45,.45): a.box((x,0,1.18),(.015,.50,.61),'glass')
-    a.box((0,0,1.50),(1.10,.75,.15),'red')
+    formed(a,(0,0,1.50),(1.10,.75,.15),'red',.033)
     a.box((0,0,.87),(.88,.52,.08),'cream')
     disc(a,0,0,1.17,.19,.10,'steel',10)
     disc(a,0,0,1.27,.22,.025,'gold',10)
@@ -518,7 +568,7 @@ def pretzel(a):
 @prop('insulated_ice_cream_pushcart')
 def ice_cream(a):
     for y in (-.40,.40): wheel(a,.26,y,.23,.23)
-    a.box((0,0,.66),(1.25,.71,.72),'cream')
+    formed(a,(0,0,.66),(1.25,.71,.72),'cream',.055)
     a.box((0,0,.32),(1.30,.75,.065),'dark_metal')
     for x in (-.31,.31):
         a.box((x,0,1.035),(.59,.67,.055),'steel');handle(a,x,-.05,1.08,.15)
@@ -605,7 +655,7 @@ def sale_bin(a):
 def scale_table(a):
     serving_counter(a,.93,.60,.85,'wood')
     a.box((0,0,.91),(.40,.34,.085),'cream')
-    a.box((0,.065,1.09),(.24,.15,.29),'steel')
+    formed(a,(0,.065,1.09),(.24,.15,.29),'steel',.025)
     rod(a,(0,-.025,1.12),(0,-.07,1.12),.13,'white',12)
     rod(a,(0,-.075,1.12),(.06,-.075,1.17),.006,'black',4)
     disc(a,0,.02,1.25,.04,.04,'steel',8)
@@ -632,7 +682,7 @@ def bulk_nuts(a):
 @prop('automated_ice_bag_vending_kiosk',size='large')
 def ice_vender(a):
     cabinet(a,2.14,1.23,2.17,.08,'white')
-    a.box((0,0,2.29),(2.31,1.36,.12),'blue')
+    formed(a,(0,0,2.29),(2.31,1.36,.12),'blue',.028)
     a.box((-.48,-.629,1.04),(.88,.045,.75),'dark_metal')
     a.box((-.48,-.66,.76),(.91,.16,.12),'steel')
     a.box((-.48,-.66,1.25),(.75,.07,.15),'metal',rot=(.20,0,0))
@@ -663,8 +713,11 @@ def photo_booth(a):
     a.box((-.54,0,1.10),(.15,1.20,2.08),'navy')
     a.box((.54,.08,1.10),(.15,1.04,2.08),'navy')
     a.box((0,.56,1.10),(1.08,.11,2.08),'dark_metal')
-    a.box((0,0,2.15),(1.31,1.38,.13),'navy')
-    for i in range(7): a.box((-.42+i*.14,-.54,1.26),(.145,.047,1.55),('brown' if i%2 else 'wood_dark'))
+    formed(a,(0,0,2.15),(1.31,1.38,.13),'navy',.030)
+    for i in range(7):
+        xx=-.42+i*.14
+        vs=[(xx+dx,-.54+dy,zz) for zz in (.49,2.025) for dx,dy in ((-.071,.022),(-.035,-.025),(.035,-.025),(.071,.022))]
+        a.mesh(vs,[(j,j+1,j+5,j+4) for j in range(3)],'brown' if i%2 else 'wood_dark')
     sign(a,0,-.655,1.99,1.05,.25,'cream');script(a,0,-.681,2.05,.70,2,'navy')
     a.box((.553,-.528,.84),(.14,.06,.39),'steel')
     a.box((.553,-.566,.91),(.085,.015,.033),'black')
@@ -777,7 +830,7 @@ def condiments(a):
         rod(a,(x,.08,.985),(x,.08,1.16),.062,('brown' if x<0 else 'cream'),8)
         rod(a,(x,.08,1.16),(x,.08,1.28),.012,'steel',6)
         rod(a,(x,.08,1.28),(x,-.015,1.28),.012,'steel',6)
-    a.box((.36,.05,1.07),(.19,.26,.19),'steel')
+    formed(a,(.36,.05,1.07),(.19,.26,.19),'steel',.028)
     a.box((.36,-.09,1.10),(.13,.02,.075),'paper')
     for x in (-.27,.09): pan(a,x,-.21,.985,.28,.16)
     framed_panel(a,0,-.303,.50,.78,.57,'teal');handle(a,.26,-.329,.62,.12)

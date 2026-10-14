@@ -55,16 +55,46 @@ def dome(a, rx, ry, base, height, mat):
     a.mesh(vs,fs,m)
 
 
+def soft_shell(a,c,size,mat):
+    """Tailored fabric silhouette with bulging panels and tucked base/crown."""
+    w,d,h=size;vs=[]
+    shape=[(-.72,-1),(.72,-1),(1,-.65),(1,.65),(.72,1),(-.72,1),(-1,.65),(-1,-.65)]
+    for z,sx,sy in [(-.5,.78,.73),(-.37,.98,.98),(.12,1,1),(.37,.91,.91),(.5,.68,.65)]:
+        vs.extend((c[0]+x*w*.5*sx,c[1]+y*d*.5*sy,c[2]+z*h) for x,y in shape)
+    fs=[tuple(reversed(range(8)))]
+    for j in range(4):
+        fs.extend((j*8+i,j*8+(i+1)%8,(j+1)*8+(i+1)%8,(j+1)*8+i) for i in range(8))
+    fs.append(tuple(range(32,40)));a.mesh(vs,fs,mat)
+
+
 def shoe(a,boot=False):
-    pts=[(-.055,-.14),(.055,-.14),(.072,-.09),(.071,.10),(.042,.145),(-.042,.145),(-.071,.10),(-.067,-.08)]
-    a.prism(pts,0,.023,'rubber')
-    a.prism([(x*.98,y*.98) for x,y in pts],.023,.043,'cream')
-    a.sphere((0,-.005,.084),1,'brown' if boot else 'navy',10,4,scale=(.066,.138,.055))
-    bevel(a,(0,-.076,.125 if not boot else .17),(.103,.10,.105 if not boot else .18),'brown' if boot else 'navy')
-    bevel(a,(0,-.075,.183 if not boot else .265),(.078,.071,.012),'black')
-    for y in [-.044,-.016,.012,.039]:
-        a.beam((-.024,y,.143),(.024,y+.013,.143),.005,.004,'sand')
-    a.box((0,-.126,.12),(.016,.025,.042),'wood_dark' if boot else 'teal')
+    """Last-shaped upper, thin contoured sole, open padded collar and fitted laces."""
+    color='brown' if boot else 'navy'
+    outline=[(-.035,-.137),(.035,-.137),(.052,-.105),(.054,-.04),(.063,.055),(.053,.12),(.027,.147),(-.027,.147),(-.055,.12),(-.061,.05),(-.05,-.045),(-.05,-.11)]
+    a.prism(outline,0,.018,'rubber')
+    a.prism([(x*.98,y*.995) for x,y in outline],.018,.027,'sand' if boot else 'cream')
+    sections=[(-.136,.028,.074),(-.105,.046,.105),(-.055,.049,.121),(-.005,.054,.096),(.055,.059,.07),(.113,.049,.06),(.145,.022,.043)]
+    vs=[]
+    for y,w,h in sections:
+        vs.extend([(0,y,.026),(-w*.86,y,.028),(-w,y,.043),(-w*.72,y,h*.88),(-w*.35,y,h),(w*.35,y,h),(w*.72,y,h*.88),(w,y,.043),(w*.86,y,.028)])
+    fs=[tuple(reversed(range(9)))]
+    for j in range(len(sections)-1):
+        fs.extend((j*9+i,j*9+(i+1)%9,(j+1)*9+(i+1)%9,(j+1)*9+i) for i in range(9))
+    fs.append(tuple(range(54,63)));a.mesh(vs,fs,color)
+    # Four-ring open collar provides real wall thickness, never a capped cylinder.
+    n=10;vs=[];height=.197 if boot else .12
+    for rx,ry,z in [(.047,.052,.08),(.043,.049,height),(.032,.037,height-.003),(.031,.035,.085)]:
+        vs.extend((rx*math.cos(i*math.tau/n),-.083+ry*math.sin(i*math.tau/n),z) for i in range(n))
+    fs=[];m=[]
+    for j in range(3):
+        for i in range(n):fs.append((j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i));m.append(color if j==0 else 'black')
+    a.mesh(vs,fs,m)
+    for y,z in [(-.048,.123),(-.024,.111),(.002,.10),(.027,.087)]:
+        a.beam((-.023,y,z),(.023,y+.013,z-.006),.004,.003,'sand')
+    if boot:
+        a.beam((-.02,-.064,.18),(.02,-.055,.18),.004,.003,'sand')
+        a.beam((-.02,-.048,.157),(.02,-.044,.155),.004,.003,'sand')
+    a.box((0,-.132,.099),(.014,.007,.035),'wood_dark' if boot else 'teal')
 
 
 @model('paneled_soccer_ball')
@@ -153,14 +183,20 @@ def bat(a):
 
 @model('baseball_fielders_glove')
 def glove(a):
-    a.sphere((0,0,.08),1,'brown',10,4,scale=(.09,.065,.09))
-    for i in range(4):
-        x=-.06+i*.04;z=.18+(.018 if i in [1,2] else 0)
-        a.cylinder((x,0,.105),(x,.025,z),.023,'wood',6,.02)
-    a.cylinder((-.07,-.015,.07),(-.115,.0,.14),.031,'wood',6,.022)
-    a.beam((-.106,.011,.14),(-.063,.02,.185),.018,.019,'wood_dark')
-    for x in [-.04,0,.04]:a.beam((x,-.062,.06),(x,-.047,.13),.004,.003,'sand')
-    a.box((0,-.048,.016),(.1,.018,.025),'wood_dark')
+    # Concave leather catching pocket, separate curved finger stalls and open web.
+    rim=[(-.063,.022),(.043,.019),(.077,.06),(.075,.12),(.044,.153),(-.028,.157),(-.074,.121),(-.084,.058)]
+    vs=[(0,.012,.085)]+[(x,-.025,z) for x,z in rim]+[(0,.036,.085)]+[(x,.005,z) for x,z in rim]
+    fs=[];m=[]
+    for i in range(8):
+        q=(i+1)%8;fs.extend([(0,1+i,1+q),(9,10+q,10+i),(1+i,10+i,10+q,1+q)]);m.extend(['brown','wood','wood_dark'])
+    a.mesh(vs,fs,m)
+    for i,(x,h) in enumerate([(-.043,.206),(-.007,.226),(.029,.215),(.061,.19)]):
+        line(a,[(x,.004,.11),(x*1.1,.008,h-.026),(x*1.06,-.011,h)],.018,'wood',6)
+    line(a,[(-.072,.005,.048),(-.111,-.006,.102),(-.101,-.024,.154)],.024,'wood',6)
+    for z in [.12,.14,.16]:
+        a.beam((-.104,-.02,z-.015),(-.052,-.012,z+.015),.01,.006,'wood_dark')
+    for x in [-.055,-.029]:a.beam((x,-.025,.03),(x,-.028,.145),.004,.003,'sand')
+    a.beam((-.048,-.029,.029),(.035,-.029,.024),.012,.009,'wood_dark')
 
 
 @model('tennis_racket')
@@ -281,22 +317,22 @@ def elbow(a):
 
 @model('zippered_day_backpack')
 def backpack(a):
-    bevel(a,(0,0,.23),(.3,.17,.43),'navy',.2)
-    bevel(a,(0,-.105,.14),(.24,.058,.18),'teal')
+    soft_shell(a,(0,0,.23),(.3,.17,.43),'navy')
+    soft_shell(a,(0,-.105,.14),(.24,.058,.18),'teal')
     a.box((0,-.137,.21),(.208,.005,.009),'black')
     a.box((.085,-.143,.202),(.013,.006,.029),'steel')
     for x in [-.095,.095]:
         a.beam((x,.09,.4),(x,.145,.27),.032,.012,'black')
         a.beam((x,.145,.27),(x,.09,.07),.032,.012,'black')
     handle(a,0,0,.445,.105,.053)
-    a.box((0,-.178,.116),(.046,.003,.028),'cream')
+    a.box((0,-.135,.116),(.046,.003,.028),'cream')
 
 
 @model('external_frame_hiking_pack','person')
 def hikingpack(a):
-    bevel(a,(0,0,.32),(.35,.23,.59),'green')
-    bevel(a,(0,-.015,.63),(.39,.25,.09),'foliage_dark')
-    for x in [-.22,.22]:bevel(a,(x,0,.25),(.115,.19,.28),'foliage_dark')
+    soft_shell(a,(0,0,.32),(.35,.23,.59),'green')
+    soft_shell(a,(0,-.015,.63),(.39,.25,.09),'foliage_dark')
+    for x in [-.22,.22]:soft_shell(a,(x,0,.25),(.115,.19,.28),'foliage_dark')
     for x in [-.14,.14]:
         a.cylinder((x,.15,.04),(x,.15,.66),.012,'metal',6)
         a.beam((x,-.127,.55),(x,-.127,.16),.024,.01,'sand')
@@ -319,8 +355,8 @@ def duffel(a):
 
 @model('messenger_satchel')
 def satchel(a):
-    bevel(a,(0,0,.17),(.39,.12,.3),'brown')
-    bevel(a,(0,-.075,.245),(.41,.036,.17),'wood_dark')
+    soft_shell(a,(0,0,.17),(.39,.12,.3),'brown')
+    soft_shell(a,(0,-.075,.245),(.41,.036,.17),'wood_dark')
     for x in [-.12,.12]:
         a.box((x,-.098,.14),(.028,.012,.096),'sand')
         a.box((x,-.11,.134),(.041,.01,.033),'metal')
@@ -329,7 +365,7 @@ def satchel(a):
 
 @model('canvas_shopping_tote')
 def tote(a):
-    bevel(a,(0,0,.19),(.34,.12,.35),'cream',.07)
+    soft_shell(a,(0,0,.19),(.34,.12,.35),'cream')
     a.box((0,0,.369),(.31,.1,.012),'brown')
     for y in [-.043,.043]:handle(a,0,y,.36,.17,.2,'sand',.018)
     a.box((0,-.061,.17),(.12,.003,.105),'teal')
@@ -355,8 +391,8 @@ def trolley(a):
         wheel(a,x,0,.087,.087,.04)
     a.beam((-.15,.04,.93),(.15,.04,.93),.032,.025,'rubber')
     a.box((0,-.095,.14),(.32,.27,.022),'metal')
-    bevel(a,(0,-.09,.39),(.28,.23,.47),'brown')
-    bevel(a,(0,-.11,.64),(.29,.25,.06),'sand')
+    soft_shell(a,(0,-.09,.39),(.28,.23,.47),'brown')
+    soft_shell(a,(0,-.11,.64),(.29,.25,.06),'sand')
     a.box((0,-.212,.43),(.16,.012,.14),'wood_dark')
 
 
@@ -407,8 +443,8 @@ def stroller(a):
 
 @model('soft_structured_baby_carrier')
 def babycarrier(a):
-    bevel(a,(0,0,.22),(.27,.07,.38),'teal')
-    bevel(a,(0,-.02,.435),(.24,.08,.075),'navy')
+    soft_shell(a,(0,0,.22),(.27,.07,.38),'teal')
+    soft_shell(a,(0,-.02,.435),(.24,.08,.075),'navy')
     a.box((0,0,.048),(.47,.042,.09),'navy')
     for x in [-.105,.105]:
         line(a,[(x,.04,.39),(x,.17,.48),(x,.22,.19),(x,.04,.12)],.025,'navy')

@@ -1,0 +1,507 @@
+{
+  "batch": 16,
+  "reviewed": 50,
+  "revised": 29,
+  "assets": [
+    {
+      "name": "b16_takeaway_coffee_cup",
+      "decision": "retained",
+      "reason": "Tapered cup, separate sleeve, stepped lid and drinking slot already provide the correct paper-cup construction.",
+      "size_class": "handheld",
+      "authored_vertices": 108,
+      "export_vertices": 644,
+      "triangles": 336,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_fountain_drink_with_straw",
+      "decision": "retained",
+      "reason": "Tapered vessel, contrasting wrap, overhanging lid and bent straw already read clearly at handheld scale.",
+      "size_class": "handheld",
+      "authored_vertices": 84,
+      "export_vertices": 708,
+      "triangles": 364,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_aluminum_soda_can",
+      "decision": "revised",
+      "reason": "Added multiple neck and base shoulder sections to replace abrupt end transitions; retained separate rim, recessed opening and pull tab.",
+      "size_class": "handheld",
+      "authored_vertices": 160,
+      "export_vertices": 560,
+      "triangles": 304,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_crushed_soda_can",
+      "decision": "revised",
+      "reason": "Rebuilt dented and twisted side sections while keeping intact rolled end rims; replaced the floating square top detail with a tilted pull-tab lid.",
+      "size_class": "handheld",
+      "authored_vertices": 160,
+      "export_vertices": 608,
+      "triangles": 312,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_ribbed_water_bottle",
+      "decision": "revised",
+      "reason": "Integrated grip ribs into the bottle profile and shaped the base, shoulder and neck instead of stacking disconnected rings.",
+      "size_class": "handheld",
+      "authored_vertices": 210,
+      "export_vertices": 980,
+      "triangles": 508,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_longneck_glass_bottle",
+      "decision": "revised",
+      "reason": "Added a rounded heel, multi-stage curved shoulder, tapered long neck and raised collar beneath the crown cap.",
+      "size_class": "handheld",
+      "authored_vertices": 158,
+      "export_vertices": 844,
+      "triangles": 436,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_square_juice_bottle",
+      "decision": "revised",
+      "reason": "Added folded/chamfered corners to the rectangular body and shoulder transitions while preserving its square bottle silhouette.",
+      "size_class": "handheld",
+      "authored_vertices": 64,
+      "export_vertices": 488,
+      "triangles": 252,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_gable_top_milk_carton",
+      "decision": "retained",
+      "reason": "The gable roof, pitched pouring cap, sealed ridge and carton body already provide specific folded construction.",
+      "size_class": "handheld",
+      "authored_vertices": 46,
+      "export_vertices": 440,
+      "triangles": 208,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_juice_box_with_straw",
+      "decision": "retained",
+      "reason": "The small folded carton, top seal and articulated straw already communicate the object without unnecessary subdivision.",
+      "size_class": "handheld",
+      "authored_vertices": 56,
+      "export_vertices": 640,
+      "triangles": 296,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_foil_drink_pouch",
+      "decision": "revised",
+      "reason": "Rebuilt a gusseted pillow body with broad faceted faces, crimped heat seals and a label that follows the pouch surface.",
+      "size_class": "handheld",
+      "authored_vertices": 114,
+      "export_vertices": 848,
+      "triangles": 396,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_closed_pizza_box",
+      "decision": "retained",
+      "reason": "The shallow square corrugated box, overhanging lid, front tuck tab and vent slots already describe a closed pizza box.",
+      "size_class": "handheld",
+      "authored_vertices": 48,
+      "export_vertices": 480,
+      "triangles": 216,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_pizza_slice_in_triangle_tray",
+      "decision": "retained",
+      "reason": "The tray, separate crust/bread/cheese layers, rounded rear crust and pepperoni disks already provide readable food construction.",
+      "size_class": "handheld",
+      "authored_vertices": 98,
+      "export_vertices": 776,
+      "triangles": 396,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_burger_clamshell",
+      "decision": "revised",
+      "reason": "Chamfered folded corners now articulate both molded clamshell halves; the hinge, seam and latch remain separately modeled.",
+      "size_class": "handheld",
+      "authored_vertices": 56,
+      "export_vertices": 512,
+      "triangles": 252,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_french_fry_carton",
+      "decision": "revised",
+      "reason": "Rebuilt the folded carton corners while keeping separately angled, differently sized fries and a recessed interior.",
+      "size_class": "handheld",
+      "authored_vertices": 88,
+      "export_vertices": 976,
+      "triangles": 456,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_hotdog_in_paper_boat",
+      "decision": "revised",
+      "reason": "Rebuilt an open sloped paper boat, rounder split bun halves, capsule-ended sausage and continuous mustard strand.",
+      "size_class": "handheld",
+      "authored_vertices": 196,
+      "export_vertices": 756,
+      "triangles": 372,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_street_taco_in_wrapper",
+      "decision": "revised",
+      "reason": "Replaced the closed polygon block with a genuinely open curved tortilla shell, cream inner face, separate fillings and cheese strips.",
+      "size_class": "handheld",
+      "authored_vertices": 210,
+      "export_vertices": 782,
+      "triangles": 356,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_folded_takeout_carton",
+      "decision": "revised",
+      "reason": "Added corner folds to the tapered container while retaining overlapping top flaps, side print and a separate wire handle.",
+      "size_class": "handheld",
+      "authored_vertices": 76,
+      "export_vertices": 724,
+      "triangles": 324,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_lidded_salad_bowl",
+      "decision": "retained",
+      "reason": "Concentric bowl walls, flared rim and raised fitted lid already distinguish a lidded salad container within the shared opaque palette.",
+      "size_class": "handheld",
+      "authored_vertices": 152,
+      "export_vertices": 480,
+      "triangles": 280,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_lidded_soup_cup",
+      "decision": "retained",
+      "reason": "Tapered paper walls, layered overhanging lid and small vent holes already describe the sealed hot-food cup.",
+      "size_class": "handheld",
+      "authored_vertices": 92,
+      "export_vertices": 708,
+      "triangles": 360,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_ice_cream_cup_with_spoon",
+      "decision": "revised",
+      "reason": "Rounded the scoop more finely and replaced the oversized spherical utensil tip with a flatter spoon paddle.",
+      "size_class": "handheld",
+      "authored_vertices": 147,
+      "export_vertices": 936,
+      "triangles": 480,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_waffle_ice_cream_cone",
+      "decision": "revised",
+      "reason": "Refined the scoop curvature while retaining the tapered cone, lip and modeled waffle courses.",
+      "size_class": "handheld",
+      "authored_vertices": 221,
+      "export_vertices": 896,
+      "triangles": 434,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_donut_in_open_paper_bag",
+      "decision": "retained",
+      "reason": "The true toroidal dough and glaze hole, open bag floor and folded standing bag edges already create an identifiable donut-in-bag prop.",
+      "size_class": "handheld",
+      "authored_vertices": 152,
+      "export_vertices": 528,
+      "triangles": 288,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_sealed_potato_chip_bag",
+      "decision": "revised",
+      "reason": "Rebuilt the inflated gusseted bag and sealed ends; conformed the front label and refined the small potato-chip emblem.",
+      "size_class": "handheld",
+      "authored_vertices": 131,
+      "export_vertices": 922,
+      "triangles": 440,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_soft_street_pretzel",
+      "decision": "revised",
+      "reason": "Rebuilt a continuous curved bread rope with a complete lower loop and crossed upper branches; retained individual salt grains.",
+      "size_class": "handheld",
+      "authored_vertices": 198,
+      "export_vertices": 688,
+      "triangles": 368,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_popcorn_carton",
+      "decision": "revised",
+      "reason": "Rebuilt folded carton corners and replaced spherical kernels with asymmetric lobed forms and toasted central creases.",
+      "size_class": "handheld",
+      "authored_vertices": 241,
+      "export_vertices": 801,
+      "triangles": 427,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_paper_takeaway_bag",
+      "decision": "revised",
+      "reason": "Rebuilt a true open top, darker inner gussets, folded corner planes and bent handles instead of a closed box with handles.",
+      "size_class": "handheld",
+      "authored_vertices": 176,
+      "export_vertices": 520,
+      "triangles": 276,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_molded_four_cup_carrier",
+      "decision": "retained",
+      "reason": "Four separate open annular recesses and a central raised divider already provide the molded carrier geometry.",
+      "size_class": "handheld",
+      "authored_vertices": 144,
+      "export_vertices": 496,
+      "triangles": 264,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_six_egg_carton",
+      "decision": "revised",
+      "reason": "Refined the six molded dome shapes and carton corner folds while preserving the separate lid seam and front catch.",
+      "size_class": "handheld",
+      "authored_vertices": 222,
+      "export_vertices": 900,
+      "triangles": 404,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_discarded_banana_peel",
+      "decision": "revised",
+      "reason": "Rebuilt three longitudinally curved, tapered peel flaps with raised edge folds, yellow outer faces and cream inner surfaces.",
+      "size_class": "handheld",
+      "authored_vertices": 122,
+      "export_vertices": 704,
+      "triangles": 360,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_discarded_apple_core",
+      "decision": "revised",
+      "reason": "Replaced the lathed spool silhouette with asymmetric bitten flesh, scalloped skin transitions, indented top, thin stem and separate seeds.",
+      "size_class": "handheld",
+      "authored_vertices": 138,
+      "export_vertices": 920,
+      "triangles": 438,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_triangular_sandwich_half",
+      "decision": "revised",
+      "reason": "Rebuilt softly edged bread with crust only on the uncut edges and pale cut faces; added irregular lettuce and ham outlines between separate slices.",
+      "size_class": "handheld",
+      "authored_vertices": 94,
+      "export_vertices": 808,
+      "triangles": 404,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_broken_chocolate_chip_cookie",
+      "decision": "revised",
+      "reason": "Added beveled irregular cookie edges, rounded embedded chocolate chunks and small broken crumbs beside the missing piece.",
+      "size_class": "handheld",
+      "authored_vertices": 145,
+      "export_vertices": 578,
+      "triangles": 250,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_crumpled_food_wrapper",
+      "decision": "revised",
+      "reason": "Replaced the coarse nine-point sheet and floating decoration with a continuous creased sheet; printed ink uses the actual folded faces.",
+      "size_class": "handheld",
+      "authored_vertices": 72,
+      "export_vertices": 300,
+      "triangles": 100,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_rolled_newspaper",
+      "decision": "retained",
+      "reason": "The cylindrical paper roll, concentric end marks, retaining band and printed strips already identify rolled newsprint.",
+      "size_class": "handheld",
+      "authored_vertices": 152,
+      "export_vertices": 536,
+      "triangles": 280,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_folded_newspaper",
+      "decision": "retained",
+      "reason": "The layered folded sheets, masthead, picture block and multiple text columns already provide readable newspaper structure.",
+      "size_class": "handheld",
+      "authored_vertices": 200,
+      "export_vertices": 600,
+      "triangles": 300,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_curled_receipt_litter",
+      "decision": "retained",
+      "reason": "The continuous thin strip follows a six-section curl and keeps printed receipt lines on its low central section.",
+      "size_class": "handheld",
+      "authored_vertices": 60,
+      "export_vertices": 610,
+      "triangles": 296,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_crumpled_paper_napkin",
+      "decision": "revised",
+      "reason": "Replaced the ellipsoid-plus-boxes construction with one continuously folded, irregular double-sided paper sheet.",
+      "size_class": "handheld",
+      "authored_vertices": 72,
+      "export_vertices": 656,
+      "triangles": 296,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_disposable_plastic_fork",
+      "decision": "retained",
+      "reason": "The widened fork neck and four genuinely separated tines already form the required silhouette.",
+      "size_class": "handheld",
+      "authored_vertices": 48,
+      "export_vertices": 536,
+      "triangles": 252,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_disposable_plastic_spoon",
+      "decision": "revised",
+      "reason": "Replaced overlaid ellipsoids with a true concave bowl, thin closed underside, raised rim and formed handle.",
+      "size_class": "handheld",
+      "authored_vertices": 86,
+      "export_vertices": 438,
+      "triangles": 228,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_serrated_takeout_knife",
+      "decision": "retained",
+      "reason": "The shaped blade outline, individual serration teeth and molded handle grooves already provide functional construction.",
+      "size_class": "handheld",
+      "authored_vertices": 60,
+      "export_vertices": 690,
+      "triangles": 316,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_chopsticks_in_paper_sleeve",
+      "decision": "retained",
+      "reason": "Two separate tapered chopsticks extend beyond the printed paper sleeve, with convincing small-scale proportions.",
+      "size_class": "handheld",
+      "authored_vertices": 64,
+      "export_vertices": 768,
+      "triangles": 356,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_fluted_paper_plate",
+      "decision": "retained",
+      "reason": "The shallow recessed dish, raised rolled rim and radial flutes already distinguish a molded paper plate.",
+      "size_class": "handheld",
+      "authored_vertices": 208,
+      "export_vertices": 704,
+      "triangles": 364,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_rectangular_foil_takeaway_pan",
+      "decision": "revised",
+      "reason": "Rebuilt rounded corners, tapered inner and outer walls, rolled flange and modeled corrugations around all four sides.",
+      "size_class": "handheld",
+      "authored_vertices": 256,
+      "export_vertices": 832,
+      "triangles": 428,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_ketchup_sachet",
+      "decision": "revised",
+      "reason": "Rebuilt the small pillow packet with crimped heat seals and a surface-following printed label.",
+      "size_class": "handheld",
+      "authored_vertices": 126,
+      "export_vertices": 392,
+      "triangles": 200,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_torn_sugar_packet",
+      "decision": "revised",
+      "reason": "Refined the spilled sugar mound while retaining the jagged torn packet mouth and individual scattered grains.",
+      "size_class": "handheld",
+      "authored_vertices": 85,
+      "export_vertices": 834,
+      "triangles": 384,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_baguette_in_paper_sleeve",
+      "decision": "revised",
+      "reason": "Rebuilt a real open paper sleeve around a rounder elongated loaf; positioned diagonal scoring along the bread surface.",
+      "size_class": "handheld",
+      "authored_vertices": 102,
+      "export_vertices": 620,
+      "triangles": 286,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_discarded_six_pack_rings",
+      "decision": "retained",
+      "reason": "Six genuine open rings and connecting webs already describe the thin flexible carrier without filled-in openings.",
+      "size_class": "handheld",
+      "authored_vertices": 232,
+      "export_vertices": 888,
+      "triangles": 444,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_discarded_crown_bottle_cap",
+      "decision": "retained",
+      "reason": "The alternating flared skirt and closed embossed top already create a recognizable crown cap.",
+      "size_class": "handheld",
+      "authored_vertices": 68,
+      "export_vertices": 428,
+      "triangles": 232,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_discarded_bottle_cork",
+      "decision": "retained",
+      "reason": "The short cylindrical cork, cut-end ring and scattered pore marks already match the simple object.",
+      "size_class": "handheld",
+      "authored_vertices": 76,
+      "export_vertices": 652,
+      "triangles": 336,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b16_partly_eaten_ice_pop",
+      "decision": "retained",
+      "reason": "The shaped bite cutout, exposed wooden stick and raised central frozen ridge already distinguish the partly eaten pop.",
+      "size_class": "handheld",
+      "authored_vertices": 36,
+      "export_vertices": 402,
+      "triangles": 192,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    }
+  ]
+}

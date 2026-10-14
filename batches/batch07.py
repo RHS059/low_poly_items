@@ -37,17 +37,52 @@ def chamfer(a,c,s,mat='yellow',cut=.12):
              (x-l/2,y+w/2-r),(x-l/2,y-w/2+r)],z-h/2,z+h/2,mat)
 
 
+def hood(a,c,s,mat='yellow',nose=1):
+    """Pressed engine cover: sloping nose, raised crown and tapered shoulders."""
+    x,y,z=c; l,w,h=s; b=z-h/2
+    sections=[(-.50,.71,.87),(-.32,.98,1),(.25,.94,1),(.50,.60,.82)]
+    if nose<0:sections=[(-t,ht,wd) for t,ht,wd in reversed(sections)]
+    vs=[]
+    for t,ht,wd in sections:
+        xx=x+t*l; top=b+ht*h; ww=w*wd/2
+        vs.extend([(xx,y-ww,b),(xx,y+ww,b),(xx,y+ww,b+h*.42),
+                   (xx,y+ww*.77,top),(xx,y-ww*.77,top),(xx,y-ww,b+h*.42)])
+    fs=[tuple(reversed(range(6))),tuple(range(18,24))]
+    fs.extend((j*6+i,j*6+(i+1)%6,(j+1)*6+(i+1)%6,(j+1)*6+i) for j in range(3) for i in range(6))
+    a.mesh(vs,fs,mat)
+
+
+def fender(a,x,y,z,r,w,mat='yellow'):
+    """Wheel-following sheet-metal arch, with thickness and exposed underside."""
+    vs=[]; n=7
+    for yy in (y-w/2,y+w/2):
+        for rr in (r*1.10,r*1.10+.055):
+            vs.extend((x+rr*cos(pi*.12+i*pi*.76/(n-1)),yy,z+rr*sin(pi*.12+i*pi*.76/(n-1))) for i in range(n))
+    fs=[]
+    for i in range(n-1):
+        fs.extend([(i,i+1,n+i+1,n+i),(2*n+i,3*n+i,3*n+i+1,2*n+i+1),
+                   (i,2*n+i,2*n+i+1,i+1),(n+i,n+i+1,3*n+i+1,3*n+i)])
+    fs.extend([(0,n,3*n,2*n),(n-1,3*n-1,4*n-1,2*n-1)])
+    a.mesh(vs,fs,mat)
+
+
 def wheel(a,x,y,z,r=.48,w=.26,hub='yellow',treads=False):
-    a.cylinder((x,y-w*.38,z),(x,y+w*.38,z),r,'rubber',12)
+    # Continuous tire shoulders replace stacked discs. Rim recess is visible on
+    # both faces; the tread blocks follow the circumference in paired chevrons.
+    rings=[(-.50,.55),(-.50,.78),(-.34,.96),(-.22,1),(.22,1),(.34,.96),(.50,.78),(.50,.55)]
+    n=12;vs=[(x+r*rr*cos(i*2*pi/n),y+w*yy,z+r*rr*sin(i*2*pi/n)) for yy,rr in rings for i in range(n)]
+    a.mesh(vs,[(j*n+i,j*n+(i+1)%n,((j+1)%len(rings))*n+(i+1)%n,((j+1)%len(rings))*n+i) for j in range(len(rings)) for i in range(n)],'rubber')
     for side in (-1,1):
-        ya=y+side*w*.38; yb=y+side*w*.5
-        a.cylinder((x,ya,z),(x,yb,z),r,'rubber',12,r*.85)
-        a.cylinder((x,yb,z),(x,yb+side*.018,z),r*.47,hub,10)
-        a.cylinder((x,yb+side*.02,z),(x,yb+side*.052,z),r*.16,'dark_metal',8)
+        ya=y+side*w*.43; yb=y+side*w*.505
+        a.cylinder((x,ya,z),(x,yb,z),r*.53,hub,12,r*.43)
+        a.cylinder((x,yb,z),(x,yb+side*.046,z),r*.19,'dark_metal',8)
     if treads:
         for i in range(12):
             ang=2*pi*i/12
-            a.box((x+r*cos(ang),y,z+r*sin(ang)),(r*.17,w*.72,.035),'black',rot=(0,pi/2-ang,0))
+            for side in (-1,1):
+                theta=ang+side*.06
+                a.beam((x+r*1.015*cos(ang),y,z+r*1.015*sin(ang)),
+                       (x+r*.985*cos(theta),y+side*w*.40,z+r*.985*sin(theta)),r*.16,r*.065,'rubber')
 
 
 def wheels(a,xs,halfwidth,z,r,w=.28,treads=False):
@@ -58,22 +93,36 @@ def wheels(a,xs,halfwidth,z,r,w=.28,treads=False):
 
 def tracks(a,length=3.6,halfwidth=1.05,width=.45,height=.75,z=.04):
     for y in (-halfwidth,halfwidth):
-        l=length/2; h=height; bevel=h*.35
-        pts=[(-l+bevel,z),(-l,z+bevel),(-l,z+h-bevel),(-l+bevel,z+h),
-             (l-bevel,z+h),(l,z+h-bevel),(l,z+bevel),(l-bevel,z)]
-        xz(a,pts,y-width/2,y+width/2,'rubber')
-        outside=y+(-1 if y<0 else 1)*width*.52
-        for x in (-l+h*.55,0,l-h*.55):
-            a.cylinder((x,y,z+h/2),(x,outside,z+h/2),h*.32,'dark_metal',10)
-            a.cylinder((x,outside,z+h/2),(x,outside+(-.025 if y<0 else .025),z+h/2),h*.16,'metal',8)
-        n=10
-        for j in range(n):
-            x=-l+bevel+(length-2*bevel)*(j+.5)/n
-            for zz in (z+.012,z+h-.012):
-                a.box((x,y,zz),((length-2*bevel)/n*.74,width+.055,.055),'dark_metal')
-        for end in (-1,1):
-            for j in range(3):
-                a.box((end*(l-.025),y,z+bevel+(h-2*bevel)*j/2),(.06,width+.05,.09),'dark_metal')
+        l=length/2; h=height; r=h*.5; side=-1 if y<0 else 1
+        outer=[];inner=[]
+        for xx,start in ((l-r,-pi/2),(-l+r,pi/2)):
+            for j in range(5):
+                th=start+j*pi/4
+                outer.append((xx+r*cos(th),z+r+r*sin(th)))
+                inner.append((xx+r*.77*cos(th),z+r+r*.77*sin(th)))
+        n=len(outer);vs=[(xx,yy,zz) for yy in (y-width/2,y+width/2) for loop in (outer,inner) for xx,zz in loop];fs=[]
+        for i in range(n):
+            j=(i+1)%n
+            fs.extend([(i,j,2*n+j,2*n+i),(n+i,3*n+i,3*n+j,n+j),
+                       (i,n+i,n+j,j),(2*n+i,2*n+j,3*n+j,3*n+i)])
+        a.mesh(vs,fs,'rubber')
+        outside=y+side*width*.40
+        a.box((0,y,z+h*.41),(length-h*.74,width*.51,h*.19),'dark_metal')
+        for x in (-l+r,l-r):
+            a.cylinder((x,y-width*.34,z+r),(x,y+width*.34,z+r),h*.35,'dark_metal',12)
+            a.cylinder((x,outside,z+r),(x,outside+side*.025,z+r),h*.23,'metal',10)
+            a.cylinder((x,outside+side*.03,z+r),(x,outside+side*.048,z+r),h*.095,'dark_metal',8)
+        for i in range(4):
+            x=(-l+r)+(length-h)*(i+1)/5
+            a.cylinder((x,y-width*.34,z+h*.33),(x,y+width*.34,z+h*.33),h*.23,'dark_metal',10)
+            a.cylinder((x,outside,z+h*.33),(x,outside+side*.018,z+h*.33),h*.11,'metal',8)
+        # Track shoes wrap the idlers, then continue along the straight runs.
+        for p,q in zip(outer,outer[1:]+outer[:1]):
+            dx=q[0]-p[0];dz=q[1]-p[1];d=(dx*dx+dz*dz)**.5
+            steps=max(1,round(d/(h*.37)))
+            for j in range(steps):
+                t=(j+.5)/steps;xx=p[0]+dx*t;zz=p[1]+dz*t
+                a.beam((xx-dx/steps*.35,y,zz-dz/steps*.35),(xx+dx/steps*.35,y,zz+dz/steps*.35),width+.045,h*.075,'dark_metal')
 
 
 def grille(a,x,y,z,width=.8,height=.5,axis='x'):
@@ -86,24 +135,45 @@ def grille(a,x,y,z,width=.8,height=.5,axis='x'):
 
 
 def cab(a,c=(0,0,1.8),s=(1.3,1.35,1.65),mat='yellow'):
-    x,y,z=c; l,w,h=s; b=z-h/2; top=z+h/2
-    pts=[(x-l/2,b),(x+l/2,b),(x+l*.43,top-h*.12),(x+l*.22,top),(x-l*.46,top)]
-    xz(a,pts,y-w/2,y+w/2,mat)
-    pane=[(x-l*.40,b+h*.24),(x+l*.38,b+h*.24),(x+l*.31,top-h*.18),(x+l*.16,top-h*.10),(x-l*.39,top-h*.10)]
+    """Tapered operator cell with fitted glazing, narrow pillars and a roof cap."""
+    x,y,z=c; l,w,h=s; b=z-h/2; belt=b+h*.24; eave=b+h*.91
+    # A chamfered waist and a narrower sloping roof define the actual body shape.
+    levels=[(b,-.50,.49,.50),(belt,-.49,.49,.50),(eave,-.42,.27,.43)]
+    vs=[]
+    for zz,back,front,half in levels:
+        xx0=x+l*back;xx1=x+l*front;yy0=y-w*half;yy1=y+w*half;k=l*.055
+        vs.extend([(xx0+k,yy0,zz),(xx1-k,yy0,zz),(xx1,yy0+k,zz),(xx1,yy1-k,zz),
+                   (xx1-k,yy1,zz),(xx0+k,yy1,zz),(xx0,yy1-k,zz),(xx0,yy0+k,zz)])
+    fs=[tuple(reversed(range(8))),tuple(range(16,24))]
+    fs.extend((j*8+i,j*8+(i+1)%8,(j+1)*8+(i+1)%8,(j+1)*8+i) for j in range(2) for i in range(8))
+    a.mesh(vs,fs,mat)
+    # Side window quads lie on the tapered wall rather than over a cuboid.
     for side in (-1,1):
-        yy=y+side*(w/2+.009)
-        face=tuple(range(5)) if side<0 else tuple(reversed(range(5)))
-        a.mesh([(px,yy,pz) for px,pz in pane],[face],'glass')
-        a.beam((x-l*.02,yy,b+h*.23),(x-l*.02,yy,top-h*.085),.055,.035,'dark_metal')
-        a.box((x-l*.25,yy+side*.025,b+h*.38),(.19,.045,.035),'silver')
-        a.box((x-l*.28,yy,b+.035),(.6,.08,.06),'dark_metal')
-        a.beam((x+l*.29,yy,top-h*.2),(x+l*.40,yy+side*.21,top-h*.24),.035,mat='dark_metal')
-        a.box((x+l*.40,yy+side*.23,top-h*.24),(.12,.07,.22),'black')
-    # Windshield follows the inclined forward face.
-    a.mesh([(x+l*.489,y-w*.40,b+h*.27),(x+l*.489,y+w*.40,b+h*.27),
-            (x+l*.438,y+w*.40,top-h*.22),(x+l*.438,y-w*.40,top-h*.22)],[(0,1,2,3)],'glass')
-    a.beam((x+l*.493,y-.18,b+h*.32),(x+l*.455,y+.20,b+h*.66),.025,mat='black')
-    a.box((x-.02,y,top+.035),(l*1.08,w*1.10,.10),'dark_metal')
+        lower_y=y+side*(w*.50+.006);upper_y=y+side*(w*.43+.006)
+        outer=[(x-l*.405,lower_y,belt+.025),(x+l*.405,lower_y,belt+.025),
+               (x+l*.202,upper_y,eave-.025),(x-l*.338,upper_y,eave-.025)]
+        a.mesh(outer,[(0,1,2,3)],'black')
+        # Inset windshield frame, door stile and usable external handle.
+        inset=[]
+        for px,py,pz in outer:
+            inset.append((x+(px-x)*.93,py+side*.004,pz+(.035 if pz<belt+.1 else -.035)))
+        a.mesh(inset,[(0,1,2,3)],'glass')
+        a.beam((x-l*.035,lower_y+side*.011,belt+.02),(x-l*.08,upper_y+side*.011,eave-.02),.055,.048,'dark_metal')
+        a.box((x-l*.20,lower_y+side*.025,belt-.065),(.19,.055,.035),'silver')
+        a.box((x-l*.24,y+side*w*.51,b+.02),(l*.63,.17,.065),'dark_metal')
+        # Mirror stems emerge from the corner pillar, above hood height.
+        a.beam((x+l*.27,upper_y,b+h*.76),(x+l*.39,y+side*w*.66,b+h*.75),.034,mat='dark_metal')
+        a.box((x+l*.39,y+side*w*.68,b+h*.75),(.12,.065,.21),'black')
+    # The forward and rear glazing match each inclined face exactly.
+    for direction,xb,xt in ((1,.49,.27),(-1,-.49,-.42)):
+        z0=belt+.065;z1=eave-.060;t0=(z0-belt)/(eave-belt);t1=(z1-belt)/(eave-belt)
+        xx0=x+l*(xb+(xt-xb)*t0)+direction*.009;xx1=x+l*(xb+(xt-xb)*t1)+direction*.009
+        wy0=w*(.50-.07*t0)-l*.09;wy1=w*(.50-.07*t1)-l*.09
+        a.mesh([(xx0,y-wy0,z0),(xx0,y+wy0,z0),(xx1,y+wy1,z1),(xx1,y-wy1,z1)],[(0,1,2,3)],'glass')
+        if direction==1:
+            a.beam((xx0+.012,y-w*.21,z0+.045),(xx1+.045,y+w*.10,z1-h*.24),.023,mat='black')
+    # Crown and drip edge have their own profile instead of a rectangular slab.
+    hood(a,(x-l*.075,y,b+h*.958),(l*.91,w*.96,h*.13),'dark_metal')
 
 
 def seat(a,x=0,y=0,z=1.3):
@@ -115,8 +185,8 @@ def seat(a,x=0,y=0,z=1.3):
 
 def rops(a,x=0,width=1.2,z0=.8,z1=2.5,length=1.4):
     for xx in (x-length*.42,x+length*.42):
-        for yy in (-width/2,width/2):a.beam((xx,yy,z0),(xx,yy,z1),.07,mat='dark_metal')
-    a.box((x,0,z1+.05),(length,width+.16,.1),'yellow')
+        for yy in (-width/2,width/2):a.beam((xx,yy,z0),(x+(xx-x)*.88,yy*.92,z1),.07,mat='dark_metal')
+    hood(a,(x,0,z1+.045),(length,width+.16,.13),'yellow')
 
 
 def ram(a,p,q,r=.08):
@@ -185,19 +255,21 @@ def tracked_excavator(a):
     tracks(a,4.5,1.22,.60,.92)
     a.box((0,0,.88),(3.1,2.3,.28),'dark_metal')
     a.cylinder((0,0,1),(0,0,1.25),.89,'dark_metal',12)
-    chamfer(a,(-.65,0,1.55),(2.4,2.48,.64))
+    hood(a,(-.65,0,1.55),(2.4,2.48,.64),nose=-1)
     cab(a,(.05,-.65,2.25),(1.65,1.10,1.80))
-    grille(a,-1.865,0,1.60,1.65,.39)
+    grille(a,-1.865,0,1.44,1.45,.28)
     a.cylinder((-1.20,.48,1.85),(-1.20,.48,2.60),.07,'dark_metal',8)
-    for p,q,w in [((.60,.40,1.65),(2.0,.40,3.40),.36),((2,.40,3.40),(3.7,.40,2.7),.30),((3.7,.40,2.7),(3.45,.40,.90),.22)]:
-        a.beam(p,q,w,.38,'yellow')
-        a.cylinder((q[0],q[1]-.23,q[2]),(q[0],q[1]+.23,q[2]),.13,'dark_metal',10)
+    # Forged gooseneck boom and a tapered dipper have a continuous outline.
+    xz(a,[(.47,1.60),(.65,1.43),(1.94,3.06),(3.61,2.55),(3.83,2.81),(2.17,3.57),(1.87,3.59)],.21,.59,'yellow')
+    xz(a,[(3.52,2.76),(3.83,2.76),(3.73,2.36),(3.55,.85),(3.34,.87),(3.42,1.43)],.25,.55,'yellow')
+    for xx,zz in ((.60,1.65),(2,3.40),(3.7,2.7),(3.45,.90)):
+        a.cylinder((xx,.16,zz),(xx,.64,zz),.13,'dark_metal',10)
     ram(a,(.60,.08,1.60),(1.85,.08,3.15),.105)
     ram(a,(2.1,.12,3.47),(3.53,.12,2.71),.075)
     ram(a,(3.82,.1,2.5),(3.60,.1,1.14),.065)
     bucket(a,3.23,.4,.17,1.02,.92,.89,5)
     a.tube([(.9,.65,1.75),(1.65,.65,3.26),(2.08,.65,3.51),(3.54,.65,2.84)],.022,'black')
-    beacon(a,-.58,-.62,3.23)
+    beacon(a,-.58,-.62,3.19)
     lamps(a,.88,[-.91,-.4],2.91)
 
 
@@ -205,7 +277,7 @@ def tracked_excavator(a):
 def mini_excavator(a):
     tracks(a,2.1,.65,.32,.48)
     a.cylinder((0,0,.54),(0,0,.72),.57,'dark_metal',10)
-    chamfer(a,(-.27,0,.87),(1.5,1.35,.39))
+    hood(a,(-.27,0,.87),(1.5,1.35,.39),nose=-1)
     seat(a,-.37,-.15,1.04);rops(a,-.42,.95,.86,2.1,1.05)
     a.box((.18,-.35,1.06),(.28,.17,.20),'dark_metal')
     for p,q in [((.53,.32,.98),(1.05,.32,2.14)),((1.05,.32,2.14),(1.94,.32,1.64)),((1.94,.32,1.64),(1.88,.32,.52))]:a.beam(p,q,.19,.22,'yellow')
@@ -219,9 +291,9 @@ def mini_excavator(a):
 def skid_body(a,tracked=False):
     if tracked:tracks(a,2.2,.74,.38,.50)
     else:wheels(a,[-.71,.69],.71,.43,.43,.32,True)
-    chamfer(a,(-.05,0,.72),(1.88,1.35,.61),'yellow')
+    hood(a,(-.05,0,.72),(1.88,1.35,.61),'yellow',-1)
     cab(a,(-.12,0,1.47),(1.02,1.01,1.35),'dark_metal')
-    grille(a,-1.002,0,.9,.94,.39)
+    grille(a,-1.002,0,.70,.87,.29)
     for y in (-.66,.66):
         a.beam((-.65,y,1.43),(.44,y,1.09),.15,.19,'yellow')
         a.beam((.44,y,1.09),(1.13,y,.52),.15,.18,'yellow')
@@ -248,27 +320,36 @@ def track_loader(a):
 @asset('articulated_wheel_loader')
 def wheel_loader(a):
     wheels(a,[-1.35,1.19],1.08,.72,.72,.44,True)
-    a.box((0,0,.95),(3.5,1.58,.46),'dark_metal')
-    chamfer(a,(-1.35,0,1.43),(1.46,1.9,.89))
+    # Distinct front and rear chassis expose the oscillating articulation joint.
+    chamfer(a,(-1.03,0,.93),(2.10,1.48,.39),'dark_metal')
+    xz(a,[(.12,.74),(1.70,.74),(1.72,1.05),(.85,1.24),(.13,1.08)],-.59,.59,'yellow')
+    a.cylinder((-.02,0,.74),(-.02,0,1.20),.24,'dark_metal',10)
+    for y in (-.44,.44):ram(a,(-.43,y,.91),(.62,y,.98),.055)
+    hood(a,(-1.35,0,1.43),(1.46,1.9,.89),nose=-1)
     cab(a,(-.35,0,2.26),(1.32,1.48,1.75))
-    grille(a,-2.088,0,1.51,1.5,.51)
+    grille(a,-2.088,0,1.30,1.30,.35)
     a.cylinder((-1.52,.67,1.85),(-1.52,.67,2.8),.07,'dark_metal',8)
     for y in (-.52,.52):
-        a.beam((.30,y,1.36),(1.53,y,1.65),.21,.27,'yellow')
-        a.beam((1.53,y,1.65),(2.38,y,.71),.21,.27,'yellow')
+        xz(a,[(.22,1.22),(.32,1.49),(1.49,1.84),(1.68,1.75),(2.46,.77),(2.28,.59),(1.44,1.48)],y-.11,y+.11,'yellow')
         ram(a,(.27,y,1.14),(1.47,y,1.68),.09)
+        for xx,zz in ((.30,1.36),(1.53,1.65),(2.38,.71)):
+            a.cylinder((xx,y-.15,zz),(xx,y+.15,zz),.115,'dark_metal',8)
     bucket(a,2.05,0,.07,2.22,1.1,.99,6)
     ram(a,(.77,0,1.6),(1.97,0,1.08),.085)
-    beacon(a,-.42,0,3.23)
+    beacon(a,-.42,0,3.18)
     for y in (-.83,.83):a.box((-.58,y,.97),(.53,.26,.12),'metal')
+    for x in (-1.35,1.19):
+        for y in (-1.08,1.08):fender(a,x,y,.72,.72,.55)
 
 
 @asset('backhoe_loader')
 def backhoe(a):
     for x,r,z in [(-1.30,.68,.68),(1.05,.51,.51)]:wheels(a,[x],.91,z,r,.35,True)
     a.box((0,0,.86),(3.2,1.48,.35),'dark_metal')
-    chamfer(a,(.76,0,1.31),(1.39,1.22,.64))
+    hood(a,(.76,0,1.31),(1.39,1.22,.64))
     cab(a,(-.60,0,1.99),(1.47,1.41,1.75))
+    for y in (-.91,.91):fender(a,-1.30,y,.68,.68,.48)
+    grille(a,1.465,0,1.18,.85,.28)
     for y in (-.7,.7):
         a.beam((-.59,y,1.34),(1.05,y,1.12),.16,mat='yellow')
         a.beam((1.05,y,1.12),(1.78,y,.55),.16,mat='yellow')
@@ -286,33 +367,41 @@ def backhoe(a):
 def bulldozer(a):
     tracks(a,3.6,1.03,.55,.87)
     a.box((0,0,.99),(2.6,1.8,.35),'dark_metal')
-    chamfer(a,(.57,0,1.42),(1.67,1.6,.66))
+    hood(a,(.57,0,1.42),(1.67,1.6,.66))
     cab(a,(-.75,0,2.06),(1.25,1.49,1.62))
-    grille(a,1.42,0,1.5,1.29,.44)
+    grille(a,1.42,0,1.30,1.12,.31)
     for y in (-1.26,1.26):
         a.beam((-.62,y,.43),(2.12,y,.64),.18,.21,'dark_metal')
         ram(a,(.73,y*.70,1.62),(1.93,y,.79),.09)
-    # Compound blade: pitched moldboard, wider end wings and a worn lower edge.
-    a.box((2.14,0,.80),(.21,3.05,1.07),'yellow',rot=(0,-.15,0))
-    a.box((2.26,0,.26),(.14,3.16,.12),'steel')
-    for y in (-1.52,1.52):a.box((2.19,y,.81),(.47,.13,1.03),'yellow',rot=(0,0,-.25 if y<0 else .25))
+    # A folded moldboard rolls material upward; the cutting edge is its own part.
+    blade=[(2.31,.25),(2.25,.53),(2.09,.94),(2.03,1.31),(2.13,1.31),(2.19,.94),(2.36,.53),(2.42,.25)]
+    xz(a,blade,-1.52,1.52,'yellow')
+    a.box((2.40,0,.24),(.17,3.16,.12),'steel',rot=(0,-.12,0))
+    for y in (-1.56,1.48):
+        xz(a,[(2.02,1.30),(2.20,1.30),(2.46,.32),(2.30,.24),(2.15,.65)],y,y+.08,'yellow')
+    for y in (-.95,.95):a.beam((1.96,y,.55),(1.88,y,1.16),.11,.15,'dark_metal')
     a.beam((-1.31,0,.80),(-2.0,0,.63),.18,mat='yellow')
-    for y in (-.57,0,.57):a.beam((-1.93,y,.71),(-2.15,y,.16),.12,.17,'dark_metal')
+    for y in (-.57,0,.57):xz(a,[(-1.83,.76),(-2.01,.76),(-2.11,.31),(-2.34,.13),(-2.13,.12),(-1.94,.30)],y-.065,y+.065,'dark_metal')
 
 
 @asset('motor_grader')
 def motor_grader(a):
     wheels(a,[-2.1,-1.12,2.30],1.04,.59,.59,.33,True)
     a.box((-1.75,0,.92),(2.2,1.48,.39),'dark_metal')
-    chamfer(a,(-2.01,0,1.51),(1.56,1.44,.78))
+    hood(a,(-2.01,0,1.51),(1.56,1.44,.78),nose=-1)
     cab(a,(-.77,0,2.08),(1.26,1.34,1.65))
+    grille(a,-2.80,0,1.36,1.01,.36)
+    for y in (-1.04,1.04):
+        a.beam((-2.10,y,.59),(-1.12,y,.59),.22,.28,'dark_metal')
+        fender(a,-2.10,y,.59,.59,.42)
+        fender(a,-1.12,y,.59,.59,.42)
     a.beam((-.7,0,1.29),(1.98,0,1.06),.26,.28,'yellow')
     a.beam((1.98,0,1.06),(2.35,0,.62),.24,.27,'yellow')
     a.cylinder((.30,0,.50),(.30,0,.61),.67,'dark_metal',12)
     a.box((.52,0,.39),(.20,3.03,.66),'yellow',rot=(0,-.13,-.36))
     a.box((.58,0,.095),(.09,3.10,.08),'steel',rot=(0,0,-.36))
     for y in (-.55,.55):ram(a,(-.12,y,1.3),(.54,y,.62),.066)
-    a.cylinder((-2.5,.52,1.91),(-2.5,.52,2.55),.065,'dark_metal',8)
+    a.cylinder((-2.5,.52,1.70),(-2.5,.52,2.55),.065,'dark_metal',8)
 
 
 @asset('tracked_asphalt_paver')
@@ -324,8 +413,8 @@ def asphalt_paver(a):
     for y in (-1.15,1.15):a.box((1.45,y,1.28),(1.58,.16,.78),'yellow',rot=(.38 if y<0 else -.38,0,0))
     a.box((2.18,0,1.03),(.10,2.52,.48),'yellow')
     a.box((.61,0,1.32),(.16,2.0,.73),'yellow')
-    chamfer(a,(-.36,0,1.52),(1.55,1.62,.75))
-    grille(a,.43,0,1.48,1.20,.4)
+    hood(a,(-.36,0,1.52),(1.55,1.62,.75))
+    grille(a,.43,0,1.43,1.10,.30)
     a.box((-1.29,0,1.2),(1.0,2.1,.12),'dark_metal')
     for y in (-.67,.67):seat(a,-1.19,y,1.64)
     rops(a,-.97,1.90,1.27,2.83,1.6)
@@ -340,10 +429,11 @@ def tandem_roller(a):
     for x in (-1.05,1.05):
         a.cylinder((x,-.82,.62),(x,.82,.62),.62,'metal',16)
         for y in (-.91,.91):
-            a.box((x,y,.78),(.27,.15,.66),'yellow')
+            xz(a,[(x-.38,.64),(x-.28,1.12),(x+.27,1.12),(x+.38,.64),(x+.23,.49),(x-.23,.49)],y-.075,y+.075,'yellow')
             a.cylinder((x,y-.07,.62),(x,y+.07,.62),.17,'dark_metal',8)
-    a.box((0,0,1.02),(2.86,1.38,.40),'yellow')
-    chamfer(a,(.67,0,1.34),(1.02,1.23,.40))
+    for x in (-.81,.81):hood(a,(x,0,1.03),(1.36,1.38,.40),'yellow')
+    a.cylinder((0,0,.90),(0,0,1.20),.20,'dark_metal',10)
+    hood(a,(.67,0,1.34),(1.02,1.23,.40))
     seat(a,-.36,0,1.50);rops(a,-.48,1.32,1.1,2.65,1.45)
     a.beam((.12,0,1.28),(.12,0,1.68),.08,mat='dark_metal')
     a.torus((.13,0,1.71),.20,.025,'black',axis=(.45,0,1),segments=10,sides=5)
@@ -359,11 +449,12 @@ def soil_compactor(a):
         a.beam((.25,y,.94),(1.33,y,.78),.19,.22,'yellow')
         a.cylinder((1.32,y-.08,.78),(1.32,y+.08,.78),.19,'dark_metal',8)
     a.box((-.42,0,1.15),(2.66,1.69,.40),'yellow')
-    chamfer(a,(-1.32,0,1.55),(1.30,1.80,.54))
+    hood(a,(-1.32,0,1.55),(1.30,1.80,.54),nose=-1)
     cab(a,(-.32,0,2.19),(1.36,1.48,1.61))
-    grille(a,-1.985,0,1.57,1.43,.35)
+    grille(a,-1.985,0,1.44,1.29,.26)
+    for y in (-1.03,1.03):fender(a,-1.22,y,.69,.69,.55)
     a.box((1.98,0,.88),(.14,2.3,.16),'dark_metal')
-    beacon(a,-.44,0,3.05)
+    beacon(a,-.44,0,3.03)
 
 
 @asset('remote_trench_padfoot_roller')
@@ -374,11 +465,11 @@ def trench_roller(a):
             for i in range(10):
                 theta=2*pi*i/10
                 a.box((x+.35*cos(theta),y,.37+.35*sin(theta)),(.12,.29,.07),'metal',rot=(0,pi/2-theta,0))
-    chamfer(a,(0,0,.91),(1.62,.70,.55),'yellow')
+    hood(a,(0,0,.91),(1.62,.70,.55),'yellow')
     a.box((0,0,1.23),(.38,.49,.12),'dark_metal')
     a.cylinder((0,0,1.24),(0,0,1.40),.06,'orange',8)
     a.tube([(-.45,0,1.16),(-.45,0,1.35),(.45,0,1.35),(.45,0,1.16)],.035,'dark_metal')
-    grille(a,.825,0,.91,.44,.32)
+    grille(a,.825,0,.81,.39,.20)
 
 
 @asset('cold_planer_road_milling_machine')
@@ -387,9 +478,9 @@ def road_mill(a):
         temp=Asset('track')
         tracks(temp,1.38,1.02,.36,.52)
         temp.translate((x,0,.0));a.mesh(temp.vertices,temp.faces,temp.face_materials)
-    chamfer(a,(-.23,0,1.12),(4.3,2.07,.85))
+    hood(a,(-.23,0,1.12),(4.3,2.07,.85),nose=-1)
     a.box((-.1,0,.43),(1.45,2.14,.46),'dark_metal')
-    grille(a,-2.395,0,1.12,1.72,.52)
+    grille(a,-2.395,0,.96,1.50,.39)
     a.box((.83,0,1.63),(1.70,1.96,.12),'dark_metal')
     seat(a,.84,-.53,1.93);rops(a,.85,1.72,1.62,3.02,1.68)
     # Angled discharge conveyor, with rubber belt and high sidewalls.
@@ -406,7 +497,7 @@ def road_mill(a):
 def telehandler(a):
     wheels(a,[-1.28,1.28],1.0,.64,.64,.43,True)
     a.box((0,0,.92),(3.42,1.74,.44),'dark_metal')
-    chamfer(a,(-.56,.56,1.27),(2.35,.92,.69))
+    hood(a,(-.56,.56,1.27),(2.35,.92,.69),nose=-1)
     cab(a,(-.48,-.5,1.99),(1.53,1.01,1.62))
     p=(-1.13,.35,1.56);q=(2.32,.35,2.55)
     a.beam(p,q,.36,.40,'yellow')
@@ -416,8 +507,10 @@ def telehandler(a):
     for y in (-.10,.80):
         a.box((3.25,y,2.15),(.10,.12,.80),'steel')
         a.box((3.72,y,1.78),(1.03,.12,.10),'steel')
-    grille(a,-1.74,.58,1.30,.64,.39)
-    beacon(a,-.50,-.5,2.87)
+    grille(a,-1.74,.58,1.14,.56,.29)
+    for xx in (-1.28,1.28):
+        for yy in (-1.0,1.0):fender(a,xx,yy,.64,.64,.50)
+    beacon(a,-.50,-.5,2.84)
 
 
 @asset('electric_scissor_lift_extended')
@@ -454,9 +547,9 @@ def basket(a,x,y,z,w=1.35,l=.9):
 @asset('articulating_boom_lift')
 def boom_lift(a):
     wheels(a,[-.98,.98],.95,.55,.55,.34,True)
-    chamfer(a,(0,0,.78),(2.75,1.80,.6),'blue')
+    hood(a,(0,0,.78),(2.75,1.80,.6),'blue')
     a.cylinder((-.40,0,1.04),(-.40,0,1.25),.61,'dark_metal',10)
-    chamfer(a,(-.66,0,1.39),(1.50,1.44,.42),'blue')
+    hood(a,(-.66,0,1.39),(1.50,1.44,.42),'blue',-1)
     pts=[(-.30,0,1.5),(.85,0,3.28),(2.45,0,2.7),(3.23,0,3.45)]
     for p,q in zip(pts,pts[1:]):a.beam(p,q,.24,.28,'blue')
     ram(a,(-.24,-.21,1.34),(.79,-.21,3.04),.075)
@@ -468,7 +561,7 @@ def boom_lift(a):
 @asset('towable_cherry_picker')
 def towable_lift(a):
     trailer(a,2.52,1.38,.62,.35)
-    chamfer(a,(-.52,0,.93),(1.47,1.19,.53),'green')
+    hood(a,(-.52,0,.93),(1.47,1.19,.53),'green',-1)
     for x in (-.96,.85):
         for y in (-1.39,1.39):outrigger(a,x,y,.71)
     a.cylinder((-.45,0,1.13),(-.45,0,1.35),.4,'dark_metal',10)
@@ -485,8 +578,10 @@ def mobile_crane(a):
     for x in (-1.32,1.25):
         for y in (-2.01,2.01):outrigger(a,x,y,1.05)
     a.cylinder((-.26,0,1.26),(-.26,0,1.51),.87,'dark_metal',12)
-    chamfer(a,(-.60,0,1.72),(2.77,2.13,.48))
+    hood(a,(-.60,0,1.72),(2.77,2.13,.48),nose=-1)
     cab(a,(.23,-.74,2.23),(1.62,.89,1.53))
+    for xx in (-1.54,1.54):
+        for yy in (-1.16,1.16):fender(a,xx,yy,.74,.74,.55)
     a.beam((-1.15,.30,1.94),(1.9,.30,4.34),.50,.46,'yellow')
     a.beam((1.45,.30,3.99),(3.35,.30,5.48),.34,.32,'dark_metal')
     ram(a,(-.68,.22,1.53),(1.30,.22,3.88),.13)
@@ -494,7 +589,7 @@ def mobile_crane(a):
     a.tube([(3.48,.3,5.47),(3.48,.3,2.64)],.015,'black')
     a.box((3.48,.3,2.52),(.22,.18,.29),'yellow')
     a.torus((3.48,.3,2.26),.13,.04,'dark_metal',axis='y',segments=8,sides=5,arc=1.6*pi)
-    beacon(a,-.07,-.66,3.08)
+    beacon(a,-.07,-.66,3.03)
 
 
 def lattice(a,p,q,width=.65,segments=6,mat='yellow'):
@@ -540,7 +635,7 @@ def tower_crane(a):
 def crawler_crane(a):
     tracks(a,4.2,1.22,.61,.86)
     a.cylinder((-.17,0,.96),(-.17,0,1.16),.98,'dark_metal',12)
-    chamfer(a,(-.5,0,1.59),(3.0,2.35,.9),'yellow')
+    hood(a,(-.5,0,1.59),(3.0,2.35,.9),'yellow',-1)
     cab(a,(.55,-.76,2.05),(1.45,1.01,1.57))
     lattice(a,(.76,.30,1.8),(5.28,.30,7.18),.77,9)
     a.beam((-.89,0,1.94),(-.21,0,3.85),.13,mat='dark_metal')
@@ -549,7 +644,7 @@ def crawler_crane(a):
     for y in (.17,.39):a.cylinder((5.42,y,7.13),(5.42,y,2.65),.014,'black',6)
     a.box((5.42,.28,2.52),(.3,.36,.36),'yellow')
     a.torus((5.42,.28,2.17),.18,.055,'dark_metal',axis='y',segments=9,sides=5,arc=1.6*pi)
-    grille(a,-2.015,0,1.57,1.85,.54)
+    grille(a,-2.015,0,1.39,1.63,.40)
 
 
 @asset('tilting_drum_concrete_mixer','person')
@@ -587,13 +682,13 @@ def mortar_mixer(a):
 @asset('diesel_air_compressor_trailer')
 def compressor(a):
     trailer(a,2.15,1.30,.50,.31)
-    chamfer(a,(-.16,0,1.10),(2.05,1.21,.91),'yellow',.20)
-    grille(a,-1.20,0,1.08,.94,.62)
+    hood(a,(-.16,0,1.10),(2.05,1.21,.91),'yellow',-1)
+    grille(a,-1.20,0,1.02,.86,.30)
     for y in (-.62,.62):
-        grille(a,.35,y,1.15,.72,.48,'y')
+        grille(a,.35,y,.91,.65,.22,'y')
         a.box((-.20,y,1.05),(.19,.04,.04),'dark_metal')
-    a.cylinder((-.73,.31,1.59),(-.73,.31,1.97),.055,'dark_metal',8)
-    a.tube([(-.35,-.16,1.57),(-.35,-.16,1.70),(.14,-.16,1.70),(.14,-.16,1.57)],.035,'dark_metal')
+    a.cylinder((-.73,.31,1.44),(-.73,.31,1.97),.055,'dark_metal',8)
+    a.tube([(-.35,-.16,1.50),(-.35,-.16,1.70),(.14,-.16,1.70),(.14,-.16,1.50)],.035,'dark_metal')
     for y in (-.27,.27):
         a.cylinder((.95,y,.87),(1.10,y,.87),.05,'gold',8)
         a.box((1.05,y,.97),(.04,.22,.035),'red')
@@ -618,8 +713,8 @@ def generator(a):
 @asset('portable_light_tower_trailer')
 def light_tower(a):
     trailer(a,2.10,1.27,.49,.30)
-    chamfer(a,(-.34,0,.94),(1.43,1.12,.76),'cream')
-    grille(a,-1.075,0,.91,.87,.49)
+    hood(a,(-.34,0,.94),(1.43,1.12,.76),'cream',-1)
+    grille(a,-1.075,0,.84,.77,.31)
     a.box((.39,0,.72),(.29,.40,.32),'dark_metal')
     for x,y in [(-.87,-1),(-.87,1),(.73,-.82),(.73,.82)]:outrigger(a,x,y,.55)
     for z,h,w in [(1.63,2.1,.17),(3.27,1.7,.13),(4.50,1.0,.085)]:a.box((.35,0,z), (w,w,h),'metal')
@@ -674,8 +769,8 @@ def water_skid(a):
 @asset('trailer_concrete_line_pump')
 def concrete_pump(a):
     trailer(a,3.04,1.50,.53,.35)
-    chamfer(a,(.20,0,1.06),(2.07,1.29,.91),'yellow')
-    grille(a,1.25,0,1.06,.92,.56)
+    hood(a,(.20,0,1.06),(2.07,1.29,.91),'yellow')
+    grille(a,1.25,0,.95,.88,.33)
     # Open aggregate hopper with grate and visible feed chamber.
     a.box((-1.26,0,.92),(.74,1.40,.16),'dark_metal')
     for y in (-.64,.64):a.box((-1.26,y,1.19),(.95,.08,.60),'yellow',rot=(.16 if y<0 else -.16,0,0))

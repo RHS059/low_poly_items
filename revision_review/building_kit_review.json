@@ -1,0 +1,154 @@
+{
+  "reviewer": "independent_collection_audit",
+  "scope": "Read-only source, BUILDING_KIT.md, isolated exported contact sheet and manifest review of the 50-part building kit; requested report is the only review-authored file.",
+  "coverage": {
+    "asset_count": 50,
+    "building_walls": 12,
+    "building_floors": 10,
+    "building_ceilings": 8,
+    "building_doors": 10,
+    "building_windows": 10
+  },
+  "nominal_fit": {
+    "status": "passed",
+    "wall_height_m": 3,
+    "wall_thickness_m": 0.2,
+    "opening_trim_thickness_m": 0.204,
+    "floor_thickness_m": 0.2,
+    "door_openings_m": [
+      [
+        1,
+        2.2
+      ],
+      [
+        2,
+        2.2
+      ]
+    ],
+    "window_openings_m": [
+      [
+        1,
+        1.4
+      ],
+      [
+        2,
+        1.4
+      ]
+    ],
+    "window_sill_height_above_wall_origin_m": 0.9,
+    "storefront_opening_m": [
+      3.6,
+      2.6
+    ],
+    "bottom_centered_source_origins": "All 50 source factories checked within 1e-8 m tolerance",
+    "suspended_grid_xy_dimensions_m": [
+      2,
+      4
+    ]
+  },
+  "example_scene": {
+    "status": "passed",
+    "floor_origin": [
+      0,
+      0,
+      0
+    ],
+    "wall_origin_z": 0.2,
+    "wall_centres_xy": [
+      [
+        0,
+        -2.1
+      ],
+      [
+        0,
+        2.1
+      ],
+      [
+        -2.1,
+        0
+      ],
+      [
+        2.1,
+        0
+      ]
+    ],
+    "corner_pier_centres_xy": [
+      [
+        -2.1,
+        -2.1
+      ],
+      [
+        -2.1,
+        2.1
+      ],
+      [
+        2.1,
+        -2.1
+      ],
+      [
+        2.1,
+        2.1
+      ]
+    ],
+    "door_origin": [
+      0,
+      -2.1,
+      0.2
+    ],
+    "window_origin": [
+      0,
+      2.1,
+      1.1
+    ],
+    "ceiling_origin": [
+      0,
+      0,
+      3.2
+    ],
+    "reason": "4 m wall ends join 0.2 m pier bodies; floor/ceiling interior edges meet wall inner faces. Window origin equals floor top plus 0.9 m sill; ceiling equals wall origin plus 3 m."
+  },
+  "findings": [
+    {
+      "issue": "Coplanar wall corner trim and floor fascia exterior surfaces",
+      "status": "resolved_source_confirmed",
+      "resolution": "Root removed overlapping corner trim and moved fascia front beyond the body face while burying its back."
+    },
+    {
+      "issue": "17.5 mm open perimeter around window glass",
+      "status": "resolved_source_confirmed",
+      "resolution": "Root increased glass extent to overlap invisibly into frame/mullions."
+    },
+    {
+      "issue": "64 mm open strip above glazed door midrail",
+      "status": "resolved_source_confirmed",
+      "resolution": "Root computes glass endpoints from rail positions with small buried overlaps."
+    },
+    {
+      "issue": "50 mm double-door meeting gap",
+      "status": "resolved_source_confirmed",
+      "resolution": "Root widened leaves to 0.946 m at centres\u00b1.475m, giving 4 mm nominal meeting clearance."
+    },
+    {
+      "issue": "Ceiling perimeter bars exceeded 2 m/4 m tiling footprint by 24 mm",
+      "status": "resolved_source_confirmed",
+      "resolution": "Root uses half-width perimeter bars inset 0.006 m. Fresh source bounds confirm exact 2/4 m dimensions."
+    },
+    {
+      "issue": "Clerestory insert has no standard 1.4 m wall socket",
+      "status": "resolved_documentation_confirmed",
+      "resolution": "BUILDING_KIT.md explicitly identifies2\u00d7.6m clerestory as a custom-opening insert."
+    },
+    {
+      "issue": "Double-door right leaf hardware handedness",
+      "status": "resolved_source_confirmed",
+      "resolution": "Root mirrors all right-leaf vertices about the leaf centre and reverses new face winding, placing hinges at the outer jamb and handles at the meeting edge."
+    },
+    {
+      "issue": "Storefront side glazing lacks bottom closure and stops 15 mm below header",
+      "status": "resolved_source_confirmed",
+      "resolution": "Root extends side glass over z = 0.04–2.56 m and adds 0.05 m bottom rails, providing 0.01 m buried overlap at bottom and header."
+    }
+  ],
+  "validation_note": "Existing isolated 50-asset GLB/.blend report passes with zero errors. Main integration validation must use latest root source after final fixes; this report does not replace that gate.",
+  "overall_review": "passed: all reported fit/construction findings resolved in source or documented; final full-collection integration build remains the authoritative export validation."
+}

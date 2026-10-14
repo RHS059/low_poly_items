@@ -3,12 +3,14 @@ const fs = require('fs');
 (async () => {
   const browser = await chromium.launch({headless:true,args:['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
   const page = await browser.newPage({viewport:{width:1440,height:1000}});
+  const manifest=JSON.parse(fs.readFileSync('manifest.json','utf8'));
+  const expected=manifest.asset_count;const names=new Set(manifest.assets.map(a=>a.name));
   const errors=[]; page.on('pageerror',e=>errors.push(e.message));
-  for (const id of ['b03_classic_muscle_coupe','b04_compact_open_debris_skip']) {
+  for (const id of ['b03_classic_muscle_coupe','b04_compact_open_debris_skip','b08_american_elm','b10_bottled_drink_vending_machine','b17_running_shoe','b21_wall_window_opening_4m','b21_door_wood_panel'].filter(id=>names.has(id))) {
     await page.goto('http://127.0.0.1:8765/?check='+id+'#'+id);
     await page.waitForFunction(()=>document.querySelector('#status').textContent==='',null,{timeout:90000});
     if(await page.locator('#title').textContent()!==id.replace(/^b\d+_/, '').replaceAll('_',' ')) throw Error('Wrong selected model');
-    if(await page.locator('.item').count()!==1000) throw Error('Expected 1000 items');
+    if(await page.locator('.item').count()!==expected) throw Error('Incorrect asset count');
     await page.screenshot({path:`review/${id}.png`});
   }
   await page.locator('#search').fill('tanker');
@@ -23,6 +25,6 @@ const fs = require('fs');
   await page.locator('#search').fill('');
   await page.locator('#next').click();await page.waitForFunction(()=>document.querySelector('#status').textContent==='');
   if(errors.length)throw Error(errors.join('\n'));
-  fs.writeFileSync('review/viewer-check.json',JSON.stringify({passed:true,checks:['1000 items','GLB loads','search','empty search','rotate','pan','reset','next item','no page errors'],date:new Date().toISOString()},null,2)+'\n');
+  fs.writeFileSync('review/viewer-check.json',JSON.stringify({passed:true,checks:[expected+' items','GLB loads','search','empty search','rotate','pan','reset','next item','no page errors'],date:new Date().toISOString()},null,2)+'\n');
   await browser.close();
 })().catch(e=>{console.error(e);process.exit(1);});

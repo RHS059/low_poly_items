@@ -58,7 +58,20 @@ def bolt(a, x,z, r=.007, depth=.03, y=0, mat='silver'):
     a.cylinder((x,y-depth/2,z),(x,y+depth/2,z),r,mat,sides=6)
 
 def grip(a,p1,p2,r=.017,mat='rubber',sides=8):
-    a.cylinder(p1,p2,r,mat,sides=sides,radius2=r*.9)
+    # One connected octagonal grip with a palm swell and end chamfers.
+    from assetlib import frame, sub, add, mul
+    u,v,w=frame(sub(p2,p1));length=math.dist(p1,p2)
+    rings=[(0,.80),(.07,1.0),(.40,1.07),(.83,.96),(1,.76)]
+    vs=[]
+    for t,sc in rings:
+        c=add(p1,mul(w,length*t))
+        for i in range(sides):
+            th=2*math.pi*i/sides
+            vs.append(add(c,add(mul(u,r*sc*math.cos(th)),mul(v,r*.85*sc*math.sin(th)))))
+    fs=[tuple(reversed(range(sides))),tuple(range((len(rings)-1)*sides,len(rings)*sides))]
+    fs += [(j*sides+i,j*sides+(i+1)%sides,(j+1)*sides+(i+1)%sides,(j+1)*sides+i) for j in range(len(rings)-1) for i in range(sides)]
+    a.mesh(vs,fs,mat)
+
 
 def ribs(a,zs,x=0,y=0,w=.035,d=.029,mat='dark_metal'):
     for z in zs: a.box((x,y,z),(w,d,.004),mat)
@@ -73,11 +86,11 @@ def tooth_strip(a,x0,x1,z,step,depth=.002,down=.009,y=0):
         poly(a,[(x,z),(x+(x1-x0)/n*.55,z-down),(x+(x1-x0)/n,z)],depth,'steel',y)
 
 def hammer_handle(a,zmax=.29,mat='wood'):
-    a.cylinder((0,0,.015),(0,0,zmax),.015,mat,8,radius2=.011)
-    a.cylinder((0,0,.005),(0,0,.032),.016,'wood_dark' if mat=='wood' else 'rubber',8)
-    a.box((0,0,zmax-.009),(.038,.031,.018),'dark_metal')
+    grip(a,(0,0,.009),(0,0,zmax),.015,mat,8)
+    a.cylinder((0,0,.002),(0,0,.020),.014,'wood_dark' if mat=='wood' else 'rubber',8,radius2=.017)
+    a.box((0,0,zmax-.005),(.025,.026,.014),'dark_metal')
 
-# Impact and leverage tools ---------------------------------------------------
+
 def claw_hammer():
     a=asset('claw_hammer'); hammer_handle(a,.295)
     a.box((-.013,0,.309),(.071,.039,.042),'dark_metal')
@@ -156,14 +169,14 @@ def flat_nail_pull_bar():
 # Wrenches, socket tools and keys ---------------------------------------------
 def adjustable_wrench():
     a=asset('adjustable_wrench')
-    poly(a,[(-.013,.015),(.013,.012),(.019,.146),(.029,.190),(.025,.221),(-.013,.222),(-.024,.187),(-.015,.15)],.017,'metal')
+    poly(a,[(-.011,.036),(.011,.036),(.019,.146),(.029,.190),(.025,.221),(-.013,.222),(-.024,.187),(-.015,.15)],.017,'metal')
     # Fixed hooked jaw, open slot, movable jaw and exposed knurled adjuster.
     poly(a,[(-.023,.19),(-.047,.222),(-.042,.255),(-.014,.262),(-.012,.248),(-.026,.243),(-.025,.222),(-.010,.211)],.020,'steel')
     poly(a,[(.014,.2),(.025,.212),(.033,.25),(.021,.255),(.009,.221)],.021,'steel')
     a.box((.003,-.011,.218),(.025,.007,.020),'dark_metal')
     a.cylinder((-.009,-.015,.218),(.014,-.015,.218),.009,'metal',8)
     for x in [-.006,0,.006,.012]: a.box((x,-.023,.218),(.002,.003,.014),'steel')
-    ring(a,(0,0,.024),.010,.005,.019,'steel',8)
+    ring(a,(0,0,.025),.017,.007,.019,'steel',10)
     return finish(a)
 
 def combination_wrench():
@@ -247,7 +260,7 @@ def bolt_cutters():
 def combination_pliers():
     a=asset('combination_pliers')
     for s in [-1,1]:
-        a.beam((s*.037,0,.014),(s*.011,0,.123),.022,.024,'teal')
+        a.beam((s*.037,0,.015),(s*.009,0,.125),.014,.014,'steel');grip(a,(s*.037,0,.012),(s*.014,0,.101),.015,'teal',6)
         a.beam((s*.013,0,.10),(-s*.012,0,.154),.014,.018,'steel')
         poly(a,[(s*x,z) for x,z in ([(.007,.14),(.025,.16),(.022,.197),(.007,.197),(.004,.174)] if s==1 else reversed([(.007,.14),(.025,.16),(.022,.197),(.007,.197),(.004,.174)]))],.018,'metal')
         for z in [.171,.18,.19]: a.box((s*.006,0,z),(.005,.020,.003),'steel')
@@ -257,7 +270,7 @@ def combination_pliers():
 def needle_nose_pliers():
     a=asset('needle_nose_pliers')
     for s in [-1,1]:
-        a.beam((s*.035,0,.012),(s*.009,0,.105),.019,.024,'rubber')
+        a.beam((s*.035,0,.012),(s*.009,0,.105),.013,.014,'steel');grip(a,(s*.035,0,.012),(s*.016,0,.090),.014,'rubber',6)
         a.beam((s*.011,0,.078),(-s*.008,0,.132),.014,.017,'steel')
         poly(a,[(s*x,z) for x,z in ([(.004,.122),(.018,.133),(.005,.207),(.001,.208)] if s==1 else reversed([(.004,.122),(.018,.133),(.005,.207),(.001,.208)]))],.011,'steel')
         for z in [.15,.165,.18]:a.box((s*.004,0,z),(.003,.013,.002),'dark_metal')
@@ -280,20 +293,24 @@ def locking_pliers():
 
 def wire_stripper():
     a=asset('wire_stripper')
-    for s in [-1,1]:
-        a.beam((s*.04,0,.01),(s*.012,0,.103),.022,.025,'navy')
-        a.beam((s*.014,0,.083),(-s*.011,0,.139),.015,.014,'steel')
-        poly(a,[(s*x,z) for x,z in ([(.003,.125),(.021,.133),(.027,.185),(.006,.197),(.003,.183)] if s==1 else reversed([(.003,.125),(.021,.133),(.027,.185),(.006,.197),(.003,.183)]))],.010,'metal')
+    for sign in (-1,1):
+        a.beam((sign*.04,0,.012),(sign*.011,0,.121),.012,.012,'steel')
+        grip(a,(sign*.04,0,.01),(sign*.018,0,.092),.015,'navy',6)
+        # Semicircular notches are empty geometry, each size cuts a real bite.
+        edge=[(.002,.126)]
+        for z,r in ((.140,.006),(.155,.005),(.169,.004),(.182,.003)):
+            edge.extend([(.002,z-r),(.002+r*.8,z-r*.6),(.002+r,z),(.002+r*.8,z+r*.6),(.002,z+r)])
+        pts=edge+[(.005,.198),(.024,.184),(.020,.135)]
+        poly(a,[(sign*x,z) for x,z in pts],.010,'metal')
     bolt(a,0,.121,.010,.028)
-    for i,z in enumerate([.142,.154,.166,.178]):
-        a.cylinder((0,-.008,z),(0,.008,z),.006-i*.0008,'black',8)
-    a.tube([(-.017,0,.081),(-.008,0,.075),(.007,0,.079),(.018,0,.091)],.002,'steel',4)
+    a.tube([(-.018,0,.081),(-.009,0,.074),(.008,0,.078),(.018,0,.09)],.002,'steel',4)
     return finish(a)
+
 
 def aviation_snips():
     a=asset('aviation_snips')
     for s in [-1,1]:
-        a.beam((s*.039,0,.015),(s*.017,0,.114),.026,.025,'green' if s==1 else 'rubber')
+        a.beam((s*.039,0,.015),(s*.017,0,.114),.015,.014,'steel');grip(a,(s*.039,0,.012),(s*.020,0,.096),.017,'green' if s==1 else 'rubber',6)
         a.beam((s*.018,0,.092),(-s*.008,0,.152),.020,.015,'metal')
     poly(a,[(-.013,.136),(.012,.157),(.01,.199),(-.011,.236),(-.022,.242),(-.008,.19)],.010,'steel',-.007)
     poly(a,[(-.009,.148),(.018,.147),(.03,.18),(-.008,.235),(-.001,.186)],.010,'metal',.007)
@@ -317,7 +334,8 @@ def stubby_phillips_screwdriver():
     a.cylinder((0,0,.009),(0,0,.047),.026,'rubber',10,radius2=.022)
     a.cylinder((0,0,.047),(0,0,.059),.022,'navy',10,radius2=.012)
     a.cylinder((0,0,.059),(0,0,.093),.004,'steel',8)
-    for r in [0,math.pi/2]:a.box((0,0,.095),(.009,.002,.014),'silver',rot=(0,0,r))
+    poly(a,[(-.004,.086),(.004,.086),(.001,.103),(-.001,.103)],.002,'silver')
+    a.cylinder((0,0,.085),(0,0,.097),.003,'steel',4,radius2=.001)
     for x in [-.023,.023]:a.box((x,0,.029),(.006,.016,.024),'navy')
     a.cylinder((0,0,.003),(0,0,.01),.018,'dark_metal',8)
     return finish(a)
@@ -359,7 +377,7 @@ def spirit_level():
     for x,w in [(-.252,.088),(-.131,.114),(.131,.114),(.252,.088)]:a.box((x,0,.028),(w,.008,.038),'teal')
     for x in [-.295,.295]:a.box((x,0,.028),(.018,.036,.064),'rubber')
     for x in [-.185,0,.185]:
-        a.box((x,0,.026),(.056,.012,.012),'glass')
+        a.box((x,0,.028),(.046,.012,.012),'glass',rot=(0,0 if x==0 else (math.pi/2 if x<0 else math.pi/4),0))
         for dx in [-.012,.012]:a.box((x+dx,-.007,.026),(.002,.002,.012),'black')
         a.box((x-.004,-.007,.026),(.008,.002,.008),'light')
     return finish(a)
@@ -429,7 +447,9 @@ def hand_plane():
     a.box((-.043,0,.078),(.012,.031,.05),'steel',rot=(0,-.52,0))
     a.cylinder((-.091,0,.026),(-.091,0,.070),.017,'wood',8,radius2=.022)
     a.sphere((-.091,0,.074),(.023,.023,.013),'wood',8,3)
-    poly(a,[(.037,.018),(.066,.018),(.078,.067),(.100,.087),(.099,.115),(.071,.116),(.056,.087),(.059,.056)],.022,'wood')
+    poly(a,[(.044,.018),(.067,.018),(.080,.070),(.074,.089),(.061,.071)],.021,'wood')
+    poly(a,[(.074,.080),(.085,.085),(.103,.110),(.093,.121),(.071,.116),(.057,.098)],.023,'wood')
+    poly(a,[(.044,.018),(.042,.070),(.057,.103),(.069,.104),(.055,.069),(.056,.02)],.021,'wood')
     a.cylinder((.002,0,.048),(.025,0,.064),.013,'gold',8)
     a.box((-.02,0,.112),(.008,.032,.008),'dark_metal')
     return finish(a)
@@ -439,7 +459,10 @@ def wood_rasp():
     a.cylinder((0,0,.01),(0,0,.113),.019,'wood',8,radius2=.013)
     a.cylinder((0,0,.105),(0,0,.121),.014,'metal',8)
     poly(a,[(-.012,.119),(.012,.119),(.014,.307),(0,.335),(-.014,.307)],.008,'metal')
-    for i in range(12):a.box((0,-.005,.136+i*.014),(.025,.003,.002),'steel',rot=(0,.15,0))
+    for i in range(10):
+        for x in (-.007,.005):
+            z=.138+i*.017+(0.006 if x>0 else 0)
+            poly(a,[(x-.003,z),(x+.003,z),(x+.001,z+.006)],.003,'steel',-.006)
     return finish(a)
 
 def masonry_trowel():
@@ -489,8 +512,8 @@ def rivet_gun():
     poly(a,[(-.021,.077),(.034,.076),(.047,.142),(.034,.177),(-.021,.177)],.029,'metal')
     a.cylinder((-.021,0,.162),(-.062,0,.162),.008,'steel',8)
     a.cylinder((-.064,0,.162),(-.071,0,.162),.005,'dark_metal',6)
-    a.beam((-.013,0,.105),(-.039,0,.008),.027,.026,'navy')
-    a.beam((.014,0,.112),(.061,0,.012),.025,.024,'rubber')
+    a.beam((-.013,0,.105),(-.039,0,.008),.016,.016,'metal');grip(a,(-.039,0,.010),(-.021,0,.083),.017,'navy',6)
+    a.beam((.014,0,.112),(.061,0,.012),.014,.014,'steel');grip(a,(.061,0,.012),(.032,0,.076),.017,'rubber',6)
     a.beam((.02,0,.12),(.045,0,.064),.020,.017,'steel')
     bolt(a,.008,.125,.009,.037)
     for x,z in [(-.01,.154),(.025,.154),(.018,.086)]:bolt(a,x,z,.004,.032)
@@ -505,11 +528,13 @@ def drill_body(a, short=False, hammer=False):
     a.cylinder((-length/2-.010,0,z),(-length/2+.011,0,z),.043,'rubber',10)
     poly(a,[(-.054,.059),(.007,.059),(.036,.194),(-.007,.218),(-.028,.166)],.049,'teal')
     poly(a,[(-.046,.074),(-.013,.074),(.007,.158),(-.023,.18)],.053,'rubber')
-    a.box((-.025,0,.032),(.112,.079,.054),'rubber')
+    poly(a,[(-.081,.01),(-.073,.005),(.026,.005),(.031,.014),(.031,.050),(.022,.059),(-.075,.059),(-.081,.051)],.079,'rubber')
     a.box((-.025,0,.060),(.089,.071,.011),'dark_metal')
     a.box((.022,-.003,.179),(.022,.048,.023),'black')
     a.box((-.041,-.042,.034),(.054,.004,.017),'teal')
     for x in [-length*.36,-length*.24,-length*.12]:a.box((x,-.041,z+.001),(.006,.007,.027),'black')
+    for y in (-.04,.04):a.box((.011,y,.048),(.018,.008,.015),'teal')
+    a.box((-.025,.039,.067),(.045,.006,.011),'metal')
     return z,length
 
 def cordless_drill():
@@ -553,11 +578,14 @@ def angle_grinder():
 
 def circular_saw():
     a=asset('circular_saw')
-    a.box((0,0,.018),(.279,.147,.009),'steel')
-    a.cylinder((.021,-.044,.115),(.021,-.039,.115),.092,'metal',16)
-    for i in range(12):
-        t=2*math.pi*i/12
-        a.box((.021+.093*math.cos(t),-.042,.115+.093*math.sin(t)),(.015,.006,.012),'steel',rot=(0,-t,0))
+    a.box((0,.031,.018),(.279,.085,.009),'steel')
+    a.box((0,-.065,.018),(.279,.017,.009),'steel')
+    for x in (-.132,.132):a.box((x,-.032,.018),(.015,.055,.009),'steel')
+    teeth=[]
+    for i in range(16):
+        t=2*math.pi*i/16
+        teeth.extend([(.021+.087*math.cos(t),.115+.087*math.sin(t)),(.021+.095*math.cos(t+.10),.115+.095*math.sin(t+.10))])
+    poly(a,teeth,.004,'metal',-.042)
     a.cylinder((.021,-.052,.115),(.021,-.04,.115),.015,'dark_metal',8)
     poly(a,[(-.079,.116),(-.072,.173),(-.028,.211),(.034,.219),(.095,.192),(.121,.14),(.123,.118)],.036,'teal',-.020)
     a.cylinder((.01,.009,.112),(.01,.095,.112),.047,'teal',10)
@@ -572,10 +600,13 @@ def circular_saw():
 
 def jigsaw():
     a=asset('jigsaw')
-    a.box((.01,0,.007),(.175,.074,.012),'steel')
+    for y in (-.030,.030):a.box((.01,y,.007),(.175,.014,.012),'steel')
+    a.box((-.056,0,.007),(.043,.047,.012),'steel')
+    a.box((.079,0,.007),(.025,.047,.012),'steel')
     poly(a,[(-.063,.046),(.053,.046),(.064,.148),(.049,.182),(-.041,.185),(-.070,.15)],.068,'teal')
     a.box((.019,0,.040),(.012,.046,.036),'metal')
-    a.box((.019,0,.008),(.008,.002,.08),'steel')
+    poly(a,[(.015,-.032),(.022,-.032),(.024,-.021),(.02,-.016),(.024,-.009),(.02,-.004),(.024,.003),(.02,.008),(.023,.016),(.023,.048),(.015,.048)],.002,'steel')
+    a.cylinder((.006,-.011,.026),(.006,.011,.026),.008,'dark_metal',6)
     for s in [-1,1]:a.cylinder((.035,s*.024,.024),(.044,s*.024,.077),.003,'steel',6)
     a.beam((-.064,0,.157),(-.075,0,.233),.029,.036,'rubber')
     a.beam((-.075,0,.233),(.034,0,.23),.029,.036,'rubber')

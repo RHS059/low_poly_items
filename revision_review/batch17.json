@@ -1,0 +1,257 @@
+{
+  "batch": 17,
+  "reviewed": 50,
+  "revised": 11,
+  "assets": [
+    {
+      "name": "b17_paneled_soccer_ball",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_seamed_basketball",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_laced_american_football",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_tennis_ball",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_stitched_baseball",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_striped_volleyball",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_wooden_baseball_bat",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_baseball_fielders_glove",
+      "decision": "revised",
+      "reason": "Rebuilt with a concave catching pocket, curved finger stalls, thumb and open leather web."
+    },
+    {
+      "name": "b17_tennis_racket",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_badminton_racket",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_feather_shuttlecock",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_table_tennis_paddle",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_flying_disc",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_wooden_boomerang",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_coiled_jump_rope",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_quad_roller_skate",
+      "decision": "revised",
+      "reason": "Rebuilt last-shaped toe/heel/instep, thin contoured sole, open padded collar and fitted laces; existing skate running gear retained where applicable."
+    },
+    {
+      "name": "b17_inline_skate",
+      "decision": "revised",
+      "reason": "Rebuilt last-shaped toe/heel/instep, thin contoured sole, open padded collar and fitted laces; existing skate running gear retained where applicable."
+    },
+    {
+      "name": "b17_street_skateboard",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_vented_bicycle_helmet",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_skate_elbow_guard",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_zippered_day_backpack",
+      "decision": "revised",
+      "reason": "Replaced rigid extrusion with bulged sewn body/pocket profiles; fitted front badge."
+    },
+    {
+      "name": "b17_external_frame_hiking_pack",
+      "decision": "revised",
+      "reason": "Formed fabric main body, lid and side pockets around the existing external frame."
+    },
+    {
+      "name": "b17_sports_duffel_bag",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_messenger_satchel",
+      "decision": "revised",
+      "reason": "Bulging tailored shell and flap replace rectangular rigid construction."
+    },
+    {
+      "name": "b17_canvas_shopping_tote",
+      "decision": "revised",
+      "reason": "Tucked corners and bulged fabric panels replace the block-like body."
+    },
+    {
+      "name": "b17_ribbed_rolling_suitcase",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_folding_shopping_trolley",
+      "decision": "revised",
+      "reason": "Shaped fabric bag and lid fitted to the wheeled frame."
+    },
+    {
+      "name": "b17_open_rain_umbrella",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_furled_walking_umbrella",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_folding_baby_stroller",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_soft_structured_baby_carrier",
+      "decision": "revised",
+      "reason": "Shaped padded fabric body and collar replace rectangular volumes."
+    },
+    {
+      "name": "b17_running_shoe",
+      "decision": "revised",
+      "reason": "Rebuilt last-shaped toe/heel/instep, thin contoured sole, open padded collar and fitted laces; existing skate running gear retained where applicable."
+    },
+    {
+      "name": "b17_lace_up_hiking_boot",
+      "decision": "revised",
+      "reason": "Rebuilt last-shaped toe/heel/instep, thin contoured sole, open padded collar and fitted laces; existing skate running gear retained where applicable."
+    },
+    {
+      "name": "b17_trail_sandal",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_wide_brim_sun_hat",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_baseball_cap",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_folded_sunglasses",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_compact_binoculars",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_compact_digital_camera",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_outdoor_two_way_radio",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_handheld_torch_flashlight",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_portable_folding_camp_chair",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_tripod_folding_camp_stool",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_strapped_sleeping_bag_roll",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_ribbed_foam_sleeping_mat",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_folded_picnic_blanket",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_ventilated_pet_carrier",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_retractable_dog_leash",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_padded_dog_walking_harness",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    },
+    {
+      "name": "b17_diamond_flying_kite",
+      "decision": "retained",
+      "reason": "Reviewed silhouette and construction: existing shaped surfaces and functional parts adequately describe this simple low-poly prop within its handheld/person budget; no decorative subdivision added."
+    }
+  ]
+}

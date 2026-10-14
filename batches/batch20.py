@@ -34,8 +34,47 @@ def taper(a, x, y, z, w, d, h, tw, td, m):
     a.mesh(v, [(3,2,1,0),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7),(4,5,6,7)], m)
 
 
+def molded(a,levels,m='cream',offset=(0,0,0),cut=.09):
+    """Loft chamfered horizontal sections for a molded body or domed lid."""
+    vs=[]
+    for w,d,z in levels:
+        k=min(cut,w*.22,d*.22)
+        ring=[(-w/2+k,-d/2),(w/2-k,-d/2),(w/2,-d/2+k),(w/2,d/2-k),
+              (w/2-k,d/2),(-w/2+k,d/2),(-w/2,d/2-k),(-w/2,-d/2+k)]
+        vs.extend((x+offset[0],y+offset[1],z+offset[2]) for x,y in ring)
+    n=len(levels);fs=[tuple(reversed(range(8))),tuple(range((n-1)*8,n*8))]
+    fs.extend((j*8+i,j*8+(i+1)%8,(j+1)*8+(i+1)%8,(j+1)*8+i) for j in range(n-1) for i in range(8))
+    a.mesh(vs,fs,m)
+
+
+def profile_x(a,pts,x0,x1,m):
+    n=len(pts);vs=[(x,y,z) for x in (x0,x1) for y,z in pts]
+    a.mesh(vs,[tuple(reversed(range(n))),tuple(range(n,2*n))]+
+           [(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)],m)
+
+
+def fabric_roof(a,levels,m='cream'):
+    """Tensioned roof facets: corners stand proud of the slack panel midpoints."""
+    vs=[]
+    for r,z,sag in levels:
+        vs.extend((x*r,y*r,z-(sag if i%2 else 0)) for i,(x,y) in enumerate([(-1,-1),(0,-1),(1,-1),(1,0),(1,1),(0,1),(-1,1),(-1,0)]))
+    fs=[(j*8+i,j*8+(i+1)%8,(j+1)*8+(i+1)%8,(j+1)*8+i) for j in range(len(levels)-1) for i in range(8)]
+    top=len(vs);vs.append((0,0,levels[-1][1]+.007))
+    fs.extend(((len(levels)-1)*8+i,(len(levels)-1)*8+(i+1)%8,top) for i in range(8))
+    a.mesh(vs,fs,m)
+
+
 def wheel(a, x, y, z, r=.15, width=.08):
-    rod(a, (x-width/2,y,z), (x+width/2,y,z), r, 'rubber', 12)
+    n=12;vs=[]
+    for xx,rr in ((-.50,.74),(-.31,1),(.31,1),(.50,.74)):
+        vs.extend((x+width*xx,y+r*rr*math.cos(i*math.tau/n),z+r*rr*math.sin(i*math.tau/n)) for i in range(n))
+    fs=[tuple(reversed(range(n))),tuple(range(3*n,4*n))]
+    fs.extend((j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i) for j in range(3) for i in range(n))
+    a.mesh(vs,fs,'rubber')
+    if r>=.24:
+        for i in range(12):
+            th=i*math.tau/12
+            a.box((x,y+r*math.cos(th),z+r*math.sin(th)),(width*.88,r*.19,r*.055),'rubber',rot=(th-math.pi/2,0,0))
     rod(a, (x-width*.56,y,z), (x+width*.56,y,z), r*.46, 'metal', 8)
     rod(a, (x-width*.6,y,z), (x+width*.6,y,z), r*.13, 'dark_metal', 8)
 
@@ -130,11 +169,8 @@ def kayakrack(a):
 
 @item('marina_gear_handcart','waterfront')
 def dockcart(a):
-    a.box((0,0,.34),(.85,1.18,.09),'teal')
-    for x in (-.39,.39):
-        a.box((x,0,.53),(.055,1.18,.35),'teal')
-    for y in (-.56,.56):
-        a.box((0,y,.53),(.8,.05,.35),'teal')
+    # Tapered barrow tub, modeled inside and out with a rolled lip.
+    molded(a,[(.71,1.00,.30),(.89,1.23,.70),(.81,1.15,.70),(.65,.94,.365)],'teal',cut=.10)
     for x in (-.32,.32):
         for y in (-.39,.39):
             rod(a,(x,y,.15),(x,y,.3),.035,'steel')
@@ -143,7 +179,7 @@ def dockcart(a):
         rod(a,(x,.5,.57),(x,.7,1.07),.026,'steel')
     rod(a,(-.36,.7,1.07),(.36,.7,1.07),.035,'rubber')
     for y in (-.4,-.2,0,.2,.4):
-        a.box((0,y,.391),(.69,.009,.006),'dark_metal')
+        a.box((0,y,.374),(.62,.009,.006),'dark_metal')
 
 
 @item('boat_launch_hand_winch_pedestal','waterfront')
@@ -294,8 +330,8 @@ def linebin(a):
 # WINTER — 15
 @item('municipal_salt_grit_bunker','winter_equipment')
 def saltbin(a):
-    taper(a,0,0,.07,.88,.6,.66,1.05,.75,'yellow')
-    a.box((0,0,.78),(1.11,.8,.105),'dark_metal',rot=(.06,0,0))
+    molded(a,[(.85,.58,.07),(.96,.68,.19),(1.05,.75,.73)],'yellow')
+    molded(a,[(1.11,.8,.733),(1.11,.8,.79),(.97,.67,.86)],'dark_metal')
     for x in (-.4,.4):
         a.box((x,0,.045),(.11,.61,.09),'black')
     handle(a,0,-.417,.74,.25,.055,'black')
@@ -308,7 +344,7 @@ def saltbin(a):
 
 @item('wide_push_snow_shovel','winter_equipment','handheld')
 def snowshovel(a):
-    a.box((0,0,.16),(.68,.07,.31),'navy',rot=(-.2,0,0))
+    profile_x(a,[(-.073,.015),(-.021,.085),(.047,.20),(.071,.33),(.098,.33),(.074,.19),(.003,.071),(-.049,.013)],-.34,.34,'navy')
     a.box((0,-.04,.028),(.69,.12,.035),'steel')
     for x in (-.29,-.145,0,.145,.29):
         a.box((x,.042,.18),(.018,.018,.25),'dark_metal',rot=(-.2,0,0))
@@ -319,10 +355,9 @@ def snowshovel(a):
 
 @item('wheeled_snow_scoop','winter_equipment')
 def snowscoop(a):
-    a.box((0,-.12,.1),(.8,.66,.07),'navy',rot=(.11,0,0))
-    a.box((0,.21,.28),(.8,.07,.4),'navy',rot=(-.25,0,0))
+    profile_x(a,[(-.47,.035),(.02,.08),(.17,.15),(.23,.31),(.23,.49),(.27,.49),(.28,.30),(.21,.13),(.06,.06),(-.47,.002)],-.40,.40,'navy')
     for x in (-.38,.38):
-        a.box((x,-.05,.21),(.04,.63,.26),'navy')
+        profile_x(a,[(-.46,.045),(-.34,.20),(.02,.31),(.25,.49),(.27,.13),(.02,.065)],x-.02,x+.02,'navy')
         wheel(a,x,.3,.18,.18,.08)
         rod(a,(x,.3,.3),(x,.71,1.05),.025,'metal')
     rod(a,(-.38,.71,1.05),(.38,.71,1.05),.033,'rubber')
@@ -333,19 +368,37 @@ def snowscoop(a):
 def snowblower(a):
     a.box((0,.1,.31),(.54,.7,.21),'dark_metal')
     for x in (-.36,.36): wheel(a,x,.23,.26,.26,.16)
-    a.box((0,.07,.56),(.42,.44,.3),'red')
-    a.box((0,.13,.755),(.32,.33,.09),'black')
+    molded(a,[(.42,.44,.41),(.42,.44,.60),(.32,.35,.73)],'red',(0,.07,0),.055)
+    molded(a,[(.32,.33,.71),(.34,.35,.77),(.25,.27,.82)],'black',(0,.13,0),.04)
     grille(a,0,-.161,.57,.31,.18,5)
     for x in (-.33,.33):
-        a.box((x,-.45,.27),(.045,.48,.48),'red')
-    a.box((0,-.25,.3),(.69,.065,.5),'red')
+        profile_x(a,[(-.69,.04),(-.69,.43),(-.56,.56),(-.36,.56),(-.23,.43),(-.23,.04)],x-.023,x+.023,'red')
+    profile_x(a,[(-.25,.055),(-.25,.39),(-.34,.51),(-.46,.54),(-.47,.575),(-.32,.545),(-.215,.42),(-.215,.055)],-.33,.33,'red')
     a.box((0,-.5,.057),(.72,.43,.044),'steel')
     rod(a,(-.34,-.46,.25),(.34,-.46,.25),.042,'steel')
-    for x in (-.22,-.08,.08,.22):
-        a.torus((x,-.46,.25),.15,.028,'dark_metal',axis='x',segments=8,sides=4)
-    rod(a,(0,-.2,.52),(0,-.2,.96),.095,'red')
-    a.box((0,-.28,1.04),(.2,.3,.17),'red',rot=(-.35,0,0))
-    a.box((0,-.434,1.08),(.14,.012,.12),'black',rot=(-.35,0,0))
+    for side in (-1,1):
+        vs=[];n=16
+        for j in range(n+1):
+            xx=side*(.035+.27*j/n);theta=side*j*math.tau*1.1/n
+            for dx,r in ((-.008,.047),(-.008,.17),(.008,.17),(.008,.047)):
+                vs.append((xx+dx,-.46+r*math.cos(theta),.25+r*math.sin(theta)))
+        fs=[(3,2,1,0),(4*n,4*n+1,4*n+2,4*n+3)]
+        fs.extend((j*4+i,j*4+(i+1)%4,(j+1)*4+(i+1)%4,(j+1)*4+i) for j in range(n) for i in range(4))
+        a.mesh(vs,fs,'dark_metal')
+    # Curved discharge elbow lofted from vertical throat to the open outlet.
+    sections=[(-.20,.53,0),(-.20,.88,.1),(-.27,1.04,.70),(-.46,1.10,math.pi/2)]
+    vs=[]
+    for inner in (False,True):
+        for yy,zz,t in sections:
+            w=.19 if not inner else .155;d=.17 if not inner else .135
+            vs.extend((sx*w/2,yy+sy*d/2*math.cos(t),zz+sy*d/2*math.sin(t)) for sx,sy in ((-1,-1),(1,-1),(1,1),(-1,1)))
+    fs=[]
+    for j in range(3):
+        for i in range(4):
+            k=(i+1)%4;fs.extend([(4*j+i,4*j+k,4*j+4+k,4*j+4+i),(16+4*j+i,20+4*j+i,20+4*j+k,16+4*j+k)])
+    for i in range(4):
+        k=(i+1)%4;fs.extend([(i,16+i,16+k,k),(12+i,12+k,28+k,28+i)])
+    a.mesh(vs,fs,'red')
     for x in (-.26,.26):
         rod(a,(x,.3,.49),(x,.8,1.12),.024,'metal')
         rod(a,(x,.8,1.12),(x,1.02,1.12),.031,'rubber')
@@ -422,10 +475,10 @@ def plowdolly(a):
         a.box((x,0,.14),(.12,.8,.1),'dark_metal')
         for y in (-.32,.32): wheel(a,x,y,.085,.08,.055)
     a.box((0,.19,.19),(1.82,.1,.1),'dark_metal')
-    for i in range(5):
-        z=.23+i*.145;y=-.25+.05*(i-2)**2
-        a.box((0,y,z),(2.12,.065,.17),'yellow',rot=(.18*(i-2),0,0))
-    a.box((0,-.048,.175),(2.16,.055,.09),'steel')
+    # One continuous rolled sheet avoids the disconnected rail-like silhouette.
+    face=[(-.15,.18),(.02,.35),(.11,.57),(.06,.79),(-.08,.97)]
+    profile_x(a,face+[(y+.06,z) for y,z in reversed(face)],-1.06,1.06,'yellow')
+    a.box((0,-.155,.175),(2.16,.07,.09),'steel')
     for x in (-.82,0,.82):
         a.beam((x,.23,.24),(x,.24,.87),.055,.06,'dark_metal')
     for x in (-.37,.37):
@@ -485,8 +538,7 @@ def saltpallet(a):
         for x in (-.255,.255):
             for y in (-.215,.215):
                 z=.255+level*.19
-                taper(a,x,y,z,.4,.32,.045,.46,.38,'cream')
-                taper(a,x,y,z+.045,.46,.38,.12,.4,.32,'cream')
+                molded(a,[(.40,.32,z),(.47,.39,z+.045),(.46,.38,z+.12),(.36,.27,z+.166)],'cream',(x,y,0),.065)
                 a.box((x,y,z+.169),(.18,.29,.008),'blue')
                 a.box((x,y,z+.176),(.12,.025,.006),'white')
     for x in (-.45,.45): a.box((x,0,.52),(.025,.83,.58),'white')
@@ -514,13 +566,13 @@ def canopy(a):
             rod(a,(x,y,.04),(x,y,2.22),.023,'steel')
             a.box((x,y,.023),(.14,.14,.046),'dark_metal')
             a.box((x,y,1.68),(.065,.065,.14),'black')
-    taper(a,0,0,2.2,3.03,3.03,.63,.03,.03,'cream')
+    fabric_roof(a,[(1.515,2.23,.055),(.85,2.45,.065),(.30,2.70,.02),(.035,2.83,0)])
     for x in (-1.5,1.5): a.box((x,0,2.15),(.035,3.03,.18),'cream')
     for y in (-1.5,1.5): a.box((0,y,2.15),(3.03,.035,.18),'cream')
     for y in (-1.4,1.4):
         for s in (-1,1):
-            rod(a,(s*1.4,y,1.93),(0,y,2.24),.014,'metal',6)
-            rod(a,(s*1.4,y,2.24),(0,y,1.93),.014,'metal',6)
+            rod(a,(s*1.4,y,1.93),(0,y,2.14),.014,'metal',6)
+            rod(a,(s*1.4,y,2.14),(0,y,1.93),.014,'metal',6)
 
 
 @item('pagoda_festival_marquee','outdoor_event','large')
@@ -529,16 +581,15 @@ def pagoda(a):
         for y in (-1.9,1.9):
             a.box((x,y,1.25),(.11,.11,2.5),'white')
             a.box((x,y,.04),(.3,.3,.08),'metal')
-    taper(a,0,0,2.5,4.1,4.1,.37,2.0,2.0,'cream')
-    taper(a,0,0,2.87,2,2,.45,.7,.7,'cream')
-    taper(a,0,0,3.32,.7,.7,.72,.03,.03,'cream')
+    fabric_roof(a,[(2.05,2.50,.07),(1.0,2.80,.10),(.35,3.30,.035),(.035,4.04,0)])
     a.sphere((0,0,4.08),.065,'gold',8,3)
     for x in (-2.02,2.02): a.box((x,0,2.4),(.035,4.06,.2),'navy')
     for y in (-2.02,2.02): a.box((0,y,2.4),(4.06,.035,.2),'navy')
     for x in (-1.88,1.88):
         a.box((x,0,1.33),(.035,3.71,2.12),'cream')
         for y in (-1.15,0,1.15):
-            a.box((x*1.011,y,1.42),(.025,.84,.84),'glass')
+            xx=x*1.014
+            a.mesh([(xx,y-.42,1.0),(xx,y+.42,1.0),(xx,y+.42,1.63),(xx,y+.28,1.83),(xx,y,1.93),(xx,y-.28,1.83),(xx,y-.42,1.63)],[(0,1,2,3,4,5,6)],'glass')
             a.box((x*1.021,y,1.42),(.021,.035,.83),'cream')
     a.box((0,1.88,1.33),(3.71,.035,2.12),'cream')
 
@@ -546,13 +597,13 @@ def pagoda(a):
 @item('portable_festival_restroom','outdoor_event')
 def toilet(a):
     a.box((0,0,.075),(1.12,1.13,.15),'black')
-    a.box((0,.51,1.14),(1.04,.055,2.07),'teal')
+    molded(a,[(1.06,1.08,.13),(1.03,1.055,.38),(1.00,1.04,1.86),(1.08,1.11,2.15)],'teal',cut=.12)
     for x in (-.5,.5):
-        a.box((x,0,1.14),(.06,1.04,2.07),'teal')
         for y in (-.31,0,.31): a.box((x*1.045,y,1.11),(.028,.035,1.7),'teal')
-    a.box((0,-.5,1.12),(.97,.075,2.03),'teal')
-    a.box((0,-.545,1.12),(.79,.025,1.86),'navy')
-    taper(a,0,0,2.15,1.12,1.13,.17,.94,.96,'cream')
+    p=[(-.395,.19),(.395,.19),(.395,1.95),(.33,2.05),(-.33,2.05),(-.395,1.95)]
+    a.mesh([(x,-.55,z) for x,z in p],[tuple(range(6))],'navy')
+    for z in (.4,.72,1.34,1.74):a.box((0,-.558,z),(.68,.025,.035),'teal')
+    molded(a,[(1.16,1.17,2.14),(1.16,1.17,2.20),(1.06,1.07,2.31),(.78,.82,2.35)],'cream',cut=.13)
     grille(a,0,-.565,1.86,.57,.13,4)
     plate(a,0,-.563,1.57,.26,.27,'white')
     handle(a,.29,-.581,.94,.06,.16,'steel')
@@ -568,11 +619,12 @@ def shower(a):
     for x in (-.53,.53):
         a.box((x,0,1.25),(.075,1.13,2.18),'cream')
     a.box((0,.54,1.25),(1.11,.075,2.18),'cream')
-    a.box((0,0,2.36),(1.19,1.2,.1),'teal')
+    molded(a,[(1.19,1.2,2.31),(1.19,1.2,2.36),(1.04,1.05,2.44)],'teal')
     rod(a,(-.5,-.51,2.18),(.5,-.51,2.18),.023,'steel')
     for i in range(9):
-        x=-.44+i*.11;y=-.54+(.035 if i%2 else 0)
-        a.box((x,y,1.2),(.12,.03,1.85),'teal')
+        x=-.455+i*.078
+        left=x-.039;right=x+.039;y=-.54
+        a.mesh([(left,y,.25),(x,y-.055,.265),(right,y,.25),(left,y,2.10),(x,y-.055,2.10),(right,y,2.10)],[(0,1,4,3),(1,2,5,4)],'teal')
         a.torus((x,-.51,2.13),.043,.007,'steel',axis='x',segments=8,sides=4)
     for y in (-.43,-.22,0,.22,.43): a.box((0,y,.2),(.99,.13,.03),'wood')
     rod(a,(0,.45,1.03),(0,.45,2.12),.018,'steel')
@@ -584,11 +636,10 @@ def shower(a):
 
 @item('dual_pump_handwash_station','outdoor_event')
 def handwash(a):
-    taper(a,0,0,.06,.82,.66,.73,.74,.58,'cream')
+    molded(a,[(.82,.66,.06),(.82,.66,.16),(.74,.58,.79)],'cream',cut=.055)
     for x in (-.2,.2):
-        a.box((x,-.07,.84),(.35,.41,.12),'teal')
-        a.box((x,-.1,.906),(.27,.3,.012),'dark_metal')
-        a.box((x,-.1,.913),(.22,.25,.008),'metal')
+        molded(a,[(.27,.33,.78),(.35,.41,.91),(.28,.34,.91),(.17,.23,.805)],'teal',(x,-.07,0),.045)
+        disc(a,(x,-.08,.811),.022,.006,'metal',8)
         a.tube([(x,.1,.88),(x,.1,1.09),(x,-.04,1.09),(x,-.04,1.04)],.015,'steel',6)
         a.box((x,-.31,.11),(.18,.13,.04),'dark_metal',rot=(.14,0,0))
     a.box((0,.24,1.07),(.79,.07,.49),'teal')
@@ -629,7 +680,7 @@ def loudspeaker(a):
         x,y=.56*math.cos(t),.56*math.sin(t)
         rod(a,(0,0,.62),(x,y,.055),.023,'dark_metal')
         a.box((x,y,.033),(.11,.075,.045),'rubber',rot=t)
-    a.box((0,0,1.93),(.45,.34,.68),'black')
+    molded(a,[(.39,.29,1.59),(.45,.34,1.65),(.45,.34,2.21),(.39,.29,2.27)],'black',cut=.06)
     plate(a,0,-.176,1.93,.38,.59,'dark_metal')
     rod(a,(0,-.181,1.81),(0,-.19,1.81),.137,'black',12)
     a.torus((0,-.195,1.81),.126,.009,'metal',axis='y',segments=12,sides=4)
@@ -801,7 +852,7 @@ def cableramp(a):
 
 @item('event_tent_ballast_water_tank','outdoor_event')
 def ballast(a):
-    taper(a,0,0,.035,.69,.68,.72,.62,.61,'cream')
+    molded(a,[(.69,.68,.035),(.69,.68,.12),(.64,.63,.67),(.57,.56,.755)],'cream',cut=.085)
     for x in (-.3,.3): a.box((x,0,.04),(.12,.69,.08),'black')
     for z in (.22,.42,.62):
         for y in (-.325,.325): a.box((0,y,z),(.64,.026,.047),'cream')

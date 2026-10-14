@@ -1,0 +1,507 @@
+{
+  "batch": 3,
+  "reviewed": 50,
+  "revised": 32,
+  "assets": [
+    {
+      "name": "b03_compact_notchback_sedan",
+      "decision": "revised",
+      "reason": "Rebuilt its short notchback body with sculpted shoulder sections, true arches and recessed two-pane cabin; the separate rear deck remains legible.",
+      "size_class": "large",
+      "authored_vertices": 3091,
+      "export_vertices": 8698,
+      "triangles": 4810,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_midsize_sedan",
+      "decision": "revised",
+      "reason": "Rebuilt the longer three-box body with crowned hood/roof, rolled shoulders, inset glazing, panel shut lines and constructed fascia.",
+      "size_class": "large",
+      "authored_vertices": 3065,
+      "export_vertices": 8634,
+      "triangles": 4762,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_fullsize_luxury_sedan",
+      "decision": "revised",
+      "reason": "Rebuilt the wide long-wheelbase body and three-section side glazing; broad roof crown and restrained lower trim preserve the luxury silhouette.",
+      "size_class": "large",
+      "authored_vertices": 3147,
+      "export_vertices": 8746,
+      "triangles": 4862,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_three_door_city_hatchback",
+      "decision": "revised",
+      "reason": "Rebuilt the tapered short body and hatch cabin; split the large side opening into rear quarter and main door glazing.",
+      "size_class": "large",
+      "authored_vertices": 3091,
+      "export_vertices": 8746,
+      "triangles": 4810,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_five_door_tall_hatchback",
+      "decision": "revised",
+      "reason": "Rebuilt the compact tall hatch shell with carved wheel apertures and a raised, framed two-pane cabin.",
+      "size_class": "large",
+      "authored_vertices": 3091,
+      "export_vertices": 8746,
+      "triangles": 4810,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_two_seat_microcar",
+      "decision": "revised",
+      "reason": "Rebuilt the narrow short-wheelbase shell and divided side glazing; round inset lights and compact overhangs preserve microcar scale.",
+      "size_class": "large",
+      "authored_vertices": 3083,
+      "export_vertices": 8754,
+      "triangles": 4822,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_compact_station_wagon",
+      "decision": "revised",
+      "reason": "Rebuilt the body shoulders and three-pane long-roof cabin while retaining the wagon roof rack and short rear overhang.",
+      "size_class": "large",
+      "authored_vertices": 3185,
+      "export_vertices": 8914,
+      "triangles": 4910,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_longroof_surf_wagon",
+      "decision": "revised",
+      "reason": "Rebuilt the long wagon shell and crowned three-pane roof; retained wood inserts, roof rack and securely strapped board.",
+      "size_class": "large",
+      "authored_vertices": 3253,
+      "export_vertices": 9072,
+      "triangles": 5022,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_five_door_fastback",
+      "decision": "revised",
+      "reason": "Rebuilt the low tapering nose and sloping rear cabin with curved windshield sections, recessed windows and a discrete rear spoiler.",
+      "size_class": "large",
+      "authored_vertices": 3099,
+      "export_vertices": 9114,
+      "triangles": 4822,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_classic_muscle_coupe",
+      "decision": "revised",
+      "reason": "Rebuilt pinched waist, flared haunches, rolled wheel arches, quarter window, crowned roof and twin-lamp fascia; moved the scoop clear of the windshield and conformed stripes to the hood.",
+      "size_class": "large",
+      "authored_vertices": 3295,
+      "export_vertices": 9620,
+      "triangles": 5158,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_midengine_sports_coupe",
+      "decision": "revised",
+      "reason": "Rebuilt the low wide body with tapered nose, pronounced rear haunches, quarter glazing, inset lights, dished wheels and side intake details.",
+      "size_class": "large",
+      "authored_vertices": 3038,
+      "export_vertices": 8938,
+      "triangles": 4718,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_two_seat_open_roadster",
+      "decision": "revised",
+      "reason": "Rebuilt the low body and true open cockpit; lowered seats into the cabin floor and retained the windshield frame and paired roll hoops.",
+      "size_class": "large",
+      "authored_vertices": 3047,
+      "export_vertices": 8838,
+      "triangles": 4660,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_four_seat_convertible",
+      "decision": "revised",
+      "reason": "Rebuilt the open four-seat shell with lowered seating, framed windshield, curved deck shoulders and recessed lamp housings.",
+      "size_class": "large",
+      "authored_vertices": 3023,
+      "export_vertices": 8522,
+      "triangles": 4564,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_subcompact_crossover",
+      "decision": "revised",
+      "reason": "Rebuilt the high-waisted compact shell, sculpted rockers and raised two-pane cabin; retained roof rack and appropriate wheel clearance.",
+      "size_class": "large",
+      "authored_vertices": 3155,
+      "export_vertices": 8938,
+      "triangles": 4906,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_sport_coupe_crossover",
+      "decision": "revised",
+      "reason": "Rebuilt the tall sports shell and sloping fastback roof with shaped shoulders, inset glazing and constructed front intakes.",
+      "size_class": "large",
+      "authored_vertices": 3155,
+      "export_vertices": 9278,
+      "triangles": 4906,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_compact_square_suv",
+      "decision": "revised",
+      "reason": "Rebuilt the upright SUV shell with curved corners, true wheel openings and framed three-pane cabin while preserving the square utility silhouette.",
+      "size_class": "large",
+      "authored_vertices": 3211,
+      "export_vertices": 9014,
+      "triangles": 4958,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_three_row_family_suv",
+      "decision": "revised",
+      "reason": "Rebuilt the longer SUV body and extended three-pane cabin, with dimensional mirrors, rack and wraparound fascia.",
+      "size_class": "large",
+      "authored_vertices": 3211,
+      "export_vertices": 9036,
+      "triangles": 4958,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_fullsize_towing_suv",
+      "decision": "revised",
+      "reason": "Rebuilt the broad, tall towing SUV body and roof with open wheel arches, deep bumpers, running boards and a modeled bull bar.",
+      "size_class": "large",
+      "authored_vertices": 3267,
+      "export_vertices": 9146,
+      "triangles": 5050,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_two_door_trail_suv",
+      "decision": "revised",
+      "reason": "Rebuilt the short upright trail body, broad pillars, round headlights and arch returns; retained spare wheel and auxiliary lights.",
+      "size_class": "large",
+      "authored_vertices": 3147,
+      "export_vertices": 9018,
+      "triangles": 4978,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_regular_cab_work_pickup",
+      "decision": "revised",
+      "reason": "Rebuilt hood and short cabin and replaced stacked bed boxes with a lowered ribbed bed floor, inner walls, wheel tubs and thin rails.",
+      "size_class": "large",
+      "authored_vertices": 3155,
+      "export_vertices": 8634,
+      "triangles": 4706,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_extended_cab_pickup",
+      "decision": "revised",
+      "reason": "Rebuilt the long-wheelbase body and two-pane extended cabin; created a true recessed bed with formed wheel tubs and tailgate details.",
+      "size_class": "large",
+      "authored_vertices": 3275,
+      "export_vertices": 8914,
+      "triangles": 4874,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_crew_cab_shortbed_pickup",
+      "decision": "revised",
+      "reason": "Rebuilt the four-door cabin and broad short-bed body, with a deep ribbed cargo floor and rolled upper rails.",
+      "size_class": "large",
+      "authored_vertices": 3275,
+      "export_vertices": 8970,
+      "triangles": 4922,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_stepside_sport_pickup",
+      "decision": "revised",
+      "reason": "Rebuilt the pinched body shell and stepped rear fenders; replaced high bed walls with an integrated recessed bed, wheel tubs and side step.",
+      "size_class": "large",
+      "authored_vertices": 3363,
+      "export_vertices": 9246,
+      "triangles": 5050,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_compact_unibody_pickup",
+      "decision": "revised",
+      "reason": "Rebuilt the integrated compact cabin/bed shell, recessed bed floor and framed windows while preserving shorter unibody proportions.",
+      "size_class": "large",
+      "authored_vertices": 3275,
+      "export_vertices": 8926,
+      "triangles": 4898,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_angular_electric_pickup",
+      "decision": "revised",
+      "reason": "Rebuilt the lower body contours, true arches and recessed bed while retaining the distinctive angular roof, flying bed rails and full-width front lamp.",
+      "size_class": "large",
+      "authored_vertices": 3299,
+      "export_vertices": 8966,
+      "triangles": 4910,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_family_minivan",
+      "decision": "revised",
+      "reason": "Rebuilt the long passenger shell with modeled shoulders and three-pane glazing; sliding tracks and side steps remain at the door locations.",
+      "size_class": "large",
+      "authored_vertices": 3195,
+      "export_vertices": 8934,
+      "triangles": 4934,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_fullsize_passenger_van",
+      "decision": "revised",
+      "reason": "Rebuilt the upright long body and four-pane cabin with crowned roof, shaped corners, sliding tracks and separate glazing recesses.",
+      "size_class": "large",
+      "authored_vertices": 3315,
+      "export_vertices": 9242,
+      "triangles": 5082,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_highroof_passenger_van",
+      "decision": "revised",
+      "reason": "Rebuilt the tall four-pane shell and roof crown, retaining roof vent and ribs and the high-roof silhouette.",
+      "size_class": "large",
+      "authored_vertices": 3347,
+      "export_vertices": 9306,
+      "triangles": 5130,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_wheelchair_accessible_van",
+      "decision": "revised",
+      "reason": "Rebuilt the long low-floor van shell, glazed cabin and fascia; retained the folded rear ramp and access signage.",
+      "size_class": "large",
+      "authored_vertices": 3395,
+      "export_vertices": 9610,
+      "triangles": 5270,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_stretch_limousine",
+      "decision": "revised",
+      "reason": "Rebuilt the extra-long shell with sculpted continuous sides, five-pane glazing, framed roof, side trim and sunroof.",
+      "size_class": "large",
+      "authored_vertices": 3331,
+      "export_vertices": 9206,
+      "triangles": 5074,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_chrome_trim_classic_sedan",
+      "decision": "revised",
+      "reason": "Rebuilt the taller period body and cabin with flared shoulders, dished whitewall wheels, round inset lights and separate chrome grille bars.",
+      "size_class": "large",
+      "authored_vertices": 3315,
+      "export_vertices": 9334,
+      "triangles": 5162,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_vintage_farm_pickup",
+      "decision": "revised",
+      "reason": "Rebuilt the short period cabin, rounded shoulders and recessed cargo bed, with whitewalls, round lights, bed ribs and practical steps.",
+      "size_class": "large",
+      "authored_vertices": 3323,
+      "export_vertices": 8970,
+      "triangles": 4974,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_drop_bar_road_bicycle",
+      "decision": "retained",
+      "reason": "Retained the open diamond frame, narrow spoked wheels, curved drop bars and exposed crank/chain drive; these already form the correct lightweight silhouette.",
+      "size_class": "person",
+      "authored_vertices": 724,
+      "export_vertices": 2364,
+      "triangles": 1240,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_suspension_mountain_bicycle",
+      "decision": "retained",
+      "reason": "Retained the articulated-looking suspension fork, thicker tyres, brake disc, frame shock and triangulated frame; the mechanical construction is already explicit.",
+      "size_class": "person",
+      "authored_vertices": 740,
+      "export_vertices": 2452,
+      "triangles": 1280,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_swept_bar_beach_cruiser",
+      "decision": "retained",
+      "reason": "Retained the swept frame and bars, fenders and front lamp, whose curved tubes distinguish the relaxed cruiser geometry.",
+      "size_class": "person",
+      "authored_vertices": 836,
+      "export_vertices": 2700,
+      "triangles": 1412,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_stepthrough_city_bicycle",
+      "decision": "retained",
+      "reason": "Retained the open low frame, full fenders, rear rack and paired bags; the step-through opening is genuine geometry.",
+      "size_class": "person",
+      "authored_vertices": 844,
+      "export_vertices": 2724,
+      "triangles": 1420,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_small_wheel_folding_bicycle",
+      "decision": "retained",
+      "reason": "Retained small wheels, tall stems and visible central folding hinge, which clearly distinguish the compact folding bicycle.",
+      "size_class": "person",
+      "authored_vertices": 776,
+      "export_vertices": 2520,
+      "triangles": 1308,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_front_box_cargo_bicycle",
+      "decision": "retained",
+      "reason": "Retained the extended front wheelbase, open cargo tub and steering linkage; the cargo volume and mechanism are separate components.",
+      "size_class": "person",
+      "authored_vertices": 752,
+      "export_vertices": 2448,
+      "triangles": 1280,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_longtail_family_cargo_bicycle",
+      "decision": "retained",
+      "reason": "Retained the extended rear frame, passenger cushion, guard rails and side bags; these define the longtail silhouette without added mass.",
+      "size_class": "person",
+      "authored_vertices": 888,
+      "export_vertices": 2856,
+      "triangles": 1492,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_child_training_wheel_bicycle",
+      "decision": "retained",
+      "reason": "Retained the child-scale frame, two real outboard training wheels and small front basket; its scale and four-wheel support are explicit.",
+      "size_class": "person",
+      "authored_vertices": 976,
+      "export_vertices": 3312,
+      "triangles": 1712,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_stunt_bmx_bicycle",
+      "decision": "retained",
+      "reason": "Retained the compact low frame, straight bars, axle pegs and small wide wheels, which already identify the BMX.",
+      "size_class": "person",
+      "authored_vertices": 700,
+      "export_vertices": 2292,
+      "triangles": 1200,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_two_rider_tandem_bicycle",
+      "decision": "retained",
+      "reason": "Retained the extended twin-seat frame with two cranksets, separate rear rider bars and triangulated tubes.",
+      "size_class": "person",
+      "authored_vertices": 888,
+      "export_vertices": 2856,
+      "triangles": 1512,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_recumbent_tadpole_tricycle",
+      "decision": "retained",
+      "reason": "Retained the low reclined seat, two widely spaced front wheels, outboard steering bars, forward pedals and safety flag.",
+      "size_class": "person",
+      "authored_vertices": 675,
+      "export_vertices": 2307,
+      "triangles": 1185,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_rear_basket_adult_tricycle",
+      "decision": "retained",
+      "reason": "Retained the two-wheel rear axle, upright step-through frame and open slatted cargo basket; each structural element is modeled.",
+      "size_class": "person",
+      "authored_vertices": 860,
+      "export_vertices": 2868,
+      "triangles": 1484,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_folding_kick_scooter",
+      "decision": "retained",
+      "reason": "Retained the slim deck, small wheels, narrow steering mast, grips, rear brake/fender and parked kickstand.",
+      "size_class": "person",
+      "authored_vertices": 420,
+      "export_vertices": 3632,
+      "triangles": 1820,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_battery_kick_scooter",
+      "decision": "retained",
+      "reason": "Retained the thicker battery deck, enlarged wheels, display, headlamp and rear lamp, which already separate it from the unpowered scooter.",
+      "size_class": "person",
+      "authored_vertices": 436,
+      "export_vertices": 3824,
+      "triangles": 1908,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_stepthrough_motor_scooter",
+      "decision": "retained",
+      "reason": "Retained the custom stepped body profile, footwell, bench seat, rounded lamps and front fender; the scooter does not use a generic motorcycle slab.",
+      "size_class": "person",
+      "authored_vertices": 870,
+      "export_vertices": 2890,
+      "triangles": 1544,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_faired_sport_motorcycle",
+      "decision": "retained",
+      "reason": "Retained the shaped fairing profile, exposed wheels, inclined windscreen, engine fins and swept exhaust; its compact sport geometry is already distinct.",
+      "size_class": "person",
+      "authored_vertices": 1086,
+      "export_vertices": 3556,
+      "triangles": 1892,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_luggage_touring_motorcycle",
+      "decision": "retained",
+      "reason": "Retained the high windscreen, separately mounted side cases, rear trunk, passenger backrest and exposed engine/frame.",
+      "size_class": "person",
+      "authored_vertices": 1114,
+      "export_vertices": 3656,
+      "triangles": 1940,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    },
+    {
+      "name": "b03_long_fork_dirt_motorcycle",
+      "decision": "retained",
+      "reason": "Retained the tall suspension fork, narrow elevated guards, number plates and high saddle, which explicitly form the off-road silhouette.",
+      "size_class": "person",
+      "authored_vertices": 1120,
+      "export_vertices": 3674,
+      "triangles": 1956,
+      "validation": "Authored mesh validates; official Blender GLB export with flat split normals stays below size-class vertex cap."
+    }
+  ]
+}

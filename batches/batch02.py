@@ -23,7 +23,14 @@ def pole(a,height=2.5,x=0,y=.035,r=.028,base=True):
         for dx in (-.06,.06):
             for dy in (-.06,.06): rod(a,(x+dx,y+dy,.051),(x+dx,y+dy,.063),.012,METAL,6)
 def plate(a,x,z,w,h,mat=WHITE,y=0):
-    box(a,(x,y,z),(w,.06,h),METAL); box(a,(x,y-.033,z),(w-.022,.012,h-.022),mat)
+    corner=min(.035,w*.08,h*.08)
+    pts=[(x-w/2+corner,z-h/2),(x+w/2-corner,z-h/2),(x+w/2,z-h/2+corner),(x+w/2,z+h/2-corner),(x+w/2-corner,z+h/2),(x-w/2+corner,z+h/2),(x-w/2,z+h/2-corner),(x-w/2,z-h/2+corner)]
+    profile(a,pts,y+.015,y-.031,METAL)
+    profile(a,[(x+(xx-x)*(.976),z+(zz-z)*(.976)) for xx,zz in pts],y-.032,y-.044,mat)
+    # A stamped sign bolts through two rear saddles, so it is not floating on a pole.
+    for zz in (z-h*.32,z+h*.32):
+        box(a,(x,y+.027,zz),(min(w*.65,.24),.045,.035),DARK)
+        rod(a,(x,y-.045,zz),(x,y-.053,zz),.009,METAL,6)
 def profile(a,points,yback,yfront,mat):
     area=sum(points[i][0]*points[(i+1)%len(points)][1]-points[(i+1)%len(points)][0]*points[i][1] for i in range(len(points)))
     if area<0: points=list(reversed(points))
@@ -88,7 +95,11 @@ def person(a,x,z,scale=1,y=-.065,mat=BLACK,walking=True):
 def sign_base(n,shape='rect',mat=WHITE,w=.65,h=.85,z=2.0):
     a=asset(n,'signage'); pole(a,z+.36)
     if shape=='rect': plate(a,0,z,w,h,mat)
-    else: poly_plate(a,z,w/2,shape,mat)
+    else:
+        poly_plate(a,z,w/2,shape,mat)
+        for zz in (z-w*.22,z+w*.22):
+            box(a,(0,.031,zz),(.15,.045,.035),DARK)
+            rod(a,(0,-.044,zz),(0,-.052,zz),.009,METAL,6)
     return a
 
 
@@ -261,8 +272,19 @@ def lamp_housing(a,x,y,z,axis='vertical',scale=1,backplate=True):
         lz=z+(1-i)*.31*scale if axis=='vertical' else z
         rod(a,(lx,y-.15*scale,lz),(lx,y-.23*scale,lz),.131*scale,BLACK,12)
         rod(a,(lx,y-.236*scale,lz),(lx,y-.243*scale,lz),.105*scale,mat,12)
-        # Individual brow projects above lens.
-        box(a,(lx,y-.23*scale,lz+.128*scale),(.28*scale,.20*scale,.035*scale),DARK)
+        # Rolled semicircular visor shelters the lens above and at both sides.
+        vs=[];steps=8
+        for yy,rr in ((y-.16*scale,.145*scale),(y-.38*scale,.145*scale),(y-.38*scale,.133*scale),(y-.16*scale,.133*scale)):
+            for j in range(steps+1):
+                th=math.pi*j/steps;vs.append((lx+rr*math.cos(th),yy,lz+rr*math.sin(th)))
+        fs=[(k*9+j,k*9+j+1,(k+1)*9+j+1,(k+1)*9+j) for k in range(3) for j in range(8)]
+        fs += [(0,9,18,27),(8,35,26,17)];a.mesh(vs,fs,DARK)
+        for dx in (-.145,.145):
+            rod(a,(lx+dx*scale,y-.149*scale,lz),(lx+dx*scale,y-.16*scale,lz),.014*scale,METAL,6)
+        box(a,(lx,y+.153*scale,lz),(.25*scale,.024*scale,.255*scale),DARK)
+    for sign in (-1,1):
+        pz=z+sign*(dims[2]*.5+.04*scale)
+        rod(a,(x,y+.11,pz),(x,y+.25,pz),.036*scale,DARK,8)
 
 def vertical_signal():
     a=asset('vertical_traffic_signal','traffic')
@@ -335,6 +357,10 @@ def traffic_camera():
     rod(a,(.52,-.35,3.105),(.52,-.41,3.105),.084,BLACK,12)
     rod(a,(.52,-.415,3.105),(.52,-.422,3.105),.055,GLASS,12)
     box(a,(0,.07,1.41),(.32,.27,.46),METAL)
+    box(a,(0,-.074,1.41),(.275,.025,.40),DARK)
+    rod(a,(.52,-.03,2.95),(.52,-.03,3.01),.046,DARK,8)
+    a.tube([(.42,.20,3.02),(.19,.21,2.98),(.01,.11,2.81),(.01,.11,1.64)],.015,BLACK,6)
+    for z in (1.28,1.53):box(a,(-.145,-.077,z),(.032,.035,.04),METAL)
     return a
 
 def traffic_cabinet():
@@ -359,6 +385,9 @@ def meter_head(a,x,z,y=0):
     rod(a,(x-.043,y-.12,z-.06),(x-.043,y-.16,z-.06),.036,DARK,8)
     face_stroke(a,[(x-.04,z-.06),(x-.04,z-.025)],y-.17,WHITE,.008)
     box(a,(x,y-.102,z-.13),(.13,.017,.026),DARK)
+    box(a,(x,y+.102,z-.015),(.19,.022,.255),DARK)
+    rod(a,(x,y+.115,z-.05),(x,y+.125,z-.05),.019,METAL,8)
+    for dx in (-.083,.083):rod(a,(x+dx,y-.111,z-.12),(x+dx,y-.121,z-.12),.008,METAL,6)
 
 def single_meter():
     a=asset('single_parking_meter','parking'); pole(a,1.35,r=.039)
@@ -413,18 +442,23 @@ def ticket_dispenser():
 
 def concrete_wheel_stop():
     a=asset('concrete_wheel_stop','parking','person')
-    box(a,(0,0,.065),(1.68,.21,.13),CONCRETE)
-    box(a,(0,0,.14),(1.55,.15,.07),CONCRETE)
-    for x in (-.52,.52): rod(a,(x,0,.166),(x,0,.192),.025,DARK,8)
-    for x in (-.65,.65): box(a,(x,-.112,.09),(.13,.018,.075),YELLOW)
+    yz=[(-.14,0),(.14,0),(.14,.045),(.084,.165),(-.084,.165),(-.14,.045)]
+    n=len(yz);vs=[(x,y,z) for x in (-.84,.84) for y,z in yz]
+    a.mesh(vs,[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)],CONCRETE)
+    for x in (-.52,.52):
+        rod(a,(x,0,.163),(x,0,.17),.032,DARK,8)
+        rod(a,(x,0,.169),(x,0,.186),.014,METAL,6)
+    for x in (-.65,.65):a.box((x,-.116,.095),(.15,.014,.065),YELLOW,rot=(-.43,0,0))
     return a
 
 def rubber_parking_curb():
     a=asset('rubber_parking_curb','parking','person')
-    box(a,(0,0,.04),(1.42,.26,.08),RUBBER)
-    box(a,(0,0,.095),(1.25,.19,.075),RUBBER)
-    for x in (-.48,0,.48): box(a,(x,-.102,.103),(.22,.025,.055),YELLOW)
-    for x in (-.32,.32): rod(a,(x,0,.128),(x,0,.142),.035,DARK,8)
+    for j in range(3):
+        cx=(j-1)*.47
+        pts=[(cx-.23,0),(cx+.23,0),(cx+.23,.047),(cx+.18,.125),(cx-.18,.125),(cx-.23,.047)]
+        profile(a,pts,.13,-.13,RUBBER)
+        box(a,(cx,-.136,.075),(.23,.014,.055),YELLOW)
+        for xx in (cx-.16,cx+.16):rod(a,(xx,0,.125),(xx,0,.132),.022,DARK,8)
     return a
 
 def steel_bollard():
@@ -492,16 +526,20 @@ def jersey_barrier():
 
 def water_barrier():
     a=asset('plastic_water_barrier','traffic','large')
-    box(a,(0,0,.15),(1.87,.58,.30),ORANGE)
-    box(a,(0,0,.52),(1.80,.34,.57),ORANGE)
-    box(a,(0,0,.86),(1.71,.24,.16),ORANGE)
+    yz=[(-.29,0),(.29,0),(.29,.16),(.17,.30),(.12,.88),(.09,.94),(-.09,.94),(-.12,.88),(-.17,.30),(-.29,.16)]
+    n=len(yz);vs=[(x,y,z) for x in (-.88,.88) for y,z in yz]
+    a.mesh(vs,[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)],ORANGE)
     for x in (-.61,0,.61):
-        box(a,(x,-.184,.59),(.27,.026,.20),WHITE)
-        box(a,(x,.184,.59),(.27,.026,.20),WHITE)
+        for sign in (-1,1):
+            a.box((x,sign*.150,.58),(.28,.026,.22),WHITE,rot=(sign*.08,0,0))
+            box(a,(x,sign*.22,.23),(.31,.04,.10),ORANGE)
     rod(a,(.52,0,.94),(.52,0,.975),.08,BLACK,10)
-    rod(a,(-.96,0,.1),(-.96,0,.8),.053,ORANGE,8)
-    rod(a,(.96,0,.1),(.96,0,.8),.053,ORANGE,8)
-    for x in (-.50,.50): box(a,(x,-.3,.06),(.23,.03,.07),BLACK)
+    # Interleaved end knuckles allow units to pin together.
+    for x in (-.94,.94):
+        for z in ((.22,.57) if x<0 else (.39,.74)):
+            rod(a,(x,0,z-.06),(x,0,z+.06),.085,ORANGE,8)
+            rod(a,(x,0,z+.061),(x,0,z+.067),.025,BLACK,8)
+    rod(a,(-.67,-.294,.10),(-.67,-.31,.10),.039,BLACK,8)
     return a
 
 def sawhorse_barricade():
@@ -537,22 +575,26 @@ def warning_triangle():
 
 def cable_ramp():
     a=asset('cable_protector_ramp','traffic','handheld')
-    box(a,(0,0,.025),(.98,.49,.05),RUBBER)
-    box(a,(0,0,.065),(.98,.31,.05),RUBBER)
-    box(a,(0,0,.103),(.92,.19,.029),YELLOW)
-    for x in (-.34,-.17,0,.17,.34): box(a,(x,0,.12),(.055,.19,.012),BLACK)
+    yz=[(-.25,0),(.25,0),(.25,.014),(.12,.10),(-.12,.10),(-.25,.014)]
+    n=len(yz);vs=[(x,y,z) for x in (-.49,.49) for y,z in yz]
+    a.mesh(vs,[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)],RUBBER)
+    box(a,(0,0,.105),(.92,.19,.018),YELLOW)
+    for x in (-.34,-.17,0,.17,.34):box(a,(x,0,.117),(.045,.19,.01),BLACK)
+    rod(a,(-.42,.10,.106),(.42,.10,.106),.012,METAL,6)
     for x in (-.495,.495):
-        for y in (-.10,.10): rod(a,(x-.012,y,.053),(x+.012,y,.053),.033,BLACK,8)
+        for y in (-.07,.07):rod(a,(x-.006,y,.043),(x+.006,y,.043),.025,BLACK,6)
     return a
 
 def speed_hump():
     a=asset('modular_speed_hump','traffic','large')
-    for x in (-.70,-.35,0,.35,.70):
-        for i in range(7):
-            yy=-.36+i*.12; hh=.045+.053*(1-abs(yy)/.36)
-            box(a,(x,yy,hh/2),(.343,.125,hh),YELLOW if int(round(x/.35))%2==0 else RUBBER)
-    for x in (-.70,0,.70):
-        for y in (-.27,.27): rod(a,(x,y,.057),(x,y,.068),.022,DARK,8)
+    # Continuous arched section, separately bolted modules; no staircase blocks.
+    yz=[(-.42,0),(.42,0),(.42,.018),(.31,.054),(.16,.086),(0,.10),(-.16,.086),(-.31,.054),(-.42,.018)]
+    for j in range(5):
+        x=(j-2)*.35;n=len(yz);vs=[(xx,y,z) for xx in (x-.171,x+.171) for y,z in yz]
+        a.mesh(vs,[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)],YELLOW if j%2==0 else RUBBER)
+        for y in (-.29,.29):
+            rod(a,(x,y,.06),(x,y,.066),.032,DARK,8)
+            rod(a,(x,y,.065),(x,y,.075),.015,METAL,6)
     return a
 
 def convex_mirror():
@@ -567,21 +609,42 @@ def convex_mirror():
 
 def portable_message_board():
     a=asset('portable_arrow_message_board','traffic','large')
-    box(a,(0,0,.34),(1.69,.95,.13),DARK)
-    for x in (-.74,.74):
-        rod(a,(x,-.50,.25),(x,.50,.25),.09,DARK,8)
-        for y in (-.54,.54):
-            rod(a,(x,y-.085,.24),(x,y+.085,.24),.24,RUBBER,12)
-            rod(a,(x,y-.089,.24),(x,y-.093,.24),.10,METAL,10)
-    rod(a,(0,0,.35),(0,0,2.10),.075,METAL,8)
+    for y in (-.42,.42):box(a,(0,y,.39),(1.75,.07,.11),DARK)
+    for x in (-.80,0,.80):box(a,(x,0,.39),(.075,.91,.11),DARK)
+    box(a,(.30,.08,.54),(.72,.66,.27),ORANGE)
+    box(a,(.30,.08,.691),(.75,.69,.035),DARK)
+    rod(a,(-.25,-.63,.29),(-.25,.63,.29),.055,METAL,8)
+    for sign in (-1,1):
+        y=sign*.56
+        a.torus((-.25,y,.29),.215,.073,RUBBER,axis='y',segments=12,sides=6)
+        rod(a,(-.25,y-.073,.29),(-.25,y+.073,.29),.135,METAL,12)
+        rod(a,(-.25,y+sign*.075,.29),(-.25,y+sign*.09,.29),.05,DARK,8)
+        for j in range(5):
+            t=j*math.tau/5;rod(a,(-.25+.088*math.cos(t),y+sign*.077,.29+.088*math.sin(t)),(-.25+.088*math.cos(t),y+sign*.087,.29+.088*math.sin(t)),.012,METAL,6)
+        # Folded mudguard has sloping leading and trailing edges.
+        a.beam((-.61,y,.43),(-.47,y,.61),.21,.035,ORANGE)
+        box(a,(-.25,y,.615),(.46,.21,.035),ORANGE)
+        a.beam((-.03,y,.61),(.11,y,.43),.21,.035,ORANGE)
+        for x in (-.75,.75):
+            box(a,(x,y,.32),(.07,.07,.32),METAL)
+            box(a,(x,y,.13),(.17,.17,.025),DARK)
+    rod(a,(0,0,.43),(0,0,2.10),.075,METAL,8)
+    rod(a,(0,.22,.51),(0,.03,1.61),.035,DARK,8)
     box(a,(0,0,2.02),(2.48,.22,1.18),BLACK)
     box(a,(0,0,2.64),(2.62,.29,.06),ORANGE)
-    # Lamp-matrix directional arrow and two amber top corners.
+    for z in (1.48,2.56):box(a,(0,.135,z),(2.38,.05,.05),DARK)
+    for x in (-1.13,0,1.13):box(a,(x,.14,2.02),(.05,.06,1.10),DARK)
     points=[(-.86+i*.215,2.02) for i in range(9)]
     points += [(.43,2.45),(.645,2.235),(.645,1.805),(.43,1.59)]
-    for x,z in points: rod(a,(x,-.12,z),(x,-.139,z),.059,YELLOW,8)
-    rod(a,(0,0,.35),(0,1.45,.24),.055,DARK,4)
-    a.torus((0,1.52,.24),.068,.018,mat=METAL,axis='z',segments=10,sides=5)
+    for x,z in points:
+        rod(a,(x,-.12,z),(x,-.151,z),.071,DARK,8)
+        rod(a,(x,-.154,z),(x,-.165,z),.053,YELLOW,8)
+    for x in (-.66,.66):a.beam((x,.37,.38),(0,1.50,.30),.085,.10,DARK)
+    box(a,(0,1.55,.31),(.12,.25,.12),METAL)
+    a.sphere((0,1.69,.31),1,METAL,8,4,scale=(.065,.13,.063))
+    box(a,(0,1.55,.39),(.04,.15,.04),DARK)
+    rod(a,(.16,1.13,.06),(.16,1.13,.46),.024,METAL,8)
+    box(a,(.16,1.13,.04),(.19,.17,.035),DARK)
     return a
 
 def clearance_gantry():

@@ -44,31 +44,68 @@ def pole(a,h=5,r=.085,ornate=False):
     anchor(a,max(.20,r*2.2))
     rod(a,(0,0,.13),(0,0,h),r,D,10,r*.62)
     box(a,(0,-r*.95,.52),(.085,.018,.26),M)
+    for z in (.414,.626):rod(a,(0,-r*1.03,z),(0,-r*1.03-.013,z),.010,S,6)
+    disk(a,(0,0,.145),r*1.22,.034,D,10)
     if ornate:
         rod(a,(0,0,.15),(0,0,.46),r*1.65,D,10,r*1.3)
         for z,rr in ((.17,r*1.85),(.46,r*1.35),(.66,r*1.12),(h-.13,r*1.1)):
             disk(a,(0,0,z),rr,.035,D,10)
+def annular(a,p,q,outer,inner,mat=D,n=12):
+    from assetlib import frame,sub,add,mul
+    u,v,_=frame(sub(q,p));vs=[]
+    for c,r in ((p,outer),(q,outer),(p,inner),(q,inner)):
+        for i in range(n):
+            t=i*math.tau/n;vs.append(add(c,add(mul(u,r*math.cos(t)),mul(v,r*math.sin(t)))))
+    fs=[]
+    for i in range(n):
+        j=(i+1)%n
+        fs.extend(((i,j,n+j,n+i),(2*n+i,3*n+i,3*n+j,2*n+j),(i,2*n+i,2*n+j,j),(n+i,n+j,3*n+j,3*n+i)))
+    a.mesh(vs,fs,mat)
+
+def spun(a,p,profile,mat=D,n=12):
+    x,y,z=p;vs=[(x+r*math.cos(i*math.tau/n),y+r*math.sin(i*math.tau/n),z+hh) for hh,r in profile for i in range(n)]
+    a.mesh(vs,[(j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i) for j in range(len(profile)-1) for i in range(n)],mat)
+
 def lensbox(a,p,w=.6,d=.3,h=.12):
-    box(a,p,(w,d,h),D)
-    box(a,(p[0],p[1],p[2]-h*.51),(w*.84,d*.8,.018),L)
-    for x in (-.25,.25):
-        box(a,(p[0]+x*w,p[1],p[2]+h*.5),(.026,d*.72,.02),M)
+    x,y,z=p;ch=min(w,d)*.13
+    footprint=[(-w/2+ch,-d/2),(w/2-ch,-d/2),(w/2,-d/2+ch),(w/2,d/2-ch),(w/2-ch,d/2),(-w/2+ch,d/2),(-w/2,d/2-ch),(-w/2,-d/2+ch)]
+    a.prism([(x+u,y+v) for u,v in footprint],z-h/2,z+h*.31,D)
+    a.prism([(x+u*.93,y+v*.93) for u,v in footprint],z+h*.31,z+h/2,M)
+    box(a,(x,y,z-h*.51),(w*.84,d*.80,.018),K)
+    # Individual optics sit inside a dark gasket and retaining bezel.
+    for xx in (-.27,0,.27):
+        for yy in (-.21,.21):box(a,(x+xx*w,y+yy*d,z-h*.61),(w*.20,d*.31,.014),L)
+    for xx in (-.4,.4):
+        for yy in (-.32,.32):disk(a,(x+xx*w,y+yy*d,z-h*.55),.008,.012,S,6)
+    for xx in (-.24,-.12,0,.12,.24):box(a,(x+xx*w,y,z+h*.56),(.018,d*.65,.025),D)
+
 def lantern(a,p,r=.23,h=.6):
     x,y,z=p
-    rod(a,(x,y,z),(x,y,z+h*.70),r*.67,G,4,r*.96)
+    # Four framed tapered glass panes, hollow between the cap and lower pan.
     for i in range(4):
-        t=i*math.pi/2
-        tube(a,[(x+r*.67*math.cos(t),y+r*.67*math.sin(t),z),(x+r*.96*math.cos(t),y+r*.96*math.sin(t),z+h*.70)],.016,D,5)
+        t=i*math.pi/2;u=(i+1)*math.pi/2
+        pts=[(x+r*.67*math.cos(t),y+r*.67*math.sin(t),z),
+             (x+r*.67*math.cos(u),y+r*.67*math.sin(u),z),
+             (x+r*.96*math.cos(u),y+r*.96*math.sin(u),z+h*.70),
+             (x+r*.96*math.cos(t),y+r*.96*math.sin(t),z+h*.70)]
+        a.mesh(pts,[(0,1,2,3)],G)
+        a.beam(pts[0],pts[3],.024,.024,D)
+        a.beam(pts[0],pts[1],.028,.028,D)
+        a.beam(pts[2],pts[3],.028,.028,D)
     disk(a,(x,y,z-.016),r*.84,.05,D,4)
-    disk(a,(x,y,z+h*.71),r*1.12,.055,D,4)
+    disk(a,(x,y,z+h*.71),r*1.12,.045,D,4)
     a.cone((x,y,z+h*.735),(x,y,z+h),r*1.15,D,sides=4)
-    ball(a,(x,y,z+h+.025),.038,D)
-    rod(a,(x,y,z+.06),(x,y,z+h*.57),.038,L,6)
+    ball(a,(x,y,z+h+.025),.030,D)
+    rod(a,(x,y,z+.035),(x,y,z+.12),.049,D,8)
+    rod(a,(x,y,z+.11),(x,y,z+h*.53),.032,L,6)
+    for zz in (.16,.49):rod(a,(x+r*.86,y-.013,z+h*zz),(x+r*.86,y+.013,z+h*zz),.014,M,6)
+
 def dome(a,p,r=.3):
     x,y,z=p
-    rod(a,(x,y,z),(x,y,z+.13),r,D,12,r*.38)
-    disk(a,(x,y,z-.01),r,.032,D)
-    disk(a,(x,y,z-.032),r*.79,.014,L)
+    spun(a,p,[(0,r),(.024,r),(.07,r*.87),(.12,r*.58),(.15,r*.30)],D,12)
+    annular(a,(x,y,z-.015),(x,y,z+.008),r*1.02,r*.89,D,12)
+    rod(a,(x,y,z+.005),(x,y,z+.105),r*.17,M,8)
+    disk(a,(x,y,z+.020),r*.30,.018,L,10)
 def mount(a,p=(0,0,.2),w=.14,h=.3):
     x,y,z=p
     box(a,(x,y,z),(w,.035,h),D)
@@ -97,17 +134,20 @@ def clockface(a,x,y,z,r=.47,back=False):
 def b18_cobrahead_roadway_lamp(a):
     pole(a,7.1,.12)
     tube(a,[(0,0,6.6),(.48,0,7.07),(1.18,0,7.32),(1.72,0,7.32)],.065,M)
-    a.sphere((1.9,0,7.3),(.48,.24,.15),M,segments=10,rings=4)
-    a.sphere((1.98,0,7.19),(.33,.18,.08),L,segments=10,rings=3)
-    box(a,(1.70,0,7.37),(.14,.15,.045),D)
+    profile=[(1.48,-.11),(1.66,-.21),(2.07,-.23),(2.31,-.16),(2.38,0),(2.31,.16),(2.07,.23),(1.66,.21),(1.48,.11)]
+    a.prism(profile,7.24,7.34,M)
+    a.prism([(1.91+(x-1.91)*.90,y*.88) for x,y in profile],7.34,7.40,M)
+    a.sphere((2.00,0,7.245),(.31,.172,.073),L,segments=10,rings=3)
+    box(a,(1.66,0,7.238),(.20,.16,.026),D)
+    for x in (1.66,2.21):rod(a,(x,-.185,7.277),(x,-.205,7.277),.018,S,6)
+    disk(a,(1.73,0,7.425),.040,.043,'navy',8)
+
 
 @fixture('street_lighting','large')
 def b18_flat_led_roadway_lamp(a):
     pole(a,6.5,.10)
     a.beam((0,0,6.42),(1.5,0,6.7),.095,.08,D)
     lensbox(a,(1.63,0,6.72),.78,.30,.11)
-    for x in (1.45,1.65,1.85):
-        box(a,(x,0,6.65),(.115,.19,.012),L)
     a.beam((0,0,6.13),(.66,0,6.54),.032,.04,M)
 
 @fixture('street_lighting','large')
@@ -212,7 +252,11 @@ def b18_stadium_floodlight_mast(a):
         box(a,(0,0,z),(2.30,.12,.13),D)
         for x in (-.82,0,.82):
             box(a,(x,.08,z+.11),(.57,.28,.47),M,rot=(.32,0,0))
-            box(a,(x,-.08,z+.08),(.49,.035,.36),L,rot=(.32,0,0))
+            box(a,(x,-.08,z+.08),(.51,.035,.39),S,rot=(.32,0,0))
+            box(a,(x,-.10,z+.073),(.445,.02,.323),G,rot=(.32,0,0))
+            for dx in (-.13,0,.13):box(a,(x+dx,-.116,z+.069),(.078,.012,.24),L,rot=(.32,0,0))
+            for dx in (-.17,0,.17):box(a,(x+dx,.25,z+.16),(.025,.07,.32),M,rot=(.32,0,0))
+            rod(a,(x-.31,.09,z+.12),(x+.31,.09,z+.12),.033,S,8)
             for dx in (-.28,.28): rod(a,(x+dx,0,z),(x+dx,.14,z+.20),.025,D,6)
     for z in (1.8,2.4,3,3.6,4.2,4.8,5.4,6,6.6):
         rod(a,(-.24,0,z),(.24,0,z),.019,S,6)
@@ -250,11 +294,15 @@ def b18_louvered_cylinder_light_bollard(a):
 @fixture('bollard_lighting')
 def b18_recessed_square_light_bollard(a):
     box(a,(0,0,.06),(.28,.28,.12),C)
-    box(a,(0,0,.52),(.17,.17,.93),D)
-    box(a,(0,-.088,.76),(.125,.018,.30),K)
-    box(a,(0,-.101,.86),(.095,.009,.06),L)
-    box(a,(0,-.15,.66),(.17,.14,.026),D)
+    box(a,(0,0,.35),(.17,.17,.47),D)
+    box(a,(0,.057,.785),(.17,.055,.40),D)
+    for x in (-.072,.072):box(a,(x,-.016,.785),(.026,.09,.40),D)
+    box(a,(0,-.018,.965),(.17,.13,.04),D)
+    box(a,(0,-.018,.925),(.111,.068,.017),L)
+    box(a,(0,-.13,.604),(.17,.13,.028),D)
     box(a,(0,0,1.0),(.19,.19,.035),M)
+    for x in (-.052,.052):rod(a,(x,-.09,.27),(x,-.1,.27),.009,S,6)
+
 
 @fixture('path_lighting')
 def b18_conical_path_lamp(a):
@@ -284,19 +332,24 @@ def b18_low_mushroom_landscape_light(a):
 def b18_ground_stake_spotlight(a):
     a.cone((0,0,.16),(0,0,0),.025,D,6)
     rod(a,(0,0,.12),(0,0,.23),.017,D,6)
-    rod(a,(0,0,.24),(0,-.15,.34),.065,D,10)
-    rod(a,(0,-.145,.335),(0,-.162,.347),.056,L,10)
-    for x in (-.055,.055): rod(a,(x,0,.19),(x,0,.26),.014,M,6)
+    rod(a,(0,0,.24),(0,-.14,.333),.065,D,10,r2=.066)
+    annular(a,(0,-.135,.330),(0,-.172,.355),.068,.054,M,10)
+    rod(a,(0,-.14,.333),(0,-.155,.343),.052,L,10)
+    for x in (-.055,.055):rod(a,(x,0,.19),(x,0,.26),.014,M,6)
     rod(a,(-.075,0,.23),(.075,0,.23),.014,S,6)
+    tube(a,[(0,.027,.22),(0,.054,.20),(0,.058,.08)],.005,K,5)
+
 
 @fixture('landscape_lighting','handheld')
 def b18_flush_inground_uplight(a):
-    disk(a,(0,0,.035),.135,.07,K,12)
-    disk(a,(0,0,.078),.15,.016,S,12)
-    disk(a,(0,0,.089),.117,.009,G,12)
-    disk(a,(0,0,.095),.078,.005,L,10)
-    for t in (0,math.tau/3,2*math.tau/3):
-        disk(a,(.133*math.cos(t),.133*math.sin(t),.089),.009,.004,D,6)
+    disk(a,(0,0,.028),.135,.056,K,12)
+    annular(a,(0,0,.054),(0,0,.087),.150,.116,S,12)
+    disk(a,(0,0,.064),.115,.008,D,12)
+    disk(a,(0,0,.073),.083,.011,G,12)
+    disk(a,(0,0,.078),.057,.006,L,10)
+    for t in (0,math.tau/3,2*math.tau/3):disk(a,(.133*math.cos(t),.133*math.sin(t),.089),.009,.004,D,6)
+    rod(a,(.125,0,.028),(.166,0,.028),.015,K,6)
+
 
 @fixture('step_lighting','handheld')
 def b18_recessed_brick_step_light(a):
@@ -333,18 +386,24 @@ def b18_coach_house_wall_lantern(a):
 @fixture('wall_lighting','handheld')
 def b18_modern_cube_downlight(a):
     mount(a,(0,0,.135),.15,.21)
-    box(a,(0,-.115,.14),(.22,.21,.24),D)
-    box(a,(0,-.125,.017),(.17,.15,.012),K)
-    box(a,(0,-.125,.009),(.125,.12,.008),L)
-    box(a,(0,-.23,.23),(.20,.012,.025),M)
+    box(a,(0,-.115,.252),(.22,.21,.028),D)
+    for x in (-.098,.098):box(a,(x,-.115,.141),(.024,.21,.222),D)
+    for y in (-.208,-.022):box(a,(0,y,.141),(.172,.024,.222),D)
+    box(a,(0,-.115,.070),(.17,.16,.024),K)
+    box(a,(0,-.115,.055),(.115,.105,.012),L)
+    for x in (-.070,.070):rod(a,(x,-.19,.049),(x,-.19,.041),.009,S,6)
+    return a
+
 
 @fixture('wall_lighting','handheld')
 def b18_cylindrical_up_down_sconce(a):
     mount(a,(0,0,.19),.10,.20)
-    rod(a,(0,-.11,.045),(0,-.11,.355),.073,D,12)
-    for z in (.04,.36):
-        disk(a,(0,-.11,z),.075,.02,M,12)
-        disk(a,(0,-.11,z+(.014 if z>.2 else -.014)),.056,.008,L,10)
+    annular(a,(0,-.11,.035),(0,-.11,.365),.073,.060,D,12)
+    for z in (.051,.349):
+        disk(a,(0,-.11,z),.058,.012,K,12)
+        disk(a,(0,-.11,z+(.008 if z>.2 else -.008)),.045,.008,L,10)
+    for z in (.042,.358):annular(a,(0,-.11,z-.008),(0,-.11,z+.008),.076,.060,M,12)
+
 
 @fixture('security_lighting')
 def b18_twin_motion_sensor_security_light(a):
@@ -358,12 +417,15 @@ def b18_twin_motion_sensor_security_light(a):
 
 @fixture('security_lighting')
 def b18_yoke_mounted_rectangular_floodlight(a):
-    box(a,(0,0,.027),(.22,.18,.054),D)
+    box(a,(0,0,.027),(.55,.18,.054),D)
+    for x in (-.18,.18):disk(a,(x,0,.064),.018,.018,S,6)
     for x in (-.25,.25):
         box(a,(x,0,.24),(.045,.10,.42),D)
         rod(a,(x-.025,0,.37),(x+.025,0,.37),.032,S,8)
     box(a,(0,0,.37),(.46,.17,.34),D,rot=(.2,0,0))
-    box(a,(0,-.105,.355),(.405,.028,.27),L,rot=(.2,0,0))
+    box(a,(0,-.105,.355),(.420,.028,.286),S,rot=(.2,0,0))
+    box(a,(0,-.12,.352),(.362,.014,.232),G,rot=(.2,0,0))
+    for x in (-.11,0,.11):box(a,(x,-.13,.351),(.063,.010,.16),L,rot=(.2,0,0))
     for x in (-.15,0,.15): box(a,(x,.1,.4),(.025,.08,.26),M,rot=(.2,0,0))
 
 @fixture('wall_lighting')
@@ -447,6 +509,8 @@ def b18_four_face_town_clock(a):
     roof(a,(0,0,4.07),1.28,1.28,.28)
     ball(a,(0,0,4.43),.075,'gold')
     box(a,(0,0,2.99),(1.12,1.12,.10),D)
+    for x in (-.47,.47):
+        for z in (3.12,3.9):rod(a,(x,-.522,z),(x,-.54,z),.015,S,6)
 
 @fixture('civic_clock','large')
 def b18_double_face_sidewalk_clock(a):
@@ -511,7 +575,9 @@ def b18_american_flag_civic_pole(a):
 def b18_single_banner_street_standard(a):
     pole(a,4.1,.076)
     for z in (2.11,3.70): rod(a,(0,0,z),(.82,0,z),.025,D,8)
-    box(a,(.42,0,2.91),(.69,.014,1.50),'teal')
+    a.mesh([(.075,0,2.16),(.32,-.025,2.16),(.54,.01,2.16),(.765,-.01,2.16),(.075,0,3.66),(.32,-.025,3.66),(.54,.01,3.66),(.765,-.01,3.66)],[(0,1,5,4),(1,2,6,5),(2,3,7,6)],'teal')
+    for z in (2.11,3.70):
+        for x in (.12,.71):rod(a,(x,0,z-.045),(x,0,z+.020),.018,M,6)
     box(a,(.42,-.012,3.39),(.44,.008,.11),W)
     for z,w in ((3.16,.26),(2.94,.38),(2.72,.26)):
         box(a,(.42,-.012,z),(w,.008,.055),W)
@@ -609,10 +675,11 @@ def b18_civic_bell_memorial(a):
         for y in (-.10,.1): rod(a,(x,y,.30),(x,y,.32),.026,S,6)
     box(a,(0,0,2.28),(1.39,.24,.19),'wood_dark')
     rod(a,(0,0,1.93),(0,0,2.27),.052,D,8)
-    rod(a,(0,0,1.41),(0,0,1.72),.40,'gold',12,.22)
-    rod(a,(0,0,1.72),(0,0,1.95),.22,'gold',12,.11)
-    disk(a,(0,0,1.41),.45,.08,'gold',12)
-    disk(a,(0,0,1.365),.345,.013,D,12)
+    profile=[(1.37,.43),(1.41,.44),(1.47,.355),(1.57,.29),(1.75,.20),(1.90,.16),(1.95,.095)]
+    spun(a,(0,0,0),profile,'gold',16)
+    spun(a,(0,0,0),[(z+.009,r-.038) for z,r in profile],D,16)
+    annular(a,(0,0,1.369),(0,0,1.409),.436,.391,'gold',16)
+    disk(a,(0,0,1.949),.096,.022,'gold',12)
     rod(a,(0,0,1.31),(0,0,1.53),.034,D,8)
     ball(a,(0,0,1.30),.073,'gold')
     tube(a,[(.10,0,2.18),(.27,0,1.9),(.34,0,1.24),(.38,0,.5)],.012,'cream',6)

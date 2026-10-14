@@ -3,7 +3,7 @@
 All dimensions are meters.  Every asset rests at z=0, with compact, readable
 hardware and open grille construction rather than texture-dependent details.
 """
-from math import cos, sin, pi
+from math import cos, sin, pi, atan2
 from assetlib import Asset, register
 
 # Palette names are deliberately centralized for consistent utility finishes.
@@ -65,18 +65,21 @@ def handle(a,x,y,z,width=.12,mat=STEEL):
 
 
 def grille(a,x,y,z,width,height,count=8,mat=DARK):
-    # Recessed backing plus thin horizontal slats on the front (-Y) face.
-    a.box((x,y+.012,z),(width,.018,height),mat=BLACK)
+    # Recessed coil/plenum behind folded, pitched weather louvers.
+    a.box((x,y+.034,z),(width,.018,height),mat=BLACK)
     for j in range(count):
         zz=z-height/2+height*(j+.5)/count
-        a.box((x,y-.008,zz),(width,.035,.018),mat=mat)
+        a.box((x,y-.008,zz),(width,.046,min(.029,height/count*.56)),mat=mat,rot=(.42,0,0))
 
 
 def panel(a,x,y,z,width,height,mat=GREEN):
-    a.box((x,y,z),(width,.035,height),mat=mat)
-    handle(a,x+width*.31,y-.026,z)
+    a.box((x,y+.010,z),(width+.015,.02,height+.016),mat=DARK)
+    a.box((x,y-.009,z),(width-.013,.026,height-.014),mat=mat)
+    handle(a,x+width*.31,y-.036,z)
     for zz in (z-height*.32,z+height*.32):
-        a.box((x-width*.46,y-.025,zz),(.035,.022,.085),mat=STEEL)
+        a.box((x-width*.46,y-.028,zz),(.04,.018,.085),mat=STEEL)
+        tube(a,(x-width*.465,y-.045,zz-.046),(x-width*.465,y-.045,zz+.046),.012,STEEL,6)
+    tube(a,(x+width*.31,y-.043,z-.075),(x+width*.31,y-.052,z-.075),.015,DARK,6)
 
 
 def flange(a,p,q,r,mat=STEEL):
@@ -90,13 +93,74 @@ def insulator(a,x,y,z,mat=WHITE):
 
 
 def fan_top(a,x,y,z,r,mat=DARK):
-    disc(a,x,y,z,r,.024,BLACK,16)
-    disc(a,x,y,z+.034,.07,.04,STEEL,10)
+    # Recess, swept blades and a separate wire guard read as a working fan.
+    disc(a,x,y,z-.060,r*.98,.012,BLACK,16)
+    annulus(a,(x,y,z-.053),r,r*.91,.075,GRAY,16)
+    for i in range(5):
+        t=2*pi*i/5
+        pts=[(.06,-.025),(.12,-.055),(r*.86,-.085),(r*.92,.015),(.13,.075),(.055,.030)]
+        a.prism([(x+u*cos(t)-v*sin(t),y+u*sin(t)+v*cos(t)) for u,v in pts],z-.023,z-.013,STEEL)
+    disc(a,x,y,z-.022,.070,.054,GRAY,10)
     for i in range(8):
         t=i*pi/4
-        tube(a,(x+.065*cos(t),y+.065*sin(t),z+.06),(x+(r-.015)*cos(t),y+(r-.015)*sin(t),z+.06),.012,mat,5)
+        tube(a,(x+.065*cos(t),y+.065*sin(t),z+.048),(x+(r-.015)*cos(t),y+(r-.015)*sin(t),z+.048),.007,mat,4)
     for rr in (r*.45,r*.7,r*.94):
-        a.torus((x,y,z+.055),rr,.009,mat=mat,segments=16,sides=4)
+        a.torus((x,y,z+.045),rr,.007,mat=mat,segments=16,sides=4)
+
+
+def annulus(a, center, outer, inner, depth, mat=STEEL, n=16, axis='z'):
+    x,y,z=center
+    def point(r,t,d):
+        return (x+r*cos(t),y+d,z+r*sin(t)) if axis=='y' else (x+r*cos(t),y+r*sin(t),z+d)
+    vs=[point(r,2*pi*i/n,d) for d,r in ((0,outer),(depth,outer),(0,inner),(depth,inner)) for i in range(n)]
+    fs=[]
+    for i in range(n):
+        j=(i+1)%n
+        fs.extend(((i,j,n+j,n+i),(2*n+i,3*n+i,3*n+j,2*n+j),(i,2*n+i,2*n+j,j),(n+i,n+j,3*n+j,3*n+i)))
+    a.mesh(vs,fs,mat)
+
+
+def formed_round(a, rings, mat=GRAY, n=16, center=(0,0)):
+    # Open-ended sheet-metal surface; rings are (height, radius).
+    x,y=center
+    vs=[(x+r*cos(2*pi*i/n),y+r*sin(2*pi*i/n),z) for z,r in rings for i in range(n)]
+    fs=[(j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i) for j in range(len(rings)-1) for i in range(n)]
+    a.mesh(vs,fs,mat)
+
+
+def grate_surround(a,w,d,h,thick=.065):
+    # Cast curb around a visible recess, no full-height solid hidden below slots.
+    a.box((0,0,.02),(w,d,.04),mat=BLACK)
+    for x in (-w/2+thick/2,w/2-thick/2):
+        a.box((x,0,h/2),(thick,d,h),mat=CONCRETE)
+    for y in (-d/2+thick/2,d/2-thick/2):
+        a.box((0,y,h/2),(w-2*thick,thick,h),mat=CONCRETE)
+
+
+def aperture_panel(a,center,bounds,r,z0,z1,mat=GRAY,axis='z'):
+    # A rectangular sheet with a real circular hole, including its inside wall.
+    cx,cy=center;x0,x1,y0,y1=bounds
+    angles=sorted(set([i*2*pi/16 for i in range(16)]+[atan2(y-cy,x-cx)%(2*pi) for x in (x0,x1) for y in (y0,y1)]))
+    inner=[];outer=[]
+    for t in angles:
+        dx,dy=cos(t),sin(t)
+        tx=((x1-cx) if dx>0 else (x0-cx))/dx if abs(dx)>1e-10 else 1e9
+        ty=((y1-cy) if dy>0 else (y0-cy))/dy if abs(dy)>1e-10 else 1e9
+        length=min(tx,ty)
+        inner.append((cx+r*dx,cy+r*dy));outer.append((cx+length*dx,cy+length*dy))
+    def point(p,z):return (p[0],z,p[1]) if axis=='y' else (p[0],p[1],z)
+    vs=[point(p,z) for z,ring in ((z0,outer),(z1,outer),(z0,inner),(z1,inner)) for p in ring]
+    n=len(angles);fs=[]
+    for i in range(n):
+        j=(i+1)%n
+        fs.extend(((i,j,n+j,n+i),(2*n+i,3*n+i,3*n+j,2*n+j),(i,2*n+i,2*n+j,j),(n+i,n+j,3*n+j,3*n+i)))
+    a.mesh(vs,fs,mat)
+
+
+def coil_face(a,x,y,z,w,h,mat=DARK):
+    grille(a,x,y,z,w,h,12,mat)
+    for xx in (x-w/2-.016,x+w/2+.016):
+        a.box((xx,y-.021,z),(.028,.046,h+.045),mat=GRAY)
 
 
 def safety_plate(a,x,y,z,w=.11,h=.10):
@@ -382,7 +446,7 @@ def transfer_switch(a):
 
 @prop('wood_distribution_power_pole','utilities_poles','large')
 def wood_pole(a):
-    tube(a,(0,0,0),(0,0,7.8),.14,WOOD,10)
+    a.cylinder((0,0,0),(0,0,7.8),.16,WOOD,10,radius2=.10)
     a.box((0,0,7.15),(2.45,.13,.17),mat=WOOD)
     for x in (-1.0,0,1.0):
         insulator(a,x,0,7.25)
@@ -396,7 +460,7 @@ def wood_pole(a):
 
 @prop('concrete_utility_pole','utilities_poles','large')
 def concrete_pole(a):
-    tube(a,(0,0,0),(0,0,7.4),.16,CONCRETE,8)
+    a.cylinder((0,0,0),(0,0,7.4),.20,CONCRETE,8,radius2=.115)
     for z in (6.5,7.1):
         a.box((0,0,z),(1.70,.12,.12),mat=STEEL)
         for x in (-.67,.67):
@@ -409,7 +473,7 @@ def concrete_pole(a):
 
 @prop('telecom_splice_pole','utilities_poles','large')
 def telecom_pole(a):
-    tube(a,(0,0,0),(0,0,6.35),.13,WOOD,10)
+    a.cylinder((0,0,0),(0,0,6.35),.145,WOOD,10,radius2=.09)
     a.box((0,0,5.65),(1.1,.12,.12),mat=STEEL)
     for x in (-.45,.45):
         tube(a,(x,0,5.66),(x,0,5.88),.032,BLACK)
@@ -425,7 +489,7 @@ def telecom_pole(a):
 
 @prop('guyed_corner_power_pole','utilities_poles','large')
 def corner_pole(a):
-    tube(a,(0,0,0),(0,0,7.5),.145,WOOD,10)
+    a.cylinder((0,0,0),(0,0,7.5),.16,WOOD,10,radius2=.10)
     for z in (6.75,7.05):
         a.box((0,0,z),(2.05,.14,.13),mat=WOOD)
         for x in (-.85,.85):
@@ -457,7 +521,7 @@ def cell_pole(a):
     disc(a,0,0,0,.30,.14,CONCRETE)
     disc(a,0,0,.14,.22,.035,STEEL)
     bolts(a,.18,.18,6,.02)
-    tube(a,(0,0,.18),(0,0,6.5),.105,GRAY,10)
+    a.cylinder((0,0,.18),(0,0,6.5),.135,GRAY,10,radius2=.085)
     tube(a,(0,0,6.5),(0,0,7.22),.19,WHITE,10)
     disc(a,0,0,7.22,.20,.035,GRAY)
     a.box((.20,0,4.7),(.22,.30,.73),mat=WHITE)
@@ -470,41 +534,61 @@ def cell_pole(a):
 
 @prop('residential_ac_condenser','utilities_hvac')
 def condenser(a):
-    a.box((0,0,.055),(.92,.92,.11),mat=CONCRETE)
-    feet(a,0,0,.17,.62,.62,DARK)
-    a.box((0,0,.52),(.76,.76,.70),mat=GRAY)
-    grille(a,0,-.388,.52,.65,.57,13,DARK)
-    for y in (-.26,-.13,0,.13,.26):
-        a.box((.389,y,.52),(.024,.035,.56),mat=DARK)
-    a.box((0,0,.89),(.82,.82,.055),mat=GRAY)
-    fan_top(a,0,0,.92,.31)
-    rod_path(a,[(.25,.40,.27),(.25,.56,.27),(.25,.56,.06)],.025,BRASS)
-    rod_path(a,[(.10,.40,.27),(.10,.53,.27),(.10,.53,.06)],.042,BLACK)
+    a.box((0,0,.05),(.94,.94,.10),mat=CONCRETE)
+    feet(a,0,0,.16,.62,.62,DARK)
+    a.box((0,0,.18),(.80,.80,.045),mat=GRAY)
+    for x in (-.375,.375):
+        for y in (-.375,.375):a.box((x,y,.54),(.046,.046,.71),mat=GRAY)
+    for y in (-.37,.37):
+        coil_face(a,0,y,.53,.68,.59)
+    for x in (-.365,.365):
+        a.box((x,0,.53),(.018,.68,.60),mat=BLACK)
+        for y in (-.28,-.14,0,.14,.28):a.box((x*1.04,y,.53),(.025,.020,.61),mat=DARK)
+    for x in (-.365,.365):a.box((x,0,.88),(.09,.82,.055),mat=GRAY)
+    for y in (-.365,.365):a.box((0,y,.88),(.64,.09,.055),mat=GRAY)
+    fan_top(a,0,0,.91,.335)
+    a.box((.285,.41,.45),(.20,.055,.31),mat=GRAY)
+    for x,r,m in ((.25,.025,BRASS),(.10,.040,BLACK)):
+        rod_path(a,[(x,.42,.28),(x,.54,.28),(x,.60,.20),(x,.60,.07)],r,m)
+    for z in (.35,.54):tube(a,(.28,.443,z),(.28,.462,z),.012,STEEL,6)
 
 
 @prop('mini_split_outdoor_unit','utilities_hvac')
 def mini_split(a):
-    for x in (-.29,.29):
-        a.box((x,0,.06),(.10,.38,.12),mat=STEEL)
-    a.box((0,0,.41),(.88,.32,.61),mat=WHITE)
-    tube(a,(-.13,-.17,.42),(-.13,-.192,.42),.24,BLACK,16)
-    tube(a,(-.13,-.192,.42),(-.13,-.215,.42),.048,GRAY,10)
+    for x in (-.30,.30):
+        a.box((x,0,.045),(.12,.40,.09),mat=STEEL)
+        for y in (-.15,.15):disc(a,x,y,.09,.014,.015,DARK,6)
+    a.box((0,.12,.415),(.88,.065,.65),mat=WHITE)
+    a.box((0,0,.105),(.88,.32,.035),mat=WHITE)
+    a.box((0,0,.734),(.92,.35,.038),mat=WHITE)
+    for x in (-.428,.425):a.box((x,0,.418),(.028,.32,.61),mat=WHITE)
+    # Faceted circular opening cut into a formed front panel.
+    aperture_panel(a,(-.12,.425),(-.44,.185,.11,.715),.236,-.173,-.145,WHITE,'y')
+    annulus(a,(-.12,-.183,.425),.252,.236,.022,WHITE,16,'y')
+    tube(a,(-.12,-.122,.425),(-.12,-.151,.425),.048,GRAY,10)
+    for i in range(3):
+        t=i*2*pi/3
+        pts=[(.035,-.025),(.075,-.071),(.205,-.082),(.221,.009),(.14,.070),(.038,.028)]
+        vv=[(-.12+u*cos(t)-v*sin(t),-.151,.425+u*sin(t)+v*cos(t)) for u,v in pts]
+        a.mesh(vv,[tuple(range(6))],GRAY)
     for j in range(-4,5):
-        z=.42+j*.047
-        half=(.23**2-(j*.047)**2)**.5
-        a.box((-.13,-.219,z),(half*2,.017,.011),mat=GRAY)
-    a.box((.30,-.169,.41),(.19,.018,.50),mat=WHITE)
-    a.box((.29,-.184,.58),(.11,.012,.035),mat=BLUE)
-    for z in (.20,.31):
-        tube(a,(.44,.04,z),(.52,.04,z),.027,BRASS)
-    a.box((0,0,.733),(.92,.35,.035),mat=WHITE)
+        zz=j*.047;half=(.23**2-zz**2)**.5
+        a.box((-.12,-.190,.425+zz),(half*2,.016,.010),mat=GRAY)
+    for x in (-.23,-.12,-.01):a.box((x,-.196,.425),(.009,.014,.41),mat=GRAY)
+    a.box((.305,-.163,.416),(.24,.034,.61),mat=WHITE)
+    a.box((.29,-.184,.60),(.11,.012,.035),mat=BLUE)
+    for z in (.2,.31):
+        tube(a,(.44,.04,z),(.515,.04,z),.027,BRASS)
+        tube(a,(.51,.04,z),(.51,.04,z+.028),.020,BRASS,6)
+    for y in (-.07,.02,.11):a.box((-.445,y,.43),(.012,.02,.43),mat=DARK)
 
 
 @prop('rooftop_packaged_hvac','utilities_hvac','large')
 def rooftop_package(a):
     a.box((0,0,.10),(1.70,1.05,.20),mat=DARK)
     a.box((0,0,.66),(2.10,1.30,1.00),mat=GRAY)
-    a.box((0,0,1.19),(2.18,1.38,.07),mat=STEEL)
+    aperture_panel(a,(-.56,0),(-1.09,-.04,-.69,.69),.408,1.155,1.225,STEEL)
+    aperture_panel(a,(.48,0),(-.04,1.09,-.69,.69),.408,1.155,1.225,STEEL)
     fan_top(a,-.56,0,1.23,.42)
     fan_top(a,.48,0,1.23,.42)
     grille(a,-.56,-.665,.65,.72,.75,13,DARK)
@@ -518,45 +602,54 @@ def rooftop_package(a):
 
 @prop('industrial_axial_exhaust_fan','utilities_hvac','large')
 def axial_fan(a):
-    for x in (-.50,.50):
-        a.box((x,0,.09),(.20,.68,.18),mat=STEEL)
-        a.box((x,0,.43),(.08,.11,.60),mat=STEEL)
-    tube(a,(0,-.21,.89),(0,.24,.89),.66,GRAY,16)
-    tube(a,(0,-.225,.89),(0,-.245,.89),.56,BLACK,16)
-    for i in range(8):
-        ang=2*pi*i/8
-        tube(a,(.11*cos(ang),-.29,.89+.11*sin(ang)),(.51*cos(ang+.20),-.29,.89+.51*sin(ang+.20)),.065,STEEL,5)
-    tube(a,(0,-.25,.89),(0,-.36,.89),.12,GRAY,10)
-    for rr in (.31,.49,.60):
-        a.torus((0,-.37,.89),rr,.012,mat=STEEL,axis='y',segments=16,sides=4)
+    for x in (-.49,.49):
+        a.box((x,0,.05),(.20,.69,.10),mat=STEEL)
+        a.beam((x,0,.10),(x*.78,0,.60),.075,.09,STEEL)
+        for y in (-.25,.25):disc(a,x,y,.10,.021,.017,DARK,6)
+    annulus(a,(0,-.22,.84),.63,.553,.47,GRAY,16,'y')
+    for y in (-.245,.25):annulus(a,(0,y,.84),.666,.55,.025,STEEL,16,'y')
     for i in range(6):
-        ang=pi*i/6
-        tube(a,(-.60*cos(ang),-.38,.89-.60*sin(ang)),(.60*cos(ang),-.38,.89+.60*sin(ang)),.012,STEEL,4)
+        t=2*pi*i/6
+        pts=[(.09,-.02),(.20,-.085),(.46,-.10),(.51,.025),(.35,.12),(.11,.065)]
+        a.mesh([(u*cos(t)-v*sin(t),-.075,.84+u*sin(t)+v*cos(t)) for u,v in pts],[tuple(range(6))],STEEL)
+    tube(a,(0,-.11,.84),(0,.20,.84),.116,GRAY,10)
+    for rr in (.31,.49,.60):a.torus((0,-.29,.84),rr,.010,mat=STEEL,axis='y',segments=16,sides=4)
+    for i in range(6):
+        t=pi*i/6;tube(a,(-.60*cos(t),-.29,.84-.60*sin(t)),(.60*cos(t),-.29,.84+.60*sin(t)),.008,STEEL,4)
+    a.box((.49,.14,.96),(.14,.14,.19),mat=DARK)
 
 
 @prop('wind_turbine_roof_vent','utilities_hvac')
 def turbine_vent(a):
-    a.box((0,0,.025),(.62,.62,.05),mat=STEEL)
-    tube(a,(0,0,.05),(0,0,.37),.18,GRAY,12)
-    disc(a,0,0,.33,.27,.035,STEEL,12)
-    a.sphere((0,0,.53),.30,mat=GRAY,segments=12,rings=4)
-    disc(a,0,0,.78,.09,.025,STEEL,10)
-    for i in range(12):
-        t=i*pi/6
-        rod_path(a,[(.235*cos(t),.235*sin(t),.36),(.303*cos(t+.16),.303*sin(t+.16),.51),(.24*cos(t+.32),.24*sin(t+.32),.69)],.012,STEEL,5)
+    a.box((0,0,.022),(.65,.65,.044),mat=STEEL)
+    annulus(a,(0,0,.04),.185,.171,.28,GRAY,12)
+    annulus(a,(0,0,.30),.26,.174,.025,STEEL,16)
+    disc(a,0,0,.715,.13,.025,STEEL,12)
+    # Individual curved louver blades enclose air gaps; no solid sphere inside.
+    for i in range(16):
+        t=2*pi*i/16;v=[]
+        for z,r,tw in ((.325,.23,0),(.44,.30,.10),(.59,.28,.25),(.71,.13,.39)):
+            for dt in (0,.32):v.append((r*cos(t+tw+dt),r*sin(t+tw+dt),z))
+        a.mesh(v,[(0,1,3,2),(2,3,5,4),(4,5,7,6)],GRAY)
+    tube(a,(0,0,.32),(0,0,.73),.018,DARK,6)
+    for i in range(3):
+        t=2*pi*i/3;tube(a,(0,0,.34),(.22*cos(t),.22*sin(t),.34),.01,STEEL,5)
+    a.torus((0,0,.326),.23,.014,STEEL,segments=16,sides=4)
 
 
 @prop('mushroom_roof_exhaust','utilities_hvac')
 def mushroom_vent(a):
-    a.box((0,0,.04),(.68,.68,.08),mat=STEEL)
-    tube(a,(0,0,.08),(0,0,.44),.22,GRAY,12)
-    disc(a,0,0,.40,.34,.035,DARK,12)
+    a.box((0,0,.035),(.69,.69,.07),mat=STEEL)
+    annulus(a,(0,0,.07),.22,.201,.34,GRAY,12)
+    annulus(a,(0,0,.40),.30,.201,.026,DARK,12)
     for i in range(6):
-        t=i*pi/3
-        tube(a,(.28*cos(t),.28*sin(t),.40),(.28*cos(t),.28*sin(t),.60),.016,STEEL,5)
-    disc(a,0,0,.60,.43,.07,GRAY,12)
-    a.sphere((0,0,.65),.39,mat=GRAY,segments=12,rings=3)
-    disc(a,0,0,.98,.06,.02,STEEL,8)
+        t=pi*i/3;a.beam((.28*cos(t),.28*sin(t),.40),(.28*cos(t),.28*sin(t),.61),.021,.027,STEEL)
+    # Spun, low-domed weather cap with rolled lip and an open underside.
+    formed_round(a,[(.56,.43),(.61,.43),(.70,.33),(.745,.16),(.755,.025)],GRAY,16)
+    a.torus((0,0,.565),.427,.012,STEEL,segments=16,sides=4)
+    disc(a,0,0,.751,.042,.016,STEEL,8)
+    for x in (-.25,.25):
+        for y in (-.25,.25):disc(a,x,y,.07,.013,.01,DARK,6)
 
 
 @prop('evaporative_cooler','utilities_hvac')
@@ -597,7 +690,9 @@ def air_handler(a):
     grille(a,-.99,-.61,.73,.68,.67,12,DARK)
     a.box((1.63,0,.75),(.37,.76,.63),mat=STEEL)
     a.box((1.86,0,.75),(.10,.85,.72),mat=STEEL)
-    a.box((-.15,0,1.42),(.74,.73,.20),mat=GRAY)
+    for x in (-.505,.205):a.box((x,0,1.42),(.030,.73,.20),mat=GRAY)
+    for y in (-.35,.35):a.box((-.15,y,1.42),(.68,.030,.20),mat=GRAY)
+    aperture_panel(a,(-.15,0),(-.52,.22,-.365,.365),.280,1.495,1.52,GRAY)
     fan_top(a,-.15,0,1.53,.29)
     for x in (-1.4,1.4):
         a.box((x,0,1.36),(.06,.13,.09),mat=STEEL)
@@ -629,16 +724,22 @@ def water_box(a):
 
 @prop('residential_gas_meter','utilities_meters_valves')
 def gas_meter(a):
-    feet(a,0,0,.15,.26,.14,STEEL)
-    a.box((0,0,.39),(.43,.25,.48),mat=GRAY)
-    a.box((0,0,.65),(.38,.24,.05),mat=STEEL)
-    a.box((0,-.143,.52),(.25,.047,.14),mat=STEEL)
-    a.box((0,-.171,.54),(.20,.012,.06),mat=WHITE)
-    for x in (-.075,-.025,.025,.075):
-        tube(a,(x,-.18,.54),(x,-.184,.54),.017,BLACK,8)
+    for x in (-.14,.14):a.box((x,0,.07),(.07,.24,.14),mat=STEEL)
+    # Pressed diaphragm body with chamfered shoulders and a bolted split flange.
+    outline=[(-.22,-.10),(-.17,-.15),(.17,-.15),(.22,-.10),(.22,.10),(.17,.15),(-.17,.15),(-.22,.10)]
+    a.prism(outline,.14,.59,GRAY)
+    a.prism([(x*1.045,y*1.06) for x,y in outline],.37,.397,STEEL)
+    a.cylinder((0,0,.59),(0,0,.665),.20,GRAY,8,radius2=.16)
+    for x in (-.20,.20):
+        for y in (-.11,.11):disc(a,x,y,.40,.012,.014,DARK,6)
+    a.box((0,-.17,.515),(.28,.055,.145),mat=STEEL)
+    a.box((0,-.203,.536),(.21,.012,.059),mat=WHITE)
+    for x in (-.075,-.025,.025,.075):a.box((x,-.212,.536),(.031,.008,.036),mat=BLACK)
     for x in (-.13,.13):
-        rod_path(a,[(x,0,.67),(x,0,.80),(x*2,0,.80),(x*2,0,.15)],.026,STEEL)
-    tube(a,(-.26,0,.62),(-.26,-.05,.62),.074,GRAY,10)
+        rod_path(a,[(x,0,.65),(x,0,.79),(x*2,0,.79),(x*2,0,.09)],.026,STEEL)
+        disc(a,x,0,.684,.044,.037,STEEL,6)
+    tube(a,(-.26,0,.61),(-.26,-.07,.61),.080,GRAY,12)
+    tube(a,(-.26,-.07,.61),(-.26,-.09,.61),.066,STEEL,12)
     tube(a,(.26,-.055,.45),(.26,.055,.45),.016,BRASS,6)
     a.box((.26,0,.45),(.045,.15,.025),mat=RED)
 
@@ -737,16 +838,14 @@ def sanitary_cover(a):
 
 @prop('storm_sewer_radial_cover','utilities_covers_drains')
 def storm_cover(a):
-    disc(a,0,0,0,.49,.055,CONCRETE,16)
-    disc(a,0,0,.055,.43,.035,IRON,16)
-    disc(a,0,0,.09,.394,.014,BLACK,16)
+    annulus(a,(0,0,0),.49,.395,.10,CONCRETE,16)
+    annulus(a,(0,0,.10),.433,.375,.045,IRON,16)
+    disc(a,0,0,.01,.392,.012,BLACK,16)
     for i in range(16):
-        t=2*pi*i/16
-        tube(a,(.12*cos(t),.12*sin(t),.115),(.38*cos(t),.38*sin(t),.115),.014,IRON,4)
-    for rr in (.13,.25,.38):
-        a.torus((0,0,.117),rr,.015,mat=IRON,segments=16,sides=4)
-    disc(a,0,0,.108,.11,.02,IRON,10)
-    a.box((0,0,.132),(.11,.024,.012),mat=DARK)
+        t=2*pi*i/16;a.beam((.10*cos(t),.10*sin(t),.130),(.383*cos(t),.383*sin(t),.130),.019,.035,IRON)
+    for rr in (.13,.25,.373):a.torus((0,0,.134),rr,.014,mat=IRON,segments=16,sides=4)
+    disc(a,0,0,.116,.11,.034,IRON,10)
+    a.box((0,0,.154),(.11,.023,.012),mat=DARK)
 
 
 @prop('telecom_vault_access_cover','utilities_covers_drains')
@@ -764,64 +863,52 @@ def vault_cover(a):
 
 @prop('curb_inlet_storm_drain','utilities_covers_drains')
 def curb_drain(a):
-    a.box((0,.25,.20),(1.20,.36,.40),mat=CONCRETE)
-    a.box((0,-.06,.04),(1.22,.42,.08),mat=CONCRETE)
-    a.box((0,.06,.20),(.95,.025,.24),mat=BLACK)
-    for x in (-.43,-.215,0,.215,.43):
-        a.box((x,.025,.20),(.035,.055,.24),mat=IRON)
-    a.box((0,.018,.32),(.97,.07,.045),mat=IRON)
-    a.box((0,.018,.08),(.97,.07,.045),mat=IRON)
-    a.box((0,.235,.415),(1.22,.41,.04),mat=CONCRETE)
+    a.box((0,.11,.035),(1.25,.60,.07),mat=CONCRETE)
+    for x in (-.55,.55):a.box((x,.22,.21),(.14,.38,.35),mat=CONCRETE)
+    a.box((0,.40,.22),(1.10,.06,.36),mat=CONCRETE)
+    a.box((0,.19,.422),(1.25,.51,.07),mat=CONCRETE)
+    a.box((0,.32,.18),(.96,.024,.22),mat=BLACK)
+    for x in (-.43,-.215,0,.215,.43):a.box((x,.025,.22),(.028,.07,.28),mat=IRON)
+    for z in (.08,.355):a.box((0,.021,z),(.98,.07,.034),mat=IRON)
+    for x in (-.45,.45):disc(a,x,.19,.46,.017,.010,IRON,6)
 
 
 @prop('linear_trench_drain','utilities_covers_drains')
 def trench_drain(a):
-    a.box((0,0,.065),(1.55,.30,.13),mat=CONCRETE)
-    a.box((0,0,.137),(1.48,.235,.018),mat=BLACK)
-    for y in (-.115,.115):
-        a.box((0,y,.154),(1.50,.025,.026),mat=IRON)
-    for i in range(21):
-        a.box((-.70+i*.07,0,.155),(.024,.235,.028),mat=IRON)
-    for x in (-.73,.73):
-        a.box((x,0,.157),(.04,.26,.025),mat=IRON)
+    grate_surround(a,1.56,.33,.16,.046)
+    for y in (-.12,.12):a.box((0,y,.173),(1.48,.027,.030),mat=IRON)
+    for i in range(21):a.box((-.70+i*.07,0,.170),(.023,.235,.034),mat=IRON)
+    for x in (-.73,.73):a.box((x,0,.173),(.026,.26,.032),mat=IRON)
+    for x in (-.49,.49):a.box((x,0,.135),(.042,.235,.025),mat=IRON)
 
 
 @prop('square_catch_basin_grate','utilities_covers_drains')
 def catch_basin(a):
-    a.box((0,0,.065),(.82,.82,.13),mat=CONCRETE)
-    a.box((0,0,.136),(.68,.68,.018),mat=BLACK)
-    for y in (-.35,.35):
-        a.box((0,y,.159),(.75,.05,.04),mat=IRON)
-    for x in (-.35,.35):
-        a.box((x,0,.159),(.05,.75,.04),mat=IRON)
-    for i in range(9):
-        a.box((-.28+i*.07,0,.16),(.026,.68,.04),mat=IRON)
-    for y in (-.20,.20):
-        a.box((0,y,.156),(.68,.026,.04),mat=IRON)
+    grate_surround(a,.84,.84,.18,.075)
+    for y in (-.35,.35):a.box((0,y,.198),(.75,.05,.045),mat=IRON)
+    for x in (-.35,.35):a.box((x,0,.198),(.05,.75,.045),mat=IRON)
+    for i in range(9):a.box((-.28+i*.07,0,.195),(.026,.68,.043),mat=IRON)
+    for y in (-.20,.20):a.box((0,y,.166),(.68,.026,.026),mat=IRON)
+    for y in (-.34,.34):
+        for x in (-.28,.28):disc(a,x,y,.222,.015,.007,STEEL,6)
 
 
 @prop('round_landscape_area_drain','utilities_covers_drains','handheld')
 def area_drain(a):
-    disc(a,0,0,0,.19,.09,BLACK,12)
-    disc(a,0,0,.09,.22,.025,GREEN,12)
-    disc(a,0,0,.115,.18,.012,BLACK,12)
-    a.torus((0,0,.13),.19,.018,mat=GREEN,segments=12,sides=4)
+    annulus(a,(0,0,0),.19,.171,.09,BLACK,12)
+    annulus(a,(0,0,.09),.22,.172,.031,GREEN,12)
     for i in range(6):
-        t=pi*i/6
-        tube(a,(-.175*cos(t),-.175*sin(t),.137),(.175*cos(t),.175*sin(t),.137),.012,GREEN,4)
-    disc(a,0,0,.135,.048,.015,GREEN,10)
+        t=pi*i/6;a.beam((-.175*cos(t),-.175*sin(t),.117),(.175*cos(t),.175*sin(t),.117),.014,.023,GREEN)
+    disc(a,0,0,.106,.041,.025,GREEN,8)
 
 
 @prop('double_panel_sump_grate','utilities_covers_drains')
 def sump_grate(a):
-    a.box((0,0,.055),(1.20,.76,.11),mat=CONCRETE)
-    a.box((0,0,.12),(1.08,.64,.02),mat=BLACK)
-    for x in (-.55,0,.55):
-        a.box((x,0,.145),(.045,.68,.04),mat=IRON)
-    for y in (-.32,.32):
-        a.box((0,y,.145),(1.12,.045,.04),mat=IRON)
+    grate_surround(a,1.22,.78,.16,.055)
+    for x in (-.55,0,.55):a.box((x,0,.179),(.041,.68,.04),mat=IRON)
+    for y in (-.32,.32):a.box((0,y,.179),(1.12,.039,.04),mat=IRON)
     for x in (-.275,.275):
-        for j in range(8):
-            a.box((x,-.265+j*.075,.148),(.49,.027,.04),mat=IRON)
+        for j in range(8):a.box((x,-.265+j*.075,.180),(.49,.025,.04),mat=IRON)
         for yy in (-.22,.22):
-            a.box((x,yy,.172),(.095,.045,.015),mat=STEEL)
+            for dx in (-.042,.042):a.box((x+dx,yy,.198),(.014,.021,.029),mat=STEEL)
+            a.box((x,yy,.216),(.095,.020,.014),mat=STEEL)

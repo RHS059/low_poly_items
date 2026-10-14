@@ -47,14 +47,44 @@ def _profile(a,points,width,mat):
     fs += [(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)]
     a.mesh(vs,fs,mat)
 
+def _molded_pad(a,center,size,mat='rubber',vertical=False):
+    """Beveled perimeter, domed top and narrowed shell underside of a molded pad."""
+    w,d,h=size; r=min(w,d)*.14
+    outline=[(-w/2+r,-d/2),(w/2-r,-d/2),(w/2,-d/2+r),(w/2,d/2-r),(w/2-r,d/2),(-w/2+r,d/2),(-w/2,d/2-r),(-w/2,-d/2+r)]
+    vs=[]
+    for fac,z in ((.86,-h/2),(1,0),(.94,h/2)):
+        for x,y in outline:
+            v=(x*fac,y*fac,z)
+            if vertical:v=(z,y*fac,x*fac)
+            vs.append(tuple(center[i]+v[i] for i in range(3)))
+    fs=[tuple(reversed(range(8))),tuple(range(16,24))]
+    for j in range(2):
+        for i in range(8):fs.append((j*8+i,j*8+(i+1)%8,(j+1)*8+(i+1)%8,(j+1)*8+i))
+    a.mesh(vs,fs,mat)
+
+def _bearing(a,x,y,z,r=.07,width=.12):
+    """Actual pivot boss, bush and visible axle end along the horizontal Y axis."""
+    _rod(a,(x,y-width/2,z),(x,y+width/2,z),r,'dark_metal',10)
+    for side in (-1,1):
+        yy=y+side*width/2
+        _rod(a,(x,yy,z),(x,yy+side*.013,z),r*.67,'steel',8)
+        _rod(a,(x,yy+side*.013,z),(x,yy+side*.023,z),r*.30,'dark_metal',6)
+
 def _slide_bed(a,pts,width=.58,mat='steel'):
-    # A metal chute with flanged sides follows the measured profile.
-    for p,q in zip(pts,pts[1:]):
-        a.beam(p,q,width,.038,mat)
-        for s in (-1,1):
-            pp=(p[0],p[1]+s*(width/2+.017),p[2]+.09)
-            qq=(q[0],q[1]+s*(width/2+.017),q[2]+.09)
-            a.beam(pp,qq,.035,.20,'teal')
+    # Continuous folded sheet trough: thickness, upright sides and hemmed edges.
+    # Two tangent sections around each corner remove abrupt panel-to-panel kinks.
+    path=[pts[0]]
+    for i in range(1,len(pts)-1):
+        for j,f in ((i-1,.18),(i+1,.18)):
+            path.append(tuple(pts[i][k]*(1-f)+pts[j][k]*f for k in range(3)))
+    path.append(pts[-1]);section=[(-width/2-.025,.18),(-width/2-.025,-.018),(width/2+.025,-.018),(width/2+.025,.18),(width/2-.012,.18),(width/2-.025,.018),(-width/2+.025,.018),(-width/2+.012,.18)]
+    vs=[(x,y+dy,z+dz) for x,y,z in path for dy,dz in section];fs=[];mats=[]
+    for j in range(len(path)-1):
+        for i in range(8):fs.append((8*j+i,8*j+(i+1)%8,8*(j+1)+(i+1)%8,8*(j+1)+i));mats.append(mat if i in (1,5) else 'teal')
+    fs.extend([tuple(reversed(range(8))),tuple(range(8*(len(path)-1),8*len(path)))]);mats+=['steel','steel'];a.mesh(vs,fs,mats)
+    for p in (path[1],path[-2]):
+        a.box((p[0],p[1],p[2]-.042),(.075,width+.06,.06),'dark_metal')
+        for side in (-1,1):_rod(a,(p[0],p[1]+side*(width/2+.02),p[2]+.08),(p[0],p[1]+side*(width/2+.037),p[2]+.08),.018,'steel',6)
 
 def _swing_frame(a,width=3.4,height=2.45,depth=.9):
     for x in (-width/2,width/2):
@@ -81,6 +111,9 @@ def straight_slide():
     _slide_bed(a,[(.43,0,1.53),(.85,0,1.40),(2.40,0,.22),(2.87,0,.15)])
     _rod(a,(1.25,-.27,.03),(1.25,-.27,1.10),.035)
     _rod(a,(1.25,.27,.03),(1.25,.27,1.10),.035)
+    for y in (-.35,.35):
+        a.box((0,y,1.55-.12),(.87,.08,.09),'dark_metal')
+        _path(a,[(-0.46-.23,y,1.55-.07),(-0.46-.18,y,1.55+.41),(-0.46+.02,y,1.55+.56)],.028,'steel',8)
     return a
 
 def wave_slide():
@@ -94,6 +127,9 @@ def wave_slide():
     _slide_bed(a,pts,.62,'steel')
     for x,z in ((1.55,1.06),(2.55,.47)):
         for y in (-.30,.30): _rod(a,(x,y,.03),(x,y,z),.038,'green')
+    for y in (-.35,.35):
+        a.box((0,y,2.0-.12),(.87,.08,.09),'dark_metal')
+        _path(a,[(-0.4-.23,y,2.0-.07),(-0.4-.18,y,2.0+.41),(-0.4+.02,y,2.0+.56)],.028,'steel',8)
     return a
 
 def curved_slide():
@@ -120,7 +156,12 @@ def curved_slide():
 def double_swing():
     a=_asset('double_swing');_swing_frame(a)
     for x in (-.79,.79):
-        a.box((x,0,.48),(.51,.22,.043),'rubber')
+        vs=[(x+dx,y,.48+zz) for y in (-.115,.115) for dx,zz in ((-.255,.038),(-.16,-.012),(0,-.026),(.16,-.012),(.255,.038))]
+        vs += [(xx,yy,zz-.026) for xx,yy,zz in vs]
+        fs=[]
+        for j in range(4):fs.extend([(j,j+1,j+6,j+5),(j+10,j+15,j+16,j+11)])
+        for j in range(4):fs.extend([(j,j+10,j+11,j+1),(j+5,j+6,j+16,j+15)])
+        fs.extend([(0,5,15,10),(4,14,19,9)]);a.mesh(vs,fs,'rubber')
         for s in (-1,1):
             _chain(a,(x+s*.24,0,.5),(x+s*.30,0,2.4))
             a.torus((x+s*.30,0,2.42),.042,.010,'steel',axis='y',segments=8,sides=4)
@@ -215,6 +256,11 @@ def seesaw():
         a.box((x,0,.80),(.40,.37,.065),'teal')
         _path(a,[(x*.76,-.14,.78),(x*.76,-.14,1.02),(x*.76,.14,1.02),(x*.76,.14,.78)],.026,'steel')
         a.cylinder((x,0,.025),(x,0,.23),.16,'rubber',sides=10)
+    _bearing(a,0,0,.62,.13,.73)
+    for x in (-.16,.16):a.box((x,0,.68),(.06,.28,.12),'dark_metal')
+    for x in (-1.34,1.34):
+        a.box((x,0,.57),(.26,.18,.04),'dark_metal')
+        for y in (-.12,.12):_rod(a,(x,y,.825),(x,y,.844),.014,'steel',6)
     return a
 
 def spring_rocker():
@@ -229,6 +275,12 @@ def spring_rocker():
         a.box((x,y,.72),(.32,.32,.075),'wood')
         _rod(a,(x*.67,y*.67,.69),(x*.67,y*.67,.98),.025,'steel')
         _rod(a,(x*.67-.12,y*.67,.98),(x*.67+.12,y*.67,.98),.025,'steel')
+    for z in (.09,.54):
+        a.cylinder((0,0,z),(0,0,z+.04),.17,'dark_metal',10)
+        for x in (-.11,.11):
+            for y in (-.11,.11):_rod(a,(x,y,z+.04),(x,y,z+.055),.017,'steel',6)
+    for x,y in ((-.76,0),(.76,0),(0,-.76),(0,.76)):
+        a.box((x,y,.53),(.20,.22,.04),'dark_metal')
     return a
 
 def merry_go_round():
@@ -242,6 +294,10 @@ def merry_go_round():
         _rail(a,p,q,.69,'dark_metal',False)
         a.beam((.40*c,.40*s,.335),(1.0*c,1.0*s,.335),.21,.032,'rubber')
     a.cylinder((0,0,.32),(0,0,.95),.065,'dark_metal',8)
+    for i in range(8):
+        t=PI*i/4
+        a.beam((.21*math.cos(t),.21*math.sin(t),.22),(1.02*math.cos(t),1.02*math.sin(t),.22),.048,.08,'dark_metal')
+    a.cylinder((0,0,.17),(0,0,.24),.30,'steel',12)
     return a
 
 def balance_beam():
@@ -277,6 +333,14 @@ def crawl_tunnel():
         fs += [(i,j,j+24,i+24),(i+12,i+36,j+36,j+12),(i,i+12,j+12,j),(i+24,j+24,j+36,i+36)]
     a.mesh(vs,[tuple(reversed(f)) for f in fs],'teal')
     for x in (-1.03,1.03): a.torus((x,0,.70),.511,.031,'dark_metal',axis='x',segments=12,sides=4)
+    for x in (-.76,.76):
+        # Two formed cradle cheeks support the round shell instead of touching it at a single point.
+        for y in (-.38,.38):
+            a.beam((x,y,.15),(x,y*.91,.38),.12,.09,'dark_metal')
+            _rod(a,(x,y,.32),(x+.075,y,.32),.020,'steel',6)
+    for x in (-.92,.92):
+        for i in range(8):
+            t=i*PI/4;_rod(a,(x,.522*math.cos(t),.70+.522*math.sin(t)),(x+(.014 if x>0 else -.014),.522*math.cos(t),.70+.522*math.sin(t)),.013,'steel',6)
     return a
 
 def ring_traverse():
@@ -307,6 +371,10 @@ def play_tower():
     # Gabled roof with a thin eave profile.
     _profile(a,[(-.83,2.40),(.83,2.40),(.83,2.49),(0,2.96),(-.83,2.49)],1.72,'green')
     for y in (-.88,.88): a.beam((-.84,y,2.49),(0,y,2.96),.055,mat='dark_metal');a.beam((0,y,2.96),(.84,y,2.49),.055,mat='dark_metal')
+    for y in (-.64,.64):
+        for x in (-.55,.55):a.beam((x,y,2.35),(x*.48,y,2.61),.058,.065,'wood_dark')
+    for y in (-.54,.54):a.box((0,y,1.015),(1.43,.10,.13),'wood_dark')
+    for x in (-.61,.61):a.box((x,0,1.015),(.11,1.29,.13),'wood_dark')
     return a
 
 def sand_table():
@@ -319,6 +387,10 @@ def sand_table():
     for x in (-.76,.76): a.box((x,0,.81),(.09,.94,.22),'green')
     a.box((0,.38,.79),(.34,.20,.025),'steel')
     a.cylinder((.48,-.24,.77),(.48,-.24,.785),.035,'dark_metal',8)
+    for y in (-.41,.41):a.box((0,y,.62),(1.40,.052,.10),'dark_metal')
+    for x in (-.70,.70):a.box((x,0,.63),(.052,.88,.08),'dark_metal')
+    for x in (-.64,.64):
+        for y in (-.37,.37):a.box((x,y,.62),(.08,.08,.11),'steel')
     return a
 
 def activity_panel():
@@ -330,6 +402,8 @@ def activity_panel():
         for i in range(5):
             x=-.53+i*.21
             a.cylinder((x-.06,0,z),(x+.06,0,z),.10,('teal','cream','wood')[int(round(z*10))%3],sides=8)
+    for x in (-.72,.72):
+        for z in (.75,1.01,1.27):_rod(a,(x-.025,0,z),(x+.025,0,z),.038,'dark_metal',8)
     return a
 
 def pullup_station():
@@ -370,10 +444,15 @@ def elliptical():
     for y,offset in ((-.33,0),(.33,.16)):
         _rod(a,(-.42,y,.43),(-.59+offset,y,.27),.035,'steel')
         a.beam((-.59+offset,y,.27),(.62+offset,y,.27),.09,.075,'dark_metal')
-        a.box((-.07+offset,y,.33),(.44,.20,.07),'rubber')
+        _molded_pad(a,(-.07+offset,y,.33),(.44,.20,.07))
         _path(a,[(.63+offset,y,.26),(.45,y,1.13),(.20,y,1.63),(.03,y,1.67)],.031,'steel')
         _rod(a,(.03,y,1.67),(.20,y,1.63),.039,'rubber')
     a.box((.34,0,1.42),(.16,.32,.18),'cream',rot=(0,-.25,0))
+    for y,off in ((-.33,0),(.33,.16)):
+        _bearing(a,-.43,y,.39,.10,.13)
+        _bearing(a,.45,y,1.13,.058,.10)
+        for xx in (-.20+off,.05+off):a.box((xx,y,.37),(.018,.15,.015),'dark_metal')
+    a.box((-.39,0,.19),(.34,.32,.06),'dark_metal')
     return a
 
 def air_walker():
@@ -387,13 +466,17 @@ def air_walker():
         a.box((s*.23,y,.24),(.51,.24,.075),'dark_metal')
         a.box((s*.23,y,.28),(.43,.18,.015),'rubber')
     _rod(a,(.27,-.36,1.57),(.27,.36,1.57),.045,'rubber')
+    for y in (-.31,.31):
+        _bearing(a,0,y,1.12,.085,.13)
+        _rod(a,(0,y,1.12),(0,y*1.9,1.12),.042,'steel',8)
+        a.box((0,y,.88),(.14,.10,.11),'green')
     return a
 
 def chest_press():
     a=_asset('seated_chest_press','person')
     _post(a,-.36,0,1.54,.075,'green')
-    a.box((.04,0,.48),(.47,.42,.075),'rubber')
-    a.box((-.27,0,.87),(.095,.40,.64),'rubber')
+    _molded_pad(a,(.04,0,.48),(.47,.42,.075))
+    _molded_pad(a,(-.27,0,.87),(.64,.40,.095),vertical=True)
     a.beam((-.36,0,.14),(.07,0,.43),.085,.10,'green')
     _rod(a,(-.36,-.53,1.44),(-.36,.53,1.44),.060,'dark_metal',8)
     for y in (-.46,.46):
@@ -401,6 +484,11 @@ def chest_press():
         _rod(a,(.54,y,.89),(.54,y*.54,.89),.033,'rubber')
         _rod(a,(-.36,y,1.44),(-.67,y,.99),.042,'green')
         a.cylinder((-.67,y-.075,.99),(-.67,y+.075,.99),.13,'dark_metal',10)
+    for y in (-.46,.46):
+        _bearing(a,-.36,y,1.44,.092,.14)
+        _rod(a,(-.42,y,1.19),(-.60,y,.77),.019,'steel',7)
+        _rod(a,(-.60,y,.77),(-.52,y,.57),.031,'dark_metal',8)
+    a.box((-.33,0,.48),(.13,.38,.075),'green')
     return a
 
 def rowing_station():
@@ -409,13 +497,18 @@ def rowing_station():
     for x in (-.68,.68):
         a.box((x,0,.07),(.14,.83,.14),'dark_metal')
         _rod(a,(x,0,.10),(x,0,.28),.045,'green')
-    a.box((-.45,0,.46),(.42,.39,.085),'rubber')
+    _molded_pad(a,(-.45,0,.46),(.42,.39,.085))
     _rod(a,(-.45,0,.18),(-.45,0,.42),.055,'green')
     for y in (-.24,.24):
         a.box((.54,y,.34),(.28,.21,.07),'dark_metal',rot=(0,-.30,0))
         _path(a,[(.58,y,.23),(.43,y,.63),(-.01,y*.9,.92)],.033,'steel')
         _rod(a,(-.01,y*.9,.92),(-.24,y*.9,.92),.038,'rubber')
         _rod(a,(.58,y-.045,.23),(.58,y+.045,.23),.080,'dark_metal',8)
+    for y in (-.24,.24):
+        _bearing(a,.58,y,.23,.10,.13)
+        _rod(a,(.48,y,.35),(.11,y,.22),.024,'steel',7)
+        _rod(a,(.11,y,.22),(-.09,y,.21),.037,'dark_metal',8)
+        for x in (.48,.58):a.box((x,y,.40),(.018,.15,.016),'rubber')
     return a
 
 def leg_press():
@@ -423,13 +516,18 @@ def leg_press():
     for x in (-.60,.67): a.box((x,0,.07),(.17,.92,.14),'dark_metal')
     a.box((0,0,.15),(1.48,.18,.14),'green')
     _rod(a,(-.61,0,.20),(-.49,0,1.33),.07,'green',8)
-    a.box((-.43,0,.86),(.09,.44,.69),'rubber',rot=(0,-.1,0))
-    a.box((-.16,0,.51),(.50,.45,.085),'rubber')
+    _molded_pad(a,(-.43,0,.86),(.69,.44,.09),vertical=True)
+    _molded_pad(a,(-.16,0,.51),(.50,.45,.085))
     _rod(a,(-.16,0,.20),(-.16,0,.48),.06,'green')
     for y in (-.28,.28):
         _rod(a,(.64,y,.20),(.76,y,.87),.043,'steel')
         a.box((.79,y,.84),(.075,.25,.38),'dark_metal',rot=(0,-.22,0))
         _rod(a,(.64,y-.05,.20),(.64,y+.05,.20),.075,'steel')
+    for y in (-.28,.28):
+        _bearing(a,.64,y,.20,.094,.15)
+        _rod(a,(.73,y,.74),(.25,y,.40),.026,'steel',7)
+        _rod(a,(.25,y,.40),(.06,y,.29),.043,'dark_metal',8)
+        a.box((.82,y,.76),(.028,.18,.055),'rubber')
     return a
 
 def shoulder_wheels():
@@ -443,6 +541,7 @@ def shoulder_wheels():
             _rod(a,(x,-.10,1.30),(x+.31*math.cos(th),-.10,1.30+.31*math.sin(th)),.016,'steel')
         _rod(a,(x,-.04,1.30),(x,-.18,1.30),.067,'green',8)
         _rod(a,(x+.26,-.10,1.30),(x+.26,-.24,1.30),.028,'rubber')
+    for x in (-.53,.53):_bearing(a,x,-.04,1.30,.080,.13)
     return a
 
 def twist_station():
@@ -479,6 +578,9 @@ def basketball_pole():
     _rod(a,(0,1.25,2.35),(0,.16,3.08),.038,'steel')
     _basketball_board(a)
     a.box((0,1.25,.69),(.28,.26,1.22),'green')
+    for x in (-.30,.30):
+        a.beam((0,.14,3.16),(x,.07,3.50),.05,.05,'steel')
+        a.box((x,.072,3.50),(.11,.032,.18),'dark_metal')
     return a
 
 def basketball_wall():
@@ -490,6 +592,9 @@ def basketball_wall():
         _rod(a,(x,1.04,1.57),(x,.05,1.60),.041,'steel')
         _rod(a,(x,1.04,.75),(x,.05,1.60),.030,'steel')
         for z in (.78,1.53): _rod(a,(x,1.00,z),(x,.985,z),.022,'steel')
+    for x in (-.56,.56):
+        a.box((x,.072,1.31),(.10,.05,.70),'steel')
+    a.box((0,.10,1.48),(1.21,.07,.07),'steel')
     return a
 
 def _net_panel(a,p,q,height,spacing=.25,mat='cream',rad=.004,sag=0):
@@ -594,6 +699,9 @@ def dugout_bench():
     a.box((0,.43,1.12),(3.9,.44,.055),'wood_dark')
     for x in (-1.82,-1.20,-.58,.04,.66,1.28,1.90): a.box((x,.44,1.28),(.038,.42,.29),'wood')
     a.box((0,.63,1.28),(3.9,.035,.30),'wood')
+    for x in (-1.65,0,1.65):
+        for y in (-.17,.17):_rod(a,(x,y,.51),(x,y,.528),.015,'steel',6)
+        a.box((x,0,.43),(.055,.47,.055),'dark_metal')
     return a
 
 def scoreboard():
@@ -613,6 +721,11 @@ def scoreboard():
     for x in (-.66,0,.66):
         a.box((x,-.13,1.84),(.44,.024,.24),'black')
         for dx in (-.11,.0,.11): a.cylinder((x+dx,-.146,1.84),(x+dx,-.16,1.84),.027,'light',8)
+    for x in (-1.16,1.16):
+        a.box((x,.135,2.27),(.15,.10,1.46),'dark_metal')
+        a.box((x,.18,1.53),(.23,.16,.09),'steel')
+    a.box((1.18,.13,1.77),(.47,.036,.32),'dark_metal')
+    for x in (.99,1.16,1.33):a.box((x,.153,1.77),(.020,.025,.23),'steel')
     return a
 
 def bleachers():
@@ -648,6 +761,9 @@ def umpire_chair():
     a.box((-.40,0,2.00),(.075,.94,.42),'wood')
     a.box((.35,0,1.48),(.23,.84,.055),'steel')
     a.box((.37,0,2.02),(.32,.77,.035),'green')
+    for y in (-.46,.46):
+        for x,z in ((-.42,1.65),(.28,1.65),(.52,.34),(-.64,.34)):
+            _rod(a,(x,y-.022,z),(x,y+.026,z),.026,'steel',6)
     return a
 
 def quarter_pipe():
@@ -658,6 +774,9 @@ def quarter_pipe():
     for y in (-1.18,1.18): _rail(a,(.95,y,1.62),(1.34,y,1.62),.94,'dark_metal')
     _rail(a,(1.34,-1.18,1.62),(1.34,1.18,1.62),.94,'dark_metal')
     a.box((1.12,0,1.60),(.43,2.34,.055),'dark_metal')
+    for y in (-1.13,1.13):
+        for x,z in ((-.80,.13),(.1,.45),(.70,1.11)):
+            _rod(a,(x,y,z),(x,y+.014,z),.012,'dark_metal',6)
     return a
 
 def funbox():
@@ -666,6 +785,9 @@ def funbox():
     a.box((-.05,.48,.88),(1.44,.38,.30),'concrete_light')
     a.box((-.05,.48,1.04),(1.46,.39,.028),'steel')
     for x in (-.75,.65): a.box((x,-.03,.745),(.035,1.2,.025),'metal')
+    for side in (-1,1):
+        a.box((-.05,.48+side*.205,.985),(1.48,.022,.10),'steel')
+        for x in (-.56,.43):_rod(a,(x,.48+side*.214,.97),(x,.48+side*.23,.97),.014,'dark_metal',6)
     return a
 
 def grind_rail():
@@ -674,6 +796,8 @@ def grind_rail():
     for p,q in zip(pts,pts[1:]): a.beam(p,q,.095,.08,'steel')
     for x,h in ((-1.55,.83),(-.50,.83),(.65,.40),(1.61,.40)):
         _foot(a,x,0);a.box((x,0,h/2),(.065,.065,h),'dark_metal')
+    for x,h in ((-1.55,.83),(-.50,.83),(.65,.40),(1.61,.40)):
+        a.box((x,0,h-.025),(.19,.13,.045),'dark_metal')
     return a
 
 def bowl_corner():
@@ -727,6 +851,9 @@ def disc_golf():
         _path(a,[(.28*c,.28*s,1.43),(.20*c,.20*s,1.03),(.10*c,.10*s,.81)],.008,'steel',4)
     a.torus((0,0,.81),.10,.014,'steel',segments=12,sides=4)
     a.box((0,0,1.66),(.15,.025,.15),'green')
+    for i in range(6):
+        t=PI*i/3
+        _path(a,[(.19*math.cos(t),.19*math.sin(t),1.43),(.15*math.cos(t+.12),.15*math.sin(t+.12),1.07),(.075*math.cos(t+.2),.075*math.sin(t+.2),.82)],.008,'steel',4)
     return a
 
 def horseshoe_pit():
@@ -737,6 +864,11 @@ def horseshoe_pit():
     _rod(a,(0,.15,.06),(0,.07,.46),.024,'steel',8)
     for x in (-.91,.91): a.box((x,1.14,.39),(.12,.12,.57),'wood_dark')
     for z in (.30,.52): a.box((0,1.16,z),(1.94,.065,.18),'wood')
+    for x in (-.89,.89):
+        for y in (-.99,.99):_rod(a,(x,y,.20),(x,y,.23),.020,'steel',6)
+    # A pair of recognisable horseshoes supplies the functional sporting context.
+    for x,y,t in ((-.39,-.28,.4),(.44,.47,-.8)):
+        a.torus((x,y,.095),.095,.017,'steel',segments=8,sides=4,arc=PI*1.4)
     return a
 
 def table_tennis():
@@ -782,9 +914,66 @@ _FACTORIES = [
 ('outdoor_table_tennis',table_tennis),('tetherball_pole',tetherball),
 ]
 
+REVIEW_REASONS = {
+'straight_slide':'Rebuilt separate chute panels as a continuous formed trough with thickness, hemmed lips and softened transitions; added entrance grab rails and deck mounts.',
+'wave_slide':'Rebuilt faceted panel chute as a continuous formed trough, refined transition profile and added entrance grab rails and deck supports.',
+'double_swing':'Replaced rigid slab seats with dipped, thickened flexible belt-seat geometry.',
+'outdoor_elliptical':'Molded footpads, crank and linkage bearings, anti-slip ribs and drivetrain guard base.',
+'air_walker':'Connected swinging arms to bushed pivot axles with mechanical stop housings.',
+'seated_chest_press':'Contoured molded seat/back, visible pivot housings and linked resistance struts.',
+'outdoor_rowing_station':'Contoured seat, axle bearings, linkage/resistance struts and non-slip footplate ribs.',
+'seated_leg_press':'Contoured seat/back shells, axle housings, resistance linkages and footplate heel stops.',
+'shoulder_rotation_wheels':'Added visible bearing bushes and axle-end hardware at wheel rotation axes.',
+'seesaw':'Added pivot bearing assembly, beam saddle brackets and bumper contact plates.',
+'four_seat_spring_rocker':'Added upper/lower spring mounting plates, anchor fasteners and seat supports.',
+'merry_go_round':'Added radial deck underframe and center bearing support flange.',
+'crawl_tunnel':'Added shaped support cradles and end-rim assembly fasteners.',
+'roofed_play_tower':'Added deck joists and diagonal roof support braces.',
+'accessible_sand_table':'Added structural tray rim support rails and leg socket brackets.',
+'playground_abacus_panel':'Added rod end bearings where the beads slide into frame.',
+'basketball_gooseneck_pole':'Added backboard mounting plates and spread support struts.',
+'wall_mount_basketball_goal':'Added backboard support rails and mounting connection plates.',
+'dugout_equipment_bench':'Added board support brackets and seat fixing heads.',
+'baseball_scoreboard':'Added rear support rails, mounting clamps and rear service ventilation panel.',
+'disc_golf_basket':'Added the inner catching-chain array distinct from the outer basket wires.',
+'horseshoe_pitching_pit':'Added timber assembly bolts and separate horseshoes as functional equipment.',
+'tennis_umpire_chair':'Added exposed ladder-frame joint fasteners.',
+'kinked_grind_rail':'Added structural saddle plates between posts and grind rail.',
+'skate_funbox':'Added wrap-around grind ledge facing and side fixing heads.',
+'skate_quarter_pipe':'Added transition-panel fixing points along supported side edges.',
+}
+REVIEW_RETAIN={
+'curved_slide':'Existing swept curved chute, central radial supports, platform and ladder already form a mechanically readable installation.',
+'toddler_bucket_swing':'Existing bucket seat leg openings, four sides, chains and braced frame define the appropriate design.',
+'tire_swing':'Existing tread blocks, three-point suspension and braced frame already carry specific construction.',
+'monkey_bars':'Existing rung spacing, ladder sides, capped posts and anchor plates are appropriately economical.',
+'dome_climber':'Existing triangular geodesic tubes, separate node joints and base anchors provide complete structure.',
+'climbing_wall':'Existing separate wall panels, staggered faceted handholds and bolts carry the needed detail.',
+'rope_pyramid':'Existing nested cable rings, radial ropes and top/base anchors are already functional.',
+'zigzag_balance_beam':'Existing beam joints, independent support posts and anchor feet are complete for a simple fixture.',
+'stepping_log_course':'Existing height progression, faceted bark, separate cut ends and endgrain rings define the simple object.',
+'overhead_ring_traverse':'Existing hanging rings, suspension rods, access rungs and capped supporting structure are sufficient.',
+'four_row_bleachers':'Existing stepped footboards, seat lips, diagonal framework and guardrails already resolve construction.',
+'three_height_pullup_station':'Existing varied bar heights, grips, capped posts and anchor plates match a simple static installation.',
+'parallel_dip_station':'Existing gripped parallel bars, lower ties and anchors provide complete structure.',
+'incline_situp_bench':'Existing slatted inclined support frame, paired rollers and post anchors carry the needed form.',
+'triple_twist_disc_station':'Existing separate rotating plates, arm supports and handle geometry already resolve the equipment.',
+'tennis_net':'Existing net sag, centre strap, winding housings and posts are already structurally specific.',
+'volleyball_net':'Existing net mesh, tape borders, antennas, padded posts and guy wires are complete.',
+'soccer_goal':'Existing bent rear supports and net following top/back/side geometry provide the required construction.',
+'lacrosse_goal':'Existing triangular rear net and frames are complete and appropriately economical.',
+'baseball_backstop':'Existing side panels, overhanging top fence, post feet and wire mesh already resolve construction.',
+'skate_bowl_corner':'Existing radial curved transition and coping form a correct simple concrete section.',
+'skate_manual_pad':'Existing entrance step, wrap-around steel edging and edge fasteners define the simple object.',
+'outdoor_table_tennis':'Existing pedestal supports, field markings and perforated rigid net complete the table.',
+'tetherball_pole':'Existing swivel ring, rope bend, ball seam and weighted base are complete.'
+}
+REVIEW={}
+
 # Each registered factory returns final bottom-centered authored geometry.
 for _name, _fn in _FACTORIES:
     _size = 'person' if _name in {'four_seat_spring_rocker','accessible_sand_table','playground_abacus_panel','parallel_dip_station','incline_situp_bench','outdoor_elliptical','air_walker','seated_chest_press','outdoor_rowing_station','seated_leg_press','shoulder_rotation_wheels','triple_twist_disc_station','disc_golf_basket'} else 'large'
+    REVIEW['b09_'+_name]={'status':'revised' if _name in REVIEW_REASONS else 'retained','reason':REVIEW_REASONS.get(_name,REVIEW_RETAIN.get(_name,'Reviewed silhouette, construction and functional details; no geometry change needed.'))}
     def _factory(fn=_fn):
         return fn().bottom_center()
     register('b09_'+_name,CAT,_size,_factory)

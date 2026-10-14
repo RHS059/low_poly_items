@@ -48,8 +48,15 @@ def frame(a, w, h, z=0, y=0, t=.075, d=.15, mat='white', sill=True, x=0):
     for side in (-1, 1):
         a.box((x+side*(w+t)/2, y, z+h/2), (t, d, h+2*t), mat)
     a.box((x, y, z+h+t/2), (w, d, t), mat)
+    # Separate inner stops and outer casing reveal the glazing/door rebate.
+    for side in (-1,1):
+        a.box((x+side*(w/2-.010),y+d*.22,z+h/2),(.020,d*.24,h),'dark_metal' if mat in ('metal','silver','dark_metal') else mat)
+        a.box((x+side*(w+t)*.5,y-d*.5-.009,z+h/2),(t*.68,.018,h+2*t),mat)
+    a.box((x,y+d*.22,z+h-.011),(w,.035,.022),mat)
     if sill:
         a.box((x, y-.035, z-t/2), (w+2*t, d+.09, t), mat)
+        a.box((x,y-d*.5-.05,z-t*.66),(w+2*t,.035,.024),mat)
+
 
 
 def pane(a, x, z, w, h, y=0, mat='glass'):
@@ -65,6 +72,8 @@ def inset_panel(a, x, z, w, h, y=-.065, mat='wood_dark', trim='wood'):
 
 
 def knob(a, x, z, y=-.1, mat='gold'):
+    a.box((x,y+.027,z-.05),(.075,.014,.18),mat)
+    a.cylinder((x,y+.019,z-.104),(x,y+.005,z-.104),.018,'dark_metal',8)
     a.cylinder((x, y+.03, z), (x, y-.015, z), .035, mat, 8)
     a.sphere((x, y-.027, z), .033, mat, 8, 3)
 
@@ -91,7 +100,12 @@ def grille(a, w, h, z=0, y=-.07, cols=3, rows=2, mat='white', x=0):
 def rail(a, p, q, h=.95, count=6, mat='dark_metal', bars=True):
     a.beam((p[0], p[1], p[2]+h), (q[0], q[1], q[2]+h), .045, .035, mat)
     a.beam((p[0], p[1], p[2]+.16), (q[0], q[1], q[2]+.16), .027, .025, mat)
-    for i in range(count+1):
+    for endpoint in (p,q):
+        x,y,z=endpoint
+        a.box((x,y,z+h/2),(.052,.052,h+.045),mat)
+        a.box((x,y,z+.025),(.105,.10,.025),mat)
+        for dx in (-.035,.035):a.cylinder((x+dx,y,z+.038),(x+dx,y,z+.045),.009,'steel',6)
+    for i in range(1,count):
         t=i/count
         x=p[0]+t*(q[0]-p[0]); y=p[1]+t*(q[1]-p[1]); z=p[2]+t*(q[2]-p[2])
         a.box((x,y,z+h/2), (.03,.03,h), mat)
@@ -164,6 +178,11 @@ def roll_up_storefront_shutter():
     a.box((0,.055,h+.19),(w+.24,.42,.36),'metal')
     for x in (-1.48,1.48): a.box((x,-.165,h+.19),(.04,.024,.32),'steel')
     a.box((0,-.064,.14),(.15,.028,.07),'dark_metal')
+    for x in (-1.60,1.60):
+        a.box((x,-.065,1.3),(.033,.05,2.6),'steel')
+        for z in (.23,1.32,2.4):bolts(a,[x],-.098,[z])
+    a.box((1.79,.05,h+.17),(.18,.29,.25),'dark_metal')
+    for z in (h+.08,h+.25):a.cylinder((1.6,.05,z),(1.72,.05,z),.035,'steel',8)
     return finish(a)
 
 
@@ -214,6 +233,11 @@ def sloped_cellar_bulkhead():
     a.beam((0,-.9,.27),(0,.9,1.03),.032,.03,'metal')
     a.cylinder((-.08,-.5,.47),(-.08,-.33,.54),.018,'steel',6)
     a.box((0,-.96,.06),(1.55,.13,.12),'concrete_light')
+    for x in (-.58,.58):
+        a.cylinder((x-.055,.84,1.02),(x+.055,.84,1.02),.024,'steel',8)
+        a.box((x,.73,.985),(.07,.18,.023),'metal',rot=(slope,0,0))
+    for x in (-.16,.16):
+        a.tube([(x,-.47,.50),(x,-.50,.56),(x,-.33,.63),(x,-.30,.56)],.014,'steel',6)
     return finish(a)
 
 
@@ -293,11 +317,17 @@ def sidelight_transom_entry():
 @entry('basement_hopper_window')
 def basement_hopper_window():
     a=model('basement_hopper_window');frame(a,1.18,.52,t=.085,d=.28,mat='concrete')
-    pane(a,0,.285,1.08,.42,.012)
-    for x in (-.555,.555):a.box((x,-.034,.26),(.045,.07,.49),'metal')
-    for z in (.025,.49):a.box((0,-.034,z),(1.11,.07,.045),'metal')
-    a.box((0,-.089,.43),(.13,.055,.026),'black')
-    for x in (-.40,.40):a.cylinder((x-.035,-.065,.025),(x+.035,-.065,.025),.018,'steel',6)
+    # Bottom-hinged sash is visibly opened into the recess.
+    angle=-.20;cy=.025+.24*math.sin(.20);cz=.025+.24*math.cos(.20)
+    a.box((0,cy,cz),(1.08,.025,.42),'glass',rot=(angle,0,0))
+    for x in (-.555,.555):a.box((x,cy,cz),(.045,.06,.49),'metal',rot=(angle,0,0))
+    for hh in (0,.48):
+        y=.025+hh*math.sin(.20);z=.025+hh*math.cos(.20)
+        a.box((0,y,z),(1.11,.06,.045),'metal',rot=(angle,0,0))
+    a.box((0,.083,.477),(.13,.04,.024),'black',rot=(angle,0,0))
+    for x in (-.40,.40):
+        a.cylinder((x-.035,-.015,.025),(x+.035,-.015,.025),.017,'steel',6)
+        a.beam((x,-.015,.36),(x,.10,.39),.012,.012,'steel')
     a.box((0,-.15,-.08),(1.43,.47,.065),'concrete_light')
     return finish(a)
 
@@ -330,7 +360,12 @@ def open_casement_window():
     for z in (.025,1.375):a.box((x,y,z),(.58,.075,.05),'white',rot=th)
     for u in (.23,.4):
         xx,yy=xy(u);a.beam((-.53,-.025,.09),(xx,yy,.09),.018,.016,'steel')
-    a.box((.3,-.046,.7),(.53,.03,.03),'white');return finish(a)
+    a.box((.3,-.046,.7),(.53,.03,.03),'white')
+    hinges(a,-.60,[.20,1.2],-.05,'steel')
+    a.box((-.32,-.12,.03),(.11,.055,.038),'metal')
+    a.beam((-.32,-.15,.04),(-.24,-.17,.04),.014,.014,'steel')
+    a.cylinder((-.24,-.17,.04),(-.24,-.17,.075),.012,'dark_metal',6)
+    return finish(a)
 
 
 @entry('projecting_bay_window','large')
@@ -345,7 +380,9 @@ def projecting_bay_window():
         for z in (.22,.91,1.60):a.beam((p[0],p[1],z),(q[0],q[1],z),.056,.06,'white')
         a.box((x,y,.92),(.045,.08,1.4),'white',rot=ang)
     for x,y in footprint:a.box((x,y,.91),(.075,.075,1.55),'white')
-    a.box((0,-.31,1.83),(2.64,.85,.09),'dark_metal')
+    roofbase=[(-1.33,.07,1.80),(-.88,-.73,1.80),(.88,-.73,1.80),(1.33,.07,1.80),(-1.02,.07,2.00),(1.02,.07,2.00)]
+    a.mesh(roofbase,[(0,1,4),(1,2,5,4),(2,3,5),(0,4,5,3),(0,3,2,1)],'dark_metal')
+    for p,q in zip(footprint,footprint[1:]):a.beam((p[0],p[1],1.78),(q[0],q[1],1.78),.07,.085,'cream')
     for x in (-.72,.72):a.beam((x,-.06,.02),(x,-.57,.3),.10,.11,'wood_dark')
     return finish(a)
 
@@ -401,6 +438,9 @@ def gable_dormer_window():
         a.box((side*.37,.25,1.59),(.96,1.08,.085),'asphalt',rot=(0,side*slope,0))
         a.beam((side*.74,-.29,1.35),(0,-.29,1.87),.065,.06,'white')
     a.box((0,.25,1.9),(.12,1.08,.055),'dark_metal')
+    for side in (-1,1):
+        a.box((side*.66,.33,.055),(.20,.85,.045),'dark_metal')
+        a.box((side*.69,.20,1.29),(.045,1.05,.080),'white')
     return finish(a)
 
 
@@ -469,6 +509,7 @@ def suspended_glass_entry_canopy():
         a.cylinder((x,0,1.10),(x,-1.27,.22),.017,'steel',6)
         for y,z in ((0,1.10),(-1.27,.22)):
             a.box((x,y,z),(.13,.052,.075),'metal')
+            bolts(a,[x-.041,x+.041],y-.029,[z],'steel')
     return finish(a)
 
 
@@ -482,6 +523,7 @@ def standing_seam_metal_canopy():
         a.beam((x,0,.69),(x,-1.3,.45),.065,.05,'dark_metal')
         a.beam((x,0,.02),(x,-1.19,.45),.058,.05,'dark_metal')
         a.box((x,.025,.37),(.15,.06,.74),'metal')
+        bolts(a,[x],-.012,[.10,.65])
     return finish(a)
 
 
@@ -498,6 +540,12 @@ def gabled_entry_portico():
         a.box((s*.585,-.53,2.73),(1.36,1.35,.095),'asphalt',rot=(0,s*slope,0))
         a.beam((s*1.18,-1.22,2.41),(0,-1.22,3.08),.075,.09,'cream')
     a.box((0,-.53,3.095),(.1,1.38,.055),'dark_metal')
+    for x in (-.94,.94):
+        a.box((x,-.50,2.34),(.13,1.17,.19),'cream')
+        a.beam((x,-1.02,2.03),(x,-.69,2.33),.085,.065,'white')
+    for y in (-.95,-.50,-.05):
+        for sign in (-1,1):a.beam((sign*1.04,y,2.42),(0,y,3.00),.057,.075,'wood_light')
+    a.box((0,.035,2.35),(2.1,.10,.19),'cream')
     return finish(a)
 
 
@@ -563,7 +611,10 @@ def raised_loading_dock_platform():
     a.box((0,-.953,.995),(2.4,.04,.15),'yellow')
     for x in (-.95,-.45,.05,.55,1.05):a.box((x,-.98,.995),(.11,.008,.155),'black',rot=(0,.27,0))
     a.box((0,-.32,1.154),(1.65,1.08,.025),'dark_metal')
-    for i in range(9):a.box((-.72+i*.18,-.32,1.171),(.035,.94,.008),'metal')
+    for i in range(9):a.box((-.72+i*.18,-.32,1.171),(.025,.94,.008),'metal')
+    for x in (-.61,-.20,.20,.61):a.cylinder((x-.12,.205,1.172),(x+.12,.205,1.172),.021,'steel',8)
+    a.box((0,-.907,1.105),(1.65,.13,.09),'metal')
+    for x in (-.50,.50):a.box((x,-.61,1.178),(.14,.05,.009),'black')
     return finish(a)
 
 
@@ -620,6 +671,11 @@ def fire_escape_drop_ladder():
     a.box((0,.33,2.84),(.84,.54,.075),'dark_metal')
     for x in (-.4,.4):rail(a,(x,.12,2.87),(x,.59,2.87),.84,3,'dark_metal',False)
     a.cylinder((.4,.05,2.53),(.4,.05,2.73),.025,'steel',8)
+    for x in (-.29,.29):
+        for z in (2.36,2.73):
+            a.box((x,.015,z),(.094,.095,.15),'metal')
+            a.box((x,-.043,z),(.060,.018,.15),'dark_metal')
+    a.beam((.39,.02,2.54),(.25,-.04,2.56),.019,.022,'steel')
     return finish(a)
 
 
@@ -662,6 +718,12 @@ def open_rooftop_access_hatch():
         a.cylinder((x,.49,.39),(x,.53,.49),.037,'steel',8)
     a.beam((.39,-.15,.3),(.39,.55,1.25),.024,.018,'steel')
     a.box((0,.47,1.35),(.22,.06,.032),'dark_metal')
+    for x in (-.43,.43):a.box((x,0,.39),(.084,1.11,.025),'rubber')
+    for y in (-.525,.525):a.box((0,y,.39),(.86,.078,.025),'rubber')
+    for x in (-.36,.36):a.box((x,.666,.935),(.045,.04,.98),'steel',rot=(.35,0,0))
+    a.cylinder((.34,.39,.45),(.34,.54,.90),.018,'dark_metal',8)
+    a.cylinder((.34,.54,.90),(.34,.61,1.12),.008,'steel',6)
+    a.box((0,.505,1.27),(.09,.045,.09),'dark_metal')
     return finish(a)
 
 
@@ -690,6 +752,12 @@ def sawtooth_roof_glazing_module():
         a.box((0,y,z),(3.18,.055,.065),'silver')
     a.box((0,-.16,.52),(3.16,1.45,.065),'asphalt',rot=(.8,0,0))
     a.box((0,.32,1.078),(3.24,.17,.05),'dark_metal')
+    for x in (-1.53,0,1.53):
+        a.beam((x,-.63,.02),(x,.35,1.025),.05,.067,'steel')
+        a.beam((x,-.63,.02),(x,.64,.02),.055,.045,'steel')
+    a.box((0,-.67,.037),(3.24,.10,.08),'dark_metal')
+    a.box((0,.69,.065),(3.24,.12,.10),'metal')
+    for x in (-.77,.77):a.box((x,-.16,.563),(.020,1.45,.025),'dark_metal',rot=(.8,0,0))
     return finish(a)
 
 
@@ -795,6 +863,14 @@ def rooftop_stair_headhouse():
     for z in (.38,.78,1.18,1.58,1.98,2.32):
         for x in (-.842,.842):a.box((x,.25,z),(.014,1.83,.018),'cream')
     a.box((0,-.92,.055),(1.16,.45,.11),'concrete_light')
+    hinges(a,-.445,[.25,1.02,1.80],-.792,'steel')
+    a.box((0,-.835,2.14),(1.12,.16,.07),'dark_metal')
+    for row,z in enumerate((.38,.78,1.18,1.58,1.98,2.32)):
+        for x in (-.848,.848):
+            for y in (-.53+(.16 if row%2 else 0),-.05+(.16 if row%2 else 0),.43+(.16 if row%2 else 0),.91):
+                a.box((x,y,z-.17),(.014,.018,.33),'cream')
+    a.box((0,1.33,2.43),(1.9,.12,.12),'metal')
+    a.tube([(.81,1.35,2.40),(.88,1.35,2.20),(.88,1.35,.08)],.035,'metal',8)
     return finish(a)
 
 

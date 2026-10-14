@@ -10,8 +10,43 @@ F='foliage'; D='foliage_dark'; L='foliage_light'; B='wood_dark'
 def branch(a,p,q,r=.04,r2=None,m=B,n=7):
     a.cylinder(p,q,r,mat=m,sides=n,radius2=r*.48 if r2 is None else r2)
 
-def crown(a,p,s,m=F,n=9):
-    a.sphere(p,1,mat=m,segments=n,rings=4,scale=s)
+def crown(a,p,s,m=F,n=9,split=True):
+    """Irregular tapered foliage masses, with staggered lobes and broken lower edges.
+    Flower centres and seed heads retain their small botanical solid forms.
+    """
+    if m not in (F,D,L) and not (a.category=='tree' and max(s)>.45):
+        a.sphere(p,1,mat=m,segments=n,rings=4,scale=s)
+        return
+    # Broad spreading species need multiple terminal leaf groups per scaffold bough.
+    if split and a.name in {'b08_mature_white_oak','b08_sycamore','b08_american_elm','b08_flowering_cherry'} and max(s)>.7:
+        phase=p[0]*1.7+p[1]*2.3+p[2]
+        for j in range(3):
+            t=phase+j*TAU/3
+            q=add(p,(s[0]*.40*math.cos(t),s[1]*.38*math.sin(t),s[2]*(.12 if j==1 else -.04)))
+            crown(a,q,(s[0]*.66,s[1]*.66,s[2]*(.78 if j==1 else .70)),m,max(8,n-1),False)
+        return
+    # Phase is deterministic but differs for every branch; never repeat a sphere.
+    phase=p[0]*1.71+p[1]*2.31+p[2]*.79
+    if a.size_class=='large': n=max(n,10)
+    vs=[add(p,(s[0]*.08*math.sin(phase),s[1]*.09*math.cos(phase),-s[2]*.88))]
+    for j,(h,r) in enumerate(((-.59,.52),(-.13,.97),(.38,.83),(.78,.43))):
+        for i in range(n):
+            t=TAU*i/n+phase+(j%2)*.12
+            scallop=1+.12*math.sin(i*2.19+phase)+.055*math.cos(i*3.1+j*.7)
+            rr=r*scallop
+            zz=h+.075*math.sin(i*2.47+phase+j*.8)
+            vs.append(add(p,(s[0]*(rr*math.cos(t)+.07*h),s[1]*rr*math.sin(t),s[2]*zz)))
+    vs.append(add(p,(s[0]*.11*math.sin(phase+.8),s[1]*.10*math.cos(phase),s[2]*1.02)))
+    top=len(vs)-1; fs=[]; mats=[]
+    for i in range(n):
+        fs.append((0,1+(i+1)%n,1+i));mats.append(D if m==F else m)
+    for j in range(3):
+        for i in range(n):
+            k=1+j*n+i; nx=1+j*n+(i+1)%n
+            fs.append((k,nx,nx+n,k+n));mats.append(m)
+    for i in range(n):
+        fs.append((1+3*n+i,1+3*n+(i+1)%n,top));mats.append(m)
+    a.mesh(vs,fs,mats)
 
 def disk(a,p,r,h,m='soil',n=12):
     a.cylinder(p,add(p,(0,0,h)),r,mat=m,sides=n)
@@ -53,7 +88,12 @@ def root_flare(a,r=.22,h=.42):
         branch(a,(0,0,h),(r*2*math.cos(th),r*2*math.sin(th),.035),r*.48,.055)
 
 def broad_branch(a,p,q,r,scale,m=F):
-    branch(a,p,q,r)
+    elbow=add(add(p,mul(sub(q,p),.56)),(0,0,-scale[2]*.10))
+    branch(a,p,elbow,r,r*.65)
+    branch(a,elbow,q,r*.65,r*.23)
+    for sign in (-1,1):
+        end=add(q,(sign*scale[0]*.52,scale[1]*.23,-scale[2]*.27))
+        branch(a,elbow,end,r*.34,r*.095,n=5)
     crown(a,q,scale,m)
 
 def rim_pot(a,r=.35,h=.52,m='terracotta',p=(0,0,0)):
@@ -209,10 +249,15 @@ def b08_southern_magnolia():
 def b08_blue_spruce():
     a=asset('blue_spruce','large','tree');branch(a,(0,0,0),(0,0,5.35),.14,.025)
     for j in range(7):
-        z=.5+j*.59;rad=1.44-j*.175
-        a.cone((0,0,z),(0,0,z+1.45),rad,D,10)
-        for k in range(5):
-            t=k*TAU/5+j*.45;branch(a,(0,0,z+.25),(rad*.91*math.cos(t),rad*.91*math.sin(t),z-.12),.025,.010,D,5)
+        z=.65+j*.60;rad=1.46-j*.175
+        for k in range(6):
+            t=k*TAU/6+j*.73
+            end=(rad*math.cos(t),rad*math.sin(t),z-.12)
+            branch(a,(0,0,z+.29),end,.03,.007,B,5)
+            # Drooping, flattened branch foliage preserves open gaps between whorls.
+            mid=(end[0]*.69,end[1]*.69,z+.12)
+            crown(a,mid,(rad*.46,rad*.34,.31 if j<4 else .24),D,7)
+    crown(a,(0,0,5.01),(.25,.26,.53),F,7)
     return a
 
 def b08_eastern_white_pine():
@@ -281,10 +326,13 @@ def b08_staked_young_street_tree():
 
 # Shrubs: ten distinct habits, pruning forms and flowering structures.
 def b08_boxwood_globe():
-    a=asset('boxwood_globe');branch(a,(0,0,0),(0,0,.36),.045,.02)
-    crown(a,(0,0,.52),(.57,.57,.5),D,12)
-    for i in range(6):
-        th=i*TAU/6;crown(a,(.4*math.cos(th),.4*math.sin(th),.53),(.21,.2,.24),F,7)
+    a=asset('boxwood_globe');branch(a,(0,0,0),(0,0,.38),.045,.02)
+    # Densely overlapping small shoots form a clipped spherical shrub, rather than
+    # a single large sphere with a few attached bumps.
+    for j,(z,r,count) in enumerate(((.24,.30,6),(.48,.37,8),(.73,.26,6),(.84,.10,3))):
+        for i in range(count):
+            t=i*TAU/count+j*.53
+            crown(a,(r*math.cos(t),r*math.sin(t),z),(.22,.22,.22),D if j==0 else F,7)
     return a
 
 def b08_clipped_yew_hedge():
@@ -293,7 +341,10 @@ def b08_clipped_yew_hedge():
     # Chamfered, deliberately pruned rectangular profile.
     pts=[(-1.4,-.39),(-1.29,-.5),(1.29,-.5),(1.4,-.39),(1.4,.39),(1.29,.5),(-1.29,.5),(-1.4,.39)]
     a.prism(pts,.17,1.24,D)
-    for x in (-1.1,-.58,0,.57,1.1): crown(a,(x,0,1.25),(.33,.43,.14),F,8)
+    for x in (-1.1,-.58,0,.57,1.1):
+        crown(a,(x,0,1.23),(.34,.42,.16),F,8)
+        for y in (-.46,.46):
+            for z in (.39,.82): crown(a,(x,y,z),(.32,.085,.25),D if z<.6 else F,7)
     return a
 
 def b08_privet_flowering_hedge():
@@ -582,6 +633,30 @@ def b08_raised_perennial_bed():
         flower(a,(x,-.24,.58),.086,'cream',6,'yellow',stem=(x,-.24,.33))
     return a
 
+REVIEW_RETAIN = {
+ 'hydrangea':'Existing branching stems, broad leaves and compound rounded blossom heads already provide species-specific structure.',
+ 'bearded_iris':'Existing keeled leaf fans, separate fall/standard petals and staggered stems already convey iris structure.',
+ 'black_eyed_susans':'Separate keeled petals, flower centres and paired stem leaves already carry the needed structure.',
+ 'cattail_cluster':'Separate leaf blades, seed cylinders, tips and varied stem heights already resolve the silhouette.',
+ 'daffodil_cluster':'Existing six petals, projecting trumpet and bending stems are species-specific; no extra tessellation needed.',
+ 'daylily_clump':'Long separate tepals, throat, keeled foliage and varying stem heights already support the intended form.',
+ 'flowering_hosta':'Broad keeled basal leaves and separate hanging flowers already represent the species.',
+ 'forsythia':'Existing arched twig structure and small separate flowers are appropriate for open spring growth.',
+ 'fountain_grass':'Curving blades and bent seed stems already form the appropriate fountain habit.',
+ 'lavender_patch':'Narrow leaves, multi-lobed spikes and varied heights already provide botanical construction.',
+ 'maiden_grass':'Curved blades and lobed panicles already supply the essential structure.',
+ 'pampas_grass':'Separate arching leaves and elongated compound plumes already distinguish the grass.',
+ 'purple_coneflowers':'Separate drooping petals and raised cone centres already provide the botanical shape.',
+ 'redtwig_dogwood_winter':'Bare tapered branches and paired secondary twigs are appropriate for the winter state.',
+ 'rhododendron':'Radial leathery leaves and individual flowers are already modeled; no generic canopy mass to replace.',
+ 'salvia_border':'Paired broad leaves and tapered whorled flower spikes already define this perennial.',
+ 'switchgrass':'Open secondary seed panicles and upright blades are already structurally specific.',
+ 'tulip_cluster':'Separate upright overlapping petals and broad basal leaves already define the bloom.',
+ 'whiskey_barrel_flowers':'Individual flowers/blades and geometric barrel staves/hoops already carry sufficient construction.',
+ 'circular_civic_flower_bed':'The brick ring and individually modeled flowering plants already carry necessary detail.',
+ 'raised_perennial_bed':'Existing board corners, stakes and separate species are structurally developed.'
+}
+REVIEW = {}
 _FACTORIES=[v for k,v in list(globals().items()) if k.startswith('b08_') and callable(v)]
 assert len(_FACTORIES)==50, len(_FACTORIES)
 for _factory in _FACTORIES:
@@ -589,6 +664,13 @@ for _factory in _FACTORIES:
     _name=_prototype.name
     _category=_prototype.category
     _size=_prototype.size_class
+    _short=_name.removeprefix('b08_')
+    REVIEW[_name]={'status':'retained' if _short in REVIEW_RETAIN else 'revised',
+        'reason':REVIEW_RETAIN.get(_short,'Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.')}
+    if _short=='boxwood_globe': REVIEW[_name]['reason']='Rebuilt the single large globe with attached bumps as densely overlapping small shoot groups, keeping a clipped spherical habit.'
+    if _short=='blue_spruce': REVIEW[_name]['reason']='Replaced stacked conical shells with individual drooping boughs, broken whorls and irregular foliage pads.'
+    if _short=='clipped_yew_hedge': REVIEW[_name]['reason']='Added shallow leaf growth across clipped side planes and irregular crown tips so the hedge no longer reads as a solid block.'
+    if _short in ('mature_white_oak','sugar_maple','tulip_poplar'): REVIEW[_name]['reason']+=' Main boughs now taper through an elbow into visible daughter forks.'
     def _make(f=_factory):
         return f().bottom_center()
     register(_name,_category,_size,_make)

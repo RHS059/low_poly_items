@@ -31,7 +31,7 @@ def accessor_values(doc,binary,idx):
  return [struct.unpack_from(fmt,binary,offset+i*stride) for i in range(a['count'])]
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument('--expected',type=int,default=1000);ap.add_argument('--skip-blend',action='store_true');args=ap.parse_args()
+ ap=argparse.ArgumentParser();ap.add_argument('--expected',type=int,default=1050);ap.add_argument('--skip-blend',action='store_true');args=ap.parse_args()
  data=json.loads((ROOT/'manifest.json').read_text());rows=data['assets'];errors=[];warnings=[];material_defs={};file_hashes={};geometry_hashes=collections.defaultdict(list)
  if len(rows)!=args.expected:errors.append(f'Expected {args.expected} assets, found {len(rows)}')
  names={r['name'] for r in rows}

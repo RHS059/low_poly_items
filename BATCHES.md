@@ -25,6 +25,10 @@ Each batch contains 50 separately named, geometrically distinct assets. Color-on
 | 19 | Fences, gates and property boundaries |
 | 20 | Waterfront, winter and outdoor event equipment |
 
+## Additional building modules
+
+Batch21 adds 50 modular walls, floors, ceilings, doors and windows. See [BUILDING_KIT.md](BUILDING_KIT.md). The original 20 batches retain all 1,000 filenames.
+
 ## Geometry limits
 
 - Handheld: strictly fewer than 1,000 vertices.

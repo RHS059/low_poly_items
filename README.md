@@ -1,23 +1,25 @@
 # American City — Low-Poly Items
 
-A collection of 1,000 original low-poly outdoor props for a midsized American city, authored procedurally with Blender-ready geometry. The set covers street furniture, transport, utilities, residential exteriors, construction, parks, storefronts and everyday small objects.
+A collection of 1,050 original low-poly outdoor props for a midsized American city, authored procedurally with Blender-ready geometry. The set covers street furniture, transport, utilities, residential exteriors, construction, parks, storefronts and everyday small objects.
 
 ![Representative models from the collection](previews/overview.jpg)
 
+The original 1,000 props are retained. An additional 50-piece modular building kit provides walls, floors, ceilings, doors and windows; see [BUILDING_KIT.md](BUILDING_KIT.md) for placement dimensions.
+
 ## Interactive 3D browser
 
-Download [`index.html`](index.html) and open it in your browser to browse all 1,000 objects. It loads the models from this repository when opened directly, and uses local files when served over HTTP. Internet access is required for Three.js. Search the collapsible category list, drag to orbit, right-drag to pan, and scroll to zoom. The viewer uses one directional light, a grid floor, and a gradient background.
+**[Open the live 3D viewer](https://rhs059.github.io/low_poly_items/)** or download [`index.html`](index.html) and open it in your browser to browse all 1,050 objects. It loads the models from this repository when opened directly, and uses local files when served over HTTP. Internet access is required for Three.js. Search the collapsible category list, drag to orbit, right-drag to pan, and scroll to zoom. The viewer uses one directional light, a grid floor, and a gradient background.
 
 For a fully local model collection, run `python -m http.server 8000` in the downloaded repository and visit `http://localhost:8000`.
 
 ## Files
 
 - **[`city_items.blend`](city_items.blend)** — master Blender file containing all source meshes and the shared material palette.
-- **[`exports/`](exports/)** — 1,000 individually named, self-contained GLB files.
+- **[`exports/`](exports/)** — 1,050 individually named, self-contained GLB files.
 - **[`previews/index.html`](previews/index.html)** — searchable local visual catalog. Open after downloading the repository; no installation or network service required.
-- **[`previews/`](previews/)** — 20 contact sheets and individual model thumbnails, rendered with software shading from the exported geometry.
+- **[`previews/`](previews/)** — 21 contact sheets and individual model thumbnails, rendered with software shading from the exported geometry.
 - **[`manifest.json`](manifest.json)** — per-model dimensions, geometry counts, material references and export information.
-- **[`BATCHES.md`](BATCHES.md)** — the 20 production categories, each with 50 assets.
+- **[`BATCHES.md`](BATCHES.md)** — the 21 production categories, each with 50 assets.
 - **[`tools/`](tools/)** and **[`batches/`](batches/)** — reproducible modeling, export, validation and preview source.
 
 The visual direction follows the user-provided reference; see [`STYLE.md`](STYLE.md).
@@ -42,7 +44,7 @@ Both the Blender mesh and GLB vertex stream are checked. GLB counts can be highe
 
 ## Rebuild
 
-Use Python 3.11 and the pinned dependencies in `requirements.txt` (Blender 4.2). The batch source is deterministic, and exports use stable filenames. Build and validation commands check exactly 1,000 assets by default.
+Use Python 3.11 and the pinned dependencies in `requirements.txt` (Blender 4.2). The batch source is deterministic, and exports use stable filenames. Build and validation commands check exactly 1,050 assets by default.
 
 ```bash
 python -m pip install -r requirements.txt

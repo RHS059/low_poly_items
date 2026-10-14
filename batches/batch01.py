@@ -56,9 +56,23 @@ def bowl(a,x,y,z,r=.21,m=S):
     faces += [tuple(reversed(range(12))),tuple(range(36,48))]
     a.mesh(vs,faces,mat=m)
     ring(a,(x,y,z),r-.011,.016,m)
-    disk(a,(x,y,z-.056),r*.47,.004,K)
-    disk(a,(x,y,z-.052),.031,.006,S,8)
+    disk(a,(x,y,z-.056),r*.47,.004,S)
+    disk(a,(x,y,z-.052),.031,.006,M,8)
+    for dx in (-.013,0,.013):box(a,(x+dx,y,z-.048),(.005,.041,.004),S)
+    rod(a,(x,y+r*.25,z+.09),(x,y+r*.20,z+.07),.012,M,8)
     tube(a,[(x,y+r*.65,z),(x,y+r*.65,z+.095),(x,y+r*.28,z+.10)],.017,S)
+def planked_disk(a,r,z,thick=.065,m=W,n=12,cx=0,cy=0):
+    # Each board is clipped to the curved perimeter, rather than stair-stepping it.
+    count=max(5,round(r*2/.14)); step=2*r/count
+    for j in range(count):
+        y0=-r+j*step+.0045;y1=-r+(j+1)*step-.0045;ym=(y0+y1)/2
+        widths=[(r*r-y*y)**.5 for y in (y0,ym,y1)]
+        points=[(-widths[0],y0),(widths[0],y0),(widths[1],ym),(widths[2],y1),(-widths[2],y1),(-widths[1],ym)]
+        a.prism([(cx+x,cy+y) for x,y in points],z-thick/2,z+thick/2,m)
+    for y in (-r*.47,r*.47):
+        half=(r*r-y*y)**.5*.89
+        box(a,(cx,cy+y,z-thick*.9),(2*half,.055,.048),M)
+
 def table_slats(a,w,d,z,m=W):
     count=max(3,round(d/.13))
     for j in range(count): box(a,(0,-d/2+(j+.5)*d/count,z),(w,d/count-.012,.055),m)
@@ -72,11 +86,26 @@ def simple_shelter(a,w=3.1,d=1.4,roofz=2.45,glass=True):
         for x in (-w/3,0,w/3):
             box(a,(x,d/2,1.24),(w/3-.05,.018,2.20),G)
         for x in (-w/2,w/2): box(a,(x,0,1.24),(.018,d-.1,2.20),G)
+        for x in (-w/6,w/6): rod(a,(x,d/2,.16),(x,d/2,roofz-.04),.021,S)
+        for x in (-w/2,-w/6,w/6,w/2):
+            for zz in (.30,2.05):
+                box(a,(x,d/2-.017,zz),(.12,.042,.055),S)
+                rod(a,(x,d/2-.043,zz),(x,d/2-.048,zz),.011,M,6)
+        for x in (-w/2,w/2):
+            for yy in (-d*.38,d*.38):
+                box(a,(x,yy,.31),(.045,.10,.055),S)
+                box(a,(x,yy,2.03),(.045,.10,.055),S)
         for x in (-w/2,w/2): rod(a,(x,-d/2,.18),(x,d/2,.18),.024,S)
         rod(a,(-w/2,d/2,.18),(w/2,d/2,.18),.024,S)
         for x in (-w/3,0,w/3): box(a,(x,d/2-.013,1.28),(.16,.012,.045),WHITE)
     for x in (-.65,.65): box(a,(x,d*.19,.25),(.065,.35,.46),M)
-    box(a,(0,d*.19,.50),(1.7,.40,.055),M)
+    for j in range(4): box(a,(0,d*.19-.15+j*.10,.50),(1.7,.087,.04),M)
+    for x in (-.65,.65):
+        box(a,(x,d*.19,.475),(.10,.41,.055),S)
+        for yy in (-.08,.08):rod(a,(x,d*.19+yy,.501),(x,d*.19+yy,.529),.012,S,6)
+    # Rear eave gutter and downspout with a bent outlet.
+    box(a,(0,d/2+.06,roofz+.01),(w+.22,.10,.10),M)
+    tube(a,[(w/2+.055,d/2+.05,roofz),(w/2+.055,d/2+.05,.20),(w/2+.13,d/2+.13,.08)],.027,S)
 
 def b01_cast_iron_park_bench():
     a=Asset('b01_cast_iron_park_bench','bench','person')
@@ -97,10 +126,14 @@ def b01_backless_boardwalk_bench():
 
 def b01_cantilever_concrete_bench():
     a=Asset('b01_cantilever_concrete_bench','bench','person')
-    box(a,(0,0,.43),(2.10,.59,.15),C)
-    for x in (-.61,.61): box(a,(x,.20,.21),(.23,.19,.42),C)
-    box(a,(0,.28,.77),(2.10,.12,.55),C)
-    for x in (-.75,0,.75): box(a,(x,-.08,.515),(.015,.43,.007),M)
+    # A single cast shell has a eased front nose and a slightly reclined back.
+    yz=[(-.31,.40),(-.30,.48),(-.26,.51),(.19,.51),(.27,1.035),(.32,1.06),(.38,1.045),(.30,.365),(-.27,.365)]
+    n=len(yz);vs=[(x,y,z) for x in (-1.05,1.05) for y,z in yz]
+    a.mesh(vs,[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)],C)
+    for x in (-.61,.61):
+        box(a,(x,.20,.19),(.23,.22,.38),C)
+        box(a,(x,.20,.025),(.29,.28,.05),M)
+    for x in (-.75,0,.75): box(a,(x,-.03,.513),(.012,.38,.007),M)
     return a
 
 def b01_perforated_steel_bench():
@@ -117,10 +150,19 @@ def b01_perforated_steel_bench():
 
 def b01_rustic_split_log_bench():
     a=Asset('b01_rustic_split_log_bench','bench','person')
-    for x in (-.68,.68): rod(a,(x,0,.05),(x,0,.37),.19,W,7)
-    rod(a,(-1.04,0,.46),(1.04,0,.46),.20,W,6)
-    for x in (-.71,.71): rod(a,(x,.15,.24),(x,.28,1.0),.055,W,6)
-    for z in (.75,.93): rod(a,(-1,.25,z),(1,.25,z),.082,W,6)
+    for x in (-.68,.68):
+        rod(a,(x,0,.04),(x,0,.35),.18,'wood_dark',9)
+        for dy in (-.1,.1): rod(a,(x-.19,dy,.22),(x+.19,dy,.22),.016,M,6)
+    # Split trunk: flat sawn seating surface over a faceted bark underside.
+    yz=[(-.24,.48),(.24,.48),(.23,.38),(.17,.29),(0,.25),(-.17,.29),(-.23,.38)]
+    vs=[(x,y,z) for x in (-1.04,1.04) for y,z in yz];n=len(yz)
+    a.mesh(vs,[tuple(range(n-1,-1,-1)),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)],mat=[W,W,W]+['wood_dark']*(n-1))
+    for x in (-.71,.71): rod(a,(x,.15,.24),(x,.28,1.0),.06,'wood_dark',7)
+    for z in (.75,.93):
+        a.beam((-1,.25,z),(1,.25,z),.11,.09,mat=W)
+        for x in (-.71,.71):rod(a,(x,.198,z),(x,.184,z),.013,M,6)
+    for x in (-1.045,1.045):
+        for rr in (.06,.10): ring(a,(x,0,.365),rr,.006,'wood_dark',axis='x',n=10)
     return a
 
 def b01_curve_segment_park_bench():
@@ -253,12 +295,12 @@ def b01_square_four_stool_table():
 
 def b01_round_pedestal_picnic_table():
     a=Asset('b01_round_pedestal_picnic_table','picnic_table','large')
-    disk(a,(0,0,.77),.72,.065,W,12)
+    planked_disk(a,.72,.77)
     rod(a,(0,0,.04),(0,0,.73),.105,M)
     disk(a,(0,0,.03),.34,.055,M)
     for deg in (45,135,225,315):
         t=math.radians(deg);x,y=1.02*math.cos(t),1.02*math.sin(t)
-        disk(a,(x,y,.46),.29,.065,W,10)
+        planked_disk(a,.29,.46,cx=x,cy=y)
         rod(a,(x,y,.03),(x,y,.43),.07,M)
         rod(a,(0,0,.17),(x,y,.17),.044,M)
         foot(a,x,y)
@@ -293,7 +335,7 @@ def b01_outdoor_chess_pedestal_table():
 
 def b01_standing_barrel_community_table():
     a=Asset('b01_standing_barrel_community_table','outdoor_table','person')
-    disk(a,(0,0,1.05),.66,.07,W,12)
+    planked_disk(a,.66,1.05,.07)
     for i in range(12):
         t=i*math.tau/12;x,y=.30*math.cos(t),.30*math.sin(t)
         rod(a,(x*.80,y*.80,.035),(x,y,.53),.07,W,4)
@@ -307,7 +349,12 @@ def b01_standing_barrel_community_table():
 
 def b01_hexagonal_family_picnic_table():
     a=Asset('b01_hexagonal_family_picnic_table','picnic_table','large')
-    disk(a,(0,0,.78),.81,.065,W,6)
+    # Long parallel boards clipped against the hexagonal top boundary.
+    for j in range(10):
+        y0=(j-5)*.135+.005;y1=y0+.125
+        x0=.81-abs(y0)/math.sqrt(3);x1=.81-abs(y1)/math.sqrt(3)
+        a.prism([(-x0,y0),(x0,y0),(x1,y1),(-x1,y1)],.7475,.8125,W)
+    for y in (-.39,.39): box(a,(0,y,.72),(1.10,.06,.065),M)
     for i in range(6):
         t=i*math.pi/3;q=t+math.pi/3
         rod(a,(1.07*math.cos(t),1.07*math.sin(t),.46),(1.07*math.cos(q),1.07*math.sin(q),.46),.14,W,4)
@@ -341,8 +388,8 @@ def b01_stainless_dome_bollard():
 def b01_spherical_concrete_bollard():
     a=Asset('b01_spherical_concrete_bollard','bollard','person')
     disk(a,(0,0,.055),.32,.11,C,10)
-    ball(a,(0,0,.40),.40,C)
-    ring(a,(0,0,.69),.27,.014,WHITE)
+    a.sphere((0,0,.40),.40,mat=C,segments=12,rings=8)
+    ring(a,(0,0,.22),.333,.008,'concrete_light',n=12)
     return a
 
 def b01_timber_trail_bollard():
@@ -500,6 +547,10 @@ def b01_bottle_refill_station():
     box(a,(0,-.001,1.42),(.045,.01,.025),WHITE)
     bowl(a,-.35,0,.80,.18,S)
     box(a,(-.23,.02,.69),(.28,.16,.10),B)
+    box(a,(0,.006,.45),(.28,.02,.48),M)
+    for x in (-.12,.12):
+        for z in (.24,.66):rod(a,(x,-.008,z),(x,-.015,z),.007,S,6)
+    for z in (.33,.38,.43):box(a,(0,-.008,z),(.16,.01,.012),K)
     return a
 
 def b01_stone_spout_fountain():
@@ -564,6 +615,10 @@ def b01_cantilever_transit_shelter():
     for x in (-.88,.88): rod(a,(x,.4,.28),(x,.0,.55),.035,S)
     for j in range(4): box(a,(0,-.10+j*.10,.53),(2.0,.083,.04),W)
     rod(a,(-1.50,-.97,2.4),(1.50,-.97,2.4),.047,M)
+    for x in (-1.35,0,1.35):
+        for z in (.30,2.15):box(a,(x,.445,z),(.13,.05,.06),S)
+    tube(a,[(1.39,.69,2.42),(1.39,.69,.23),(1.45,.77,.08)],.028,S)
+    box(a,(0,.76,2.39),(3.04,.09,.10),M)
     return a
 
 def b01_barrel_vault_bus_shelter():
@@ -641,7 +696,12 @@ def b01_planter_integrated_sidewalk_seat():
         box(a,(x,0,.672),(.55,.55,.012),K)
         for dx,dy,h in ((-.10,-.08,.32),(.09,.07,.42),(.15,-.12,.26),(-.15,.13,.37)):
             rod(a,(x+dx,dy,.67),(x+dx*1.5,dy*1.5,.67+h),.015,'green',5)
-            rod(a,(x+dx,dy,.70),(x-dx,dy*1.9,.88+h*.3),.018,'green',5)
+            # Tapered lance leaves fold along a raised midrib.
+            for k in range(3):
+                t=k*math.tau/3+dx*8
+                px=x+dx;py=dy; zz=.71
+                ex=px+math.cos(t)*(.15+h*.22);ey=py+math.sin(t)*(.15+h*.22)
+                a.mesh([(px,py,zz),(px-.038*math.sin(t),py+.038*math.cos(t),zz+h*.5),(ex,ey,zz+h),(px+.038*math.sin(t),py-.038*math.cos(t),zz+h*.5),(px,py,zz+h*.55)],[(0,1,4),(1,2,4),(2,3,4),(3,0,4)],'green')
     for j in range(5): box(a,(0,-.24+j*.12,.47),(1.67,.10,.075),W)
     for x in (-.56,.56): box(a,(x,0,.40),(.10,.57,.10),M)
     return a

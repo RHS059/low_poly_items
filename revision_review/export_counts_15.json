@@ -1,0 +1,302 @@
+[
+  {
+    "name": "b15_low_floor_transit_bus",
+    "export_vertices": 5362,
+    "source_vertices": 1986,
+    "bevel": false
+  },
+  {
+    "name": "b15_articulated_transit_bus",
+    "export_vertices": 8794,
+    "source_vertices": 3200,
+    "bevel": false
+  },
+  {
+    "name": "b15_conventional_school_bus",
+    "export_vertices": 5402,
+    "source_vertices": 1968,
+    "bevel": false
+  },
+  {
+    "name": "b15_short_school_bus",
+    "export_vertices": 5146,
+    "source_vertices": 1840,
+    "bevel": false
+  },
+  {
+    "name": "b15_paratransit_shuttle_bus",
+    "export_vertices": 4938,
+    "source_vertices": 1770,
+    "bevel": false
+  },
+  {
+    "name": "b15_intercity_motor_coach",
+    "export_vertices": 7156,
+    "source_vertices": 2622,
+    "bevel": false
+  },
+  {
+    "name": "b15_open_top_tour_bus",
+    "export_vertices": 5410,
+    "source_vertices": 1994,
+    "bevel": false
+  },
+  {
+    "name": "b15_airport_shuttle_bus",
+    "export_vertices": 5154,
+    "source_vertices": 1874,
+    "bevel": false
+  },
+  {
+    "name": "b15_modular_ambulance",
+    "export_vertices": 5674,
+    "source_vertices": 1988,
+    "bevel": false
+  },
+  {
+    "name": "b15_van_ambulance",
+    "export_vertices": 4158,
+    "source_vertices": 1486,
+    "bevel": false
+  },
+  {
+    "name": "b15_fire_pumper_engine",
+    "export_vertices": 7536,
+    "source_vertices": 2688,
+    "bevel": false
+  },
+  {
+    "name": "b15_aerial_ladder_fire_truck",
+    "export_vertices": 8836,
+    "source_vertices": 3306,
+    "bevel": false
+  },
+  {
+    "name": "b15_tiller_ladder_fire_truck",
+    "export_vertices": 9372,
+    "source_vertices": 3538,
+    "bevel": false
+  },
+  {
+    "name": "b15_heavy_rescue_squad",
+    "export_vertices": 6848,
+    "source_vertices": 2440,
+    "bevel": false
+  },
+  {
+    "name": "b15_wildland_brush_fire_truck",
+    "export_vertices": 5086,
+    "source_vertices": 1796,
+    "bevel": false
+  },
+  {
+    "name": "b15_fire_water_tender",
+    "export_vertices": 7450,
+    "source_vertices": 2594,
+    "bevel": false
+  },
+  {
+    "name": "b15_mobile_command_bus",
+    "export_vertices": 5302,
+    "source_vertices": 1930,
+    "bevel": false
+  },
+  {
+    "name": "b15_prisoner_transport_truck",
+    "export_vertices": 6138,
+    "source_vertices": 2140,
+    "bevel": false
+  },
+  {
+    "name": "b15_armored_security_truck",
+    "export_vertices": 5432,
+    "source_vertices": 1912,
+    "bevel": false
+  },
+  {
+    "name": "b15_tactical_rescue_truck",
+    "export_vertices": 5338,
+    "source_vertices": 1876,
+    "bevel": false
+  },
+  {
+    "name": "b15_rollback_tow_truck",
+    "export_vertices": 4858,
+    "source_vertices": 1720,
+    "bevel": false
+  },
+  {
+    "name": "b15_wheel_lift_tow_truck",
+    "export_vertices": 5550,
+    "source_vertices": 1932,
+    "bevel": false
+  },
+  {
+    "name": "b15_heavy_recovery_wrecker",
+    "export_vertices": 7170,
+    "source_vertices": 2518,
+    "bevel": false
+  },
+  {
+    "name": "b15_bucket_utility_truck",
+    "export_vertices": 5446,
+    "source_vertices": 1916,
+    "bevel": false
+  },
+  {
+    "name": "b15_cable_spool_utility_truck",
+    "export_vertices": 5434,
+    "source_vertices": 1912,
+    "bevel": false
+  },
+  {
+    "name": "b15_line_maintenance_service_truck",
+    "export_vertices": 5902,
+    "source_vertices": 2132,
+    "bevel": false
+  },
+  {
+    "name": "b15_sewer_vacuum_truck",
+    "export_vertices": 6884,
+    "source_vertices": 2414,
+    "bevel": false
+  },
+  {
+    "name": "b15_water_spray_truck",
+    "export_vertices": 6994,
+    "source_vertices": 2446,
+    "bevel": false
+  },
+  {
+    "name": "b15_rear_loader_refuse_truck",
+    "export_vertices": 5960,
+    "source_vertices": 2134,
+    "bevel": false
+  },
+  {
+    "name": "b15_front_loader_refuse_truck",
+    "export_vertices": 5996,
+    "source_vertices": 2146,
+    "bevel": false
+  },
+  {
+    "name": "b15_automated_side_loader_refuse_truck",
+    "export_vertices": 5900,
+    "source_vertices": 2114,
+    "bevel": false
+  },
+  {
+    "name": "b15_split_body_recycling_truck",
+    "export_vertices": 4760,
+    "source_vertices": 1688,
+    "bevel": false
+  },
+  {
+    "name": "b15_rolloff_container_truck",
+    "export_vertices": 6394,
+    "source_vertices": 2278,
+    "bevel": false
+  },
+  {
+    "name": "b15_commercial_box_truck",
+    "export_vertices": 5218,
+    "source_vertices": 1836,
+    "bevel": false
+  },
+  {
+    "name": "b15_refrigerated_delivery_truck",
+    "export_vertices": 5360,
+    "source_vertices": 1888,
+    "bevel": false
+  },
+  {
+    "name": "b15_parcel_step_van",
+    "export_vertices": 4206,
+    "source_vertices": 1502,
+    "bevel": false
+  },
+  {
+    "name": "b15_postal_walkin_truck",
+    "export_vertices": 9718,
+    "source_vertices": 1410,
+    "bevel": true
+  },
+  {
+    "name": "b15_beverage_delivery_truck",
+    "export_vertices": 7930,
+    "source_vertices": 2790,
+    "bevel": false
+  },
+  {
+    "name": "b15_food_service_truck",
+    "export_vertices": 4310,
+    "source_vertices": 1535,
+    "bevel": false
+  },
+  {
+    "name": "b15_ice_cream_truck",
+    "export_vertices": 4322,
+    "source_vertices": 1521,
+    "bevel": false
+  },
+  {
+    "name": "b15_flatbed_stake_truck",
+    "export_vertices": 4942,
+    "source_vertices": 1748,
+    "bevel": false
+  },
+  {
+    "name": "b15_municipal_dump_truck",
+    "export_vertices": 6250,
+    "source_vertices": 2230,
+    "bevel": false
+  },
+  {
+    "name": "b15_fuel_delivery_tanker",
+    "export_vertices": 7510,
+    "source_vertices": 2586,
+    "bevel": false
+  },
+  {
+    "name": "b15_glass_transport_truck",
+    "export_vertices": 4798,
+    "source_vertices": 1700,
+    "bevel": false
+  },
+  {
+    "name": "b15_tree_service_chip_truck",
+    "export_vertices": 5004,
+    "source_vertices": 1760,
+    "bevel": false
+  },
+  {
+    "name": "b15_snowplow_spreader_truck",
+    "export_vertices": 6402,
+    "source_vertices": 2286,
+    "bevel": false
+  },
+  {
+    "name": "b15_street_marking_truck",
+    "export_vertices": 5648,
+    "source_vertices": 1988,
+    "bevel": false
+  },
+  {
+    "name": "b15_mobile_library_bus",
+    "export_vertices": 5074,
+    "source_vertices": 1858,
+    "bevel": false
+  },
+  {
+    "name": "b15_airport_crash_tender",
+    "export_vertices": 7080,
+    "source_vertices": 2518,
+    "bevel": false
+  },
+  {
+    "name": "b15_hi_rail_utility_truck",
+    "export_vertices": 5878,
+    "source_vertices": 2060,
+    "bevel": false
+  }
+]

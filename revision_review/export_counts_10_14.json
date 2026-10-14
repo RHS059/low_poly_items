@@ -1,0 +1,802 @@
+[
+  {
+    "name": "b10_hot_dog_pushcart",
+    "export_vertices": 3696,
+    "source_vertices": 477,
+    "bevel": true,
+    "limit": 10000,
+    "revised": true
+  },
+  {
+    "name": "b10_sidewalk_coffee_kiosk",
+    "export_vertices": 3880,
+    "source_vertices": 416,
+    "bevel": true,
+    "limit": 10000,
+    "revised": true
+  },
+  {
+    "name": "b10_spiral_snack_vending_machine",
+    "export_vertices": 2600,
+    "source_vertices": 728,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_bottled_drink_vending_machine",
+    "export_vertices": 3760,
+    "source_vertices": 432,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_paid_newspaper_honor_box",
+    "export_vertices": 1632,
+    "source_vertices": 180,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_free_weekly_news_dispenser",
+    "export_vertices": 1008,
+    "source_vertices": 120,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_twin_globe_candy_dispenser",
+    "export_vertices": 3472,
+    "source_vertices": 380,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_outdoor_bagged_ice_chest",
+    "export_vertices": 3088,
+    "source_vertices": 296,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_tiered_sidewalk_produce_stand",
+    "export_vertices": 4788,
+    "source_vertices": 1434,
+    "bevel": false,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_florist_bucket_sidewalk_display",
+    "export_vertices": 3420,
+    "source_vertices": 992,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_rolling_sidewalk_garment_rack",
+    "export_vertices": 2146,
+    "source_vertices": 682,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_outdoor_bookshop_cart",
+    "export_vertices": 4784,
+    "source_vertices": 544,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_bakery_sidewalk_glass_case",
+    "export_vertices": 4272,
+    "source_vertices": 470,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_chalkboard_sandwich_a_frame",
+    "export_vertices": 1488,
+    "source_vertices": 144,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_restaurant_menu_display_podium",
+    "export_vertices": 752,
+    "source_vertices": 72,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_digital_restaurant_menu_totem",
+    "export_vertices": 1808,
+    "source_vertices": 200,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_round_bistro_pedestal_table",
+    "export_vertices": 1104,
+    "source_vertices": 112,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_woven_metal_cafe_chair",
+    "export_vertices": 1568,
+    "source_vertices": 184,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_cafe_bar_stool_with_back",
+    "export_vertices": 1416,
+    "source_vertices": 188,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_square_cafe_umbrella_table",
+    "export_vertices": 2648,
+    "source_vertices": 321,
+    "bevel": true,
+    "limit": 10000,
+    "revised": false
+  },
+  {
+    "name": "b10_commercial_flat_top_griddle_cart",
+    "export_vertices": 3856,
+    "source_vertices": 592,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_street_vendor_skewer_grill_cart",
+    "export_vertices": 4612,
+    "source_vertices": 532,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_wood_fired_pizza_oven_cart",
+    "export_vertices": 4249,
+    "source_vertices": 623,
+    "bevel": true,
+    "limit": 10000,
+    "revised": true
+  },
+  {
+    "name": "b10_taco_preparation_service_station",
+    "export_vertices": 4320,
+    "source_vertices": 592,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_lemonade_stand_with_canopy",
+    "export_vertices": 3344,
+    "source_vertices": 408,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_shaved_ice_vendor_cart",
+    "export_vertices": 4184,
+    "source_vertices": 576,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_popcorn_concession_pushcart",
+    "export_vertices": 4024,
+    "source_vertices": 536,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_pretzel_warmer_cart",
+    "export_vertices": 4784,
+    "source_vertices": 644,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_insulated_ice_cream_pushcart",
+    "export_vertices": 3184,
+    "source_vertices": 392,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_donut_shop_display_counter",
+    "export_vertices": 2296,
+    "source_vertices": 632,
+    "bevel": false,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_seafood_crushed_ice_display_table",
+    "export_vertices": 3308,
+    "source_vertices": 404,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_rotating_sunglasses_display",
+    "export_vertices": 4568,
+    "source_vertices": 488,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_greeting_card_spinner_rack",
+    "export_vertices": 3464,
+    "source_vertices": 312,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_sidewalk_clearance_wire_bin",
+    "export_vertices": 1994,
+    "source_vertices": 638,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_farmers_market_scale_table",
+    "export_vertices": 4616,
+    "source_vertices": 496,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_bulk_nut_dispenser_stand",
+    "export_vertices": 3200,
+    "source_vertices": 339,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_automated_ice_bag_vending_kiosk",
+    "export_vertices": 2768,
+    "source_vertices": 304,
+    "bevel": true,
+    "limit": 10000,
+    "revised": true
+  },
+  {
+    "name": "b10_filtered_water_refill_station",
+    "export_vertices": 2368,
+    "source_vertices": 256,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_sidewalk_photo_booth",
+    "export_vertices": 1236,
+    "source_vertices": 176,
+    "bevel": true,
+    "limit": 10000,
+    "revised": true
+  },
+  {
+    "name": "b10_farmers_market_canvas_stall",
+    "export_vertices": 8880,
+    "source_vertices": 936,
+    "bevel": true,
+    "limit": 10000,
+    "revised": true
+  },
+  {
+    "name": "b10_sidewalk_magazine_ladder",
+    "export_vertices": 2864,
+    "source_vertices": 272,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_giant_ice_cream_cone_shop_sign",
+    "export_vertices": 1644,
+    "source_vertices": 237,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_freestanding_barber_pole_sign",
+    "export_vertices": 1148,
+    "source_vertices": 368,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b10_restaurant_hostess_station",
+    "export_vertices": 1356,
+    "source_vertices": 174,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_restaurant_busser_service_cart",
+    "export_vertices": 4512,
+    "source_vertices": 616,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_outdoor_cafeteria_tray_return_station",
+    "export_vertices": 2704,
+    "source_vertices": 264,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_sidewalk_condiment_service_station",
+    "export_vertices": 3040,
+    "source_vertices": 356,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_portable_commercial_handwash_sink",
+    "export_vertices": 3888,
+    "source_vertices": 532,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b10_commercial_barbecue_smoker_trailer_cart",
+    "export_vertices": 4892,
+    "source_vertices": 612,
+    "bevel": true,
+    "limit": 10000,
+    "revised": true
+  },
+  {
+    "name": "b10_commercial_rotisserie_display_cabinet",
+    "export_vertices": 2428,
+    "source_vertices": 694,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_curbside_arched_mailbox",
+    "export_vertices": 1172,
+    "source_vertices": 124,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b14_wall_letterbox_with_flap",
+    "export_vertices": 928,
+    "source_vertices": 96,
+    "bevel": true,
+    "limit": 999,
+    "revised": true
+  },
+  {
+    "name": "b14_curbside_cluster_mail_station",
+    "export_vertices": 2488,
+    "source_vertices": 824,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_recessed_apartment_mail_wall",
+    "export_vertices": 1824,
+    "source_vertices": 608,
+    "bevel": false,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b14_electronic_parcel_locker",
+    "export_vertices": 2356,
+    "source_vertices": 780,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_postal_collection_drop_box",
+    "export_vertices": 1538,
+    "source_vertices": 142,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b14_drive_through_mail_chute",
+    "export_vertices": 1120,
+    "source_vertices": 120,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_building_mail_slot",
+    "export_vertices": 672,
+    "source_vertices": 56,
+    "bevel": true,
+    "limit": 999,
+    "revised": false
+  },
+  {
+    "name": "b14_postal_relay_storage_box",
+    "export_vertices": 1826,
+    "source_vertices": 166,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b14_home_delivery_lock_chest",
+    "export_vertices": 1936,
+    "source_vertices": 188,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_mail_sack_sorting_stand",
+    "export_vertices": 2344,
+    "source_vertices": 300,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_postal_carrier_satchel",
+    "export_vertices": 540,
+    "source_vertices": 176,
+    "bevel": false,
+    "limit": 999,
+    "revised": true
+  },
+  {
+    "name": "b14_mobile_letter_sorting_cubbies",
+    "export_vertices": 4528,
+    "source_vertices": 548,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_postal_rolling_canvas_hamper",
+    "export_vertices": 2196,
+    "source_vertices": 688,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_parcel_hand_truck",
+    "export_vertices": 2536,
+    "source_vertices": 288,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_stair_climbing_appliance_dolly",
+    "export_vertices": 1992,
+    "source_vertices": 624,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_folding_platform_delivery_cart",
+    "export_vertices": 3512,
+    "source_vertices": 468,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_wire_cage_roll_container",
+    "export_vertices": 2736,
+    "source_vertices": 880,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_manual_pallet_jack",
+    "export_vertices": 3012,
+    "source_vertices": 420,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_warehouse_counterbalance_forklift",
+    "export_vertices": 8944,
+    "source_vertices": 1090,
+    "bevel": true,
+    "limit": 10000,
+    "revised": true
+  },
+  {
+    "name": "b14_empty_wood_shipping_pallet",
+    "export_vertices": 2784,
+    "source_vertices": 264,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_rackable_plastic_pallet",
+    "export_vertices": 2016,
+    "source_vertices": 168,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b14_pallet_carton_stack",
+    "export_vertices": 4008,
+    "source_vertices": 1272,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_pallet_four_chemical_drums",
+    "export_vertices": 3672,
+    "source_vertices": 1048,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_pallet_bagged_mortar",
+    "export_vertices": 4296,
+    "source_vertices": 1352,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_pallet_strapped_masonry_bricks",
+    "export_vertices": 2376,
+    "source_vertices": 792,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_pallet_lumber_bundle",
+    "export_vertices": 1464,
+    "source_vertices": 488,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_skidded_steel_pipe_bundle",
+    "export_vertices": 2208,
+    "source_vertices": 736,
+    "bevel": false,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b14_wooden_cable_reel_on_skid",
+    "export_vertices": 2568,
+    "source_vertices": 776,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_ibc_tote_with_valve",
+    "export_vertices": 2140,
+    "source_vertices": 708,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_braced_wood_shipping_crate",
+    "export_vertices": 2112,
+    "source_vertices": 184,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b14_open_slatted_parts_crate",
+    "export_vertices": 2400,
+    "source_vertices": 200,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b14_reinforced_shipping_flight_case",
+    "export_vertices": 3120,
+    "source_vertices": 268,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b14_capped_triangular_shipping_tube",
+    "export_vertices": 504,
+    "source_vertices": 42,
+    "bevel": true,
+    "limit": 999,
+    "revised": false
+  },
+  {
+    "name": "b14_insulated_medical_shipping_chest",
+    "export_vertices": 1984,
+    "source_vertices": 208,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_steel_shipping_drum",
+    "export_vertices": 1256,
+    "source_vertices": 220,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_stackable_attached_lid_delivery_tote",
+    "export_vertices": 1888,
+    "source_vertices": 184,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_skidded_wrapped_appliance",
+    "export_vertices": 1360,
+    "source_vertices": 448,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_bulk_fertilizer_sack_on_pallet",
+    "export_vertices": 1536,
+    "source_vertices": 508,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_cargo_net_secured_mixed_freight",
+    "export_vertices": 3712,
+    "source_vertices": 1216,
+    "bevel": false,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_twenty_foot_freight_container",
+    "export_vertices": 6400,
+    "source_vertices": 1072,
+    "bevel": true,
+    "limit": 10000,
+    "revised": true
+  },
+  {
+    "name": "b14_loading_dock_laminated_bumpers",
+    "export_vertices": 3168,
+    "source_vertices": 264,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b14_mobile_yard_loading_ramp",
+    "export_vertices": 4072,
+    "source_vertices": 416,
+    "bevel": true,
+    "limit": 10000,
+    "revised": true
+  },
+  {
+    "name": "b14_recessed_hydraulic_dock_leveler",
+    "export_vertices": 1392,
+    "source_vertices": 152,
+    "bevel": true,
+    "limit": 10000,
+    "revised": false
+  },
+  {
+    "name": "b14_truck_tail_liftgate_assembly",
+    "export_vertices": 2656,
+    "source_vertices": 280,
+    "bevel": true,
+    "limit": 10000,
+    "revised": false
+  },
+  {
+    "name": "b14_floor_pallet_weighing_scale",
+    "export_vertices": 1456,
+    "source_vertices": 136,
+    "bevel": true,
+    "limit": 5000,
+    "revised": false
+  },
+  {
+    "name": "b14_countertop_parcel_postage_scale",
+    "export_vertices": 424,
+    "source_vertices": 136,
+    "bevel": false,
+    "limit": 999,
+    "revised": true
+  },
+  {
+    "name": "b14_handheld_stretch_wrap_dispenser",
+    "export_vertices": 880,
+    "source_vertices": 120,
+    "bevel": true,
+    "limit": 999,
+    "revised": false
+  },
+  {
+    "name": "b14_strapping_reel_and_tensioner_cart",
+    "export_vertices": 2904,
+    "source_vertices": 348,
+    "bevel": true,
+    "limit": 5000,
+    "revised": true
+  },
+  {
+    "name": "b14_expandable_roller_conveyor",
+    "export_vertices": 5232,
+    "source_vertices": 1704,
+    "bevel": false,
+    "limit": 10000,
+    "revised": true
+  }
+]

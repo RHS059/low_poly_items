@@ -36,7 +36,12 @@ def post(a, x, h, mat='wood_dark', w=.12, y=0, cap=True, foot=True):
         a.box((x,y,.06),(w+.10,w+.10,.12),'concrete')
     if cap:
         a.box((x,y,h+.018),(w+.025,w+.025,.036),mat)
-        a.cone((x,y,h+.036),(x,y,h+.093),w*.69,mat,4)
+        rr=w*.5+.012
+        a.mesh([(x-rr,y-rr,h+.036),(x+rr,y-rr,h+.036),(x+rr,y+rr,h+.036),(x-rr,y+rr,h+.036),(x,y,h+.093)],[(0,1,4),(1,2,4),(2,3,4),(3,0,4),(3,2,1,0)],mat)
+    if mat in ('dark_metal','green'):
+        a.box((x,y,.125),(w+.04,w+.04,.035),mat)
+        for dx in (-.065,.065):
+            for dy in (-.065,.065):rod(a,(x+dx,y+dy,.09),(x+dx,y+dy,.105),.008,'steel',6)
 
 
 def pipepost(a,x,h,y=0,r=.045,mat='steel',foot=True):
@@ -44,11 +49,18 @@ def pipepost(a,x,h,y=0,r=.045,mat='steel',foot=True):
     a.cylinder((x,y,h),(x,y,h+.028),r*1.16,mat,8)
     if foot:
         a.box((x,y,.045),(.20,.20,.09),'concrete')
+    for z in (.28,h-.15):
+        a.cylinder((x,y,z-.02),(x,y,z+.02),r*1.22,mat,8)
+        a.box((x-r*1.05,y-.012,z),(.07,.035,.044),mat)
+        rod(a,(x-r*1.05,y-.031,z),(x-r*1.05,y-.047,z),.011,'dark_metal',6)
 
 
 def rails(a,w,zs,mat='wood_dark',depth=.07,height=.10,y=.03):
     for z in zs:
         a.box((0,y,z),(w,depth,height),mat)
+        if mat.startswith('wood'):
+            for x in (-w/2+.09,w/2-.09):
+                rod(a,(x,y-depth/2-.004,z),(x,y-depth/2-.014,z),.012,'dark_metal',6)
 
 
 def picket(a,x,z1,z2,w=.13,mat='wood_light',y=-.04,style='point'):
@@ -78,6 +90,10 @@ def hardware(a,w,h,mat='dark_metal',left=True,y=-.11,strap=False):
     x=-w/2 if left else w/2
     for z in [.32,h-.27]:
         rod(a,(x,y,z-.07),(x,y,z+.07),.033,mat,8)
+        rod(a,(x,y,z+.071),(x,y,z+.095),.018,'steel',6)
+        direction=-1 if left else 1
+        a.box((x+direction*.074,y+.012,z),(.13,.035,.10),mat)
+        rod(a,(x+direction*.112,y-.01,z),(x+direction*.112,y-.033,z),.017,'steel',6)
         a.box((x+( .14 if left else -.14),y+.012,z),(.27,.028,.047),mat)
         if strap:
             for xx in [x+(.07 if left else -.07),x+(.24 if left else -.24)]:
@@ -87,6 +103,8 @@ def hardware(a,w,h,mat='dark_metal',left=True,y=-.11,strap=False):
     a.box((x,y-.008,z),(.10,.035,.15),mat)
     rod(a,(x,y-.07,z-.035),(x,y-.07,z+.07),.017,mat)
     a.box((x+.09,y-.03,z+.08),(.22,.035,.035),mat)
+    a.box((x+.21,y+.003,z+.06),(.055,.065,.09),mat)
+    rod(a,(x,y-.041,z-.045),(x,y-.058,z-.045),.012,'steel',6)
 
 
 def meshgrid(a,w,h,bottom=.15,spacing=.25,y=0,mat='steel',radius=.008):
@@ -308,13 +326,24 @@ def welded_mesh_security_fence():
     return finish(a)
 
 
+def corrugated_panel(a,w,h,z,y=0):
+    points=[];waves=max(5,round(w/.24))
+    for i in range(waves):
+        for f,offset in ((0,-.024),(.22,-.024),(.50,.024),(.72,.024)):
+            points.append((-w/2+(i+f)*w/waves,y+offset))
+    points.append((w/2,y-.024))
+    outline=points+[(x,yy+.008) for x,yy in reversed(points)]
+    a.prism(outline,z-h/2,z+h/2,'metal')
+    for zz in (z-h*.38,z+h*.38):
+        for i in range(waves):
+            x=-w/2+(i+.62)*w/waves
+            rod(a,(x,y-.03,zz),(x,y-.044,zz),.009,'steel',6)
+
 def corrugated_metal_boundary():
     a=asset('corrugated_metal_boundary')
     for x in [-1.2,1.2]: post(a,x,1.9,'dark_metal',.075)
     rails(a,2.4,[.16,.94,1.73],'dark_metal',.055,.07,.09)
-    for i in range(24):
-        x=-1.15+i*.10; off=.025 if i%2 else -.025
-        a.box((x,off,.95),(.108,.025,1.65),'metal',rot=(0,0,.38 if i%2 else -.38))
+    corrugated_panel(a,2.37,1.65,.95)
     rails(a,2.4,[1.80],'metal',.12,.05)
     return finish(a)
 
@@ -521,6 +550,9 @@ def cantilever_security_slide_gate():
             a.box((x,.04,z),(.22,.22,.10),'dark_metal')
             a.cylinder((x,-.10,z),(x,-.20,z),.083,'rubber',8)
     a.box((-1.7,.27,.20),(.44,.32,.4),'dark_metal')
+    a.box((-1.7,.095,.21),(.36,.025,.29),'metal')
+    for xx in (-1.86,-1.54):rod(a,(xx,.078,.21),(xx,.066,.21),.01,'steel',6)
+    for xx in [-1.9+i*.10 for i in range(39)]:a.box((xx,-.062,.34),(.033,.032,.064),'metal')
     a.box((0,-.044,.33),(4.40,.035,.038),'dark_metal')
     return finish(a)
 
@@ -546,6 +578,9 @@ def sliding_timber_driveway_gate():
         a.cylinder((x,-.07,.12),(x,.07,.12),.095,'dark_metal',10)
         a.box((x,0,.22),(.18,.14,.11),'dark_metal')
     a.box((-2.20,.25,.20),(.32,.35,.40),'dark_metal')
+    a.box((-2.20,.06,.21),(.26,.025,.30),'metal')
+    a.box((0,.065,.24),(4.03,.035,.043),'metal')
+    for xx in [-1.85+i*.10 for i in range(38)]:a.box((xx,.072,.25),(.026,.040,.057),'dark_metal')
     rod(a,(1.72,-.13,.74),(1.72,-.13,1.02),.019,'steel')
     return finish(a)
 
@@ -554,7 +589,7 @@ def corrugated_utility_yard_gate():
     a=asset('corrugated_utility_yard_gate')
     for x in [-.89,.89]: post(a,x,1.93,'dark_metal',.105)
     wood_frame(a,1.50,1.67,'dark_metal',brace=True,y=.09)
-    for i in range(15): a.box((-.70+i*.10,(-1)**i*.022,.99),(.108,.025,1.68),'metal',rot=(0,0,(-1)**i*.40))
+    corrugated_panel(a,1.48,1.68,.99)
     rails(a,1.54,[.14,1.84],'dark_metal',.10,.055)
     hardware(a,1.50,1.83,strap=True)
     a.box((.48,-.10,1.1),(.20,.04,.20),'dark_metal')

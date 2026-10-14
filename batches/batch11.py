@@ -4,7 +4,7 @@ Muted, functional low-poly construction: open vessels, useful hardware,
 structural supports and recognisable domestic proportions.  No vegetation.
 """
 import math
-from assetlib import Asset, register
+from assetlib import Asset, register, rotate
 
 M = 'dark_metal'
 S = 'steel'
@@ -56,6 +56,32 @@ def lathe(a, contours, m, n=12, x=0, y=0, caps=True):
     a.mesh(vs, fs, mat=m)
 
 
+def outline(w,d,cut=.05):
+    c=min(cut,w*.2,d*.2)
+    return [(-w/2+c,-d/2),(w/2-c,-d/2),(w/2,-d/2+c),(w/2,d/2-c),
+            (w/2-c,d/2),(-w/2+c,d/2),(-w/2,d/2-c),(-w/2,-d/2+c)]
+
+
+def softbox(a,p,s,m='cream',rot=None):
+    """Low-poly upholstered crown or rounded moulded cover, never a cube."""
+    w,d,h=s;vs=[]
+    for scale,zz in ((.87,-h*.5),(1,-h*.19),(1,h*.14),(.86,h*.46)):
+        vs.extend((xx,yy,zz) for xx,yy in outline(w*scale,d*scale,min(w,d)*.13))
+    vs.append((0,0,h*.54))
+    fs=[tuple(reversed(range(8)))]
+    fs.extend((j*8+i,j*8+(i+1)%8,(j+1)*8+(i+1)%8,(j+1)*8+i) for j in range(3) for i in range(8))
+    fs.extend((24+i,24+(i+1)%8,32) for i in range(8))
+    if rot:vs=[rotate(v,rot) for v in vs]
+    a.mesh([(x+p[0],y+p[1],z+p[2]) for x,y,z in vs],fs,m)
+
+
+def profile_x(a,pts,x0,x1,m):
+    """Extrude a formed YZ sheet/case outline along its working width."""
+    n=len(pts);vs=[(x,y,z) for x in (x0,x1) for y,z in pts]
+    a.mesh(vs,[tuple(reversed(range(n))),tuple(range(n,2*n))]+
+           [(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)],m)
+
+
 def legs(a, w, d, top, bottom=.02, material=M, thick=.045):
     for x in (-w/2, w/2):
         for y in (-d/2, d/2):
@@ -71,12 +97,16 @@ def handle(a, x, y, z, w=.32, depth=.08, m=M):
 
 
 def wheel(a, x, y, z, r=.12, width=.055, axis='y'):
-    if axis == 'y':
-        rod(a, (x, y-width/2, z), (x, y+width/2, z), r, 'rubber', 12)
-        rod(a, (x, y-width*.55, z), (x, y+width*.55, z), r*.44, S, 8)
-    else:
-        rod(a, (x-width/2, y, z), (x+width/2, y, z), r, 'rubber', 12)
-        rod(a, (x-width*.55, y, z), (x+width*.55, y, z), r*.44, S, 8)
+    n=12;vs=[]
+    for yy,rr in ((-.50,.72),(-.32,1),(.32,1),(.50,.72)):
+        for i in range(n):
+            u=r*rr*math.cos(i*math.tau/n);v=r*rr*math.sin(i*math.tau/n)
+            vs.append((x+u,y+yy*width,z+v) if axis=='y' else (x+yy*width,y+u,z+v))
+    fs=[tuple(reversed(range(n))),tuple(range(3*n,4*n))]
+    fs.extend((j*n+i,j*n+(i+1)%n,(j+1)*n+(i+1)%n,(j+1)*n+i) for j in range(3) for i in range(n))
+    a.mesh(vs,fs,'rubber')
+    if axis=='y':rod(a,(x,y-width*.56,z),(x,y+width*.56,z),r*.40,S,8)
+    else:rod(a,(x-width*.56,y,z),(x+width*.56,y,z),r*.40,S,8)
 
 
 def bolts(a, points, axis='z'):
@@ -124,17 +154,17 @@ def gasgrill(a):
     box(a,(0,-.28,.43),(.018,.012,.50),M)
     for x in (-.18,.18): handle(a,x,-.28,.56,.17,.035,M)
     box(a,(0,0,.79),(.85,.59,.10),S)
-    box(a,(0,0,.96),(.77,.53,.25),M)
-    box(a,(0,.01,1.10),(.68,.47,.055),M)
-    handle(a,0,-.282,1.005,.50,.07,S)
+    profile_x(a,[(-.27,.84),(-.27,.96),(-.23,1.06),(-.10,1.14),(.13,1.14),(.26,1.05),(.27,.84)],-.385,.385,M)
+    for x in (-.39,.39):profile_x(a,[(-.265,.85),(-.265,.96),(-.225,1.06),(-.10,1.14),(.13,1.14),(.26,1.05),(.265,.85)],x-.006,x+.006,S)
+    handle(a,0,-.255,1.005,.50,.07,S)
     for x in (-.27,0,.27): rod(a,(x,-.31,.78),(x,-.35,.78),.036,K,8)
     for x in (-.60,.60):
         box(a,(x,0,.82),(.31,.51,.045),S)
         beam(a,(x,-.17,.80),(x*.64,-.17,.62),.025,.025,M)
     for x in (-.30,.30):
         for y in (-.20,.20): wheel(a,x,y,.065,.06,.035)
-    rod(a,(.0,-.284,1.04),(.0,-.298,1.04),.035,'cream',12)
-    box(a,(0,-.306,1.04),(.038,.008,.004),K,rot=(0,-.4,0))
+    rod(a,(.0,-.250,1.04),(.0,-.263,1.04),.035,'cream',12)
+    box(a,(0,-.270,1.04),(.038,.008,.004),K,rot=(0,-.4,0))
 
 
 @item('offset_barrel_smoker')
@@ -243,17 +273,20 @@ def hibachi(a):
 def pizza(a):
     legs(a,.70,.57,.85,thick=.045)
     box(a,(0,0,.84),(.90,.78,.07),S)
-    # Recessed black mouth between chamfered oven cheeks and roof.
-    box(a,(0,.04,1.04),(.73,.60,.32),M)
-    box(a,(0,-.271,1.00),(.49,.019,.19),K)
+    # The arched portal opens into a deep oven cavity with a separate firebrick floor.
+    outer=[(-.38,.89),(.38,.89),(.38,1.12),(.29,1.25),(.14,1.30),(-.14,1.30),(-.29,1.25),(-.38,1.12)]
+    inner=[(-.27,.925),(.27,.925),(.27,1.08),(.20,1.16),(.10,1.19),(-.10,1.19),(-.20,1.16),(-.27,1.08)]
+    vs=[(xx,y,zz) for y in (-.29,.31) for loop in (outer,inner) for xx,zz in loop];fs=[]
+    for i in range(8):
+        j=(i+1)%8;fs.extend([(i,j,16+j,16+i),(8+i,24+i,24+j,8+j),(i,8+i,8+j,j),(16+i,16+j,24+j,24+i)])
+    a.mesh(vs,fs,M)
+    box(a,(0,.275,1.05),(.54,.035,.27),K)
     box(a,(0,-.31,.906),(.61,.16,.034),'concrete_light')
-    box(a,(0,.015,1.23),(.59,.58,.11),M)
-    for x in (-.335,.335):box(a,(x,.015,1.178),(.14,.58,.095),M,rot=(0,x/.335*.65,0))
-    rod(a,(.0,.17,1.23),(.0,.17,1.73),.062,S,10)
+    rod(a,(.0,.17,1.27),(.0,.17,1.73),.062,S,10)
     disk(a,0,.17,1.75,.085,.025,M,10)
     slats(a,.67,.52,.28,4,M)
     for x in (-.35,.35):wheel(a,x,.29,.083,.078,.035)
-    handle(a,0,-.32,1.11,.22,.045,S)
+    for x in (-.31,.31):handle(a,x,-.305,1.04,.07,.035,S)
     box(a,(.43,0,.87),(.10,.65,.026),W)
 
 
@@ -374,10 +407,10 @@ def rainbarrel(a):
 
 @item('slim_wall_rainwater_tank')
 def slim_tank(a):
-    box(a,(0,0,.80),(.80,.33,1.60),'sand')
+    a.prism(outline(.80,.36,.07),.02,1.49,'sand')
+    softbox(a,(0,0,1.51),(.80,.36,.24),'sand')
     for z in (.16,.40,.64,.88,1.12,1.36):box(a,(0,-.175,z),(.73,.035,.045),'cream')
-    for x in (-.37,.37):box(a,(x,0,.80),(.08,.39,1.64),'sand')
-    box(a,(0,0,1.62),(.76,.34,.045),'cream')
+    for x in (-.34,.34):box(a,(x,-.173,.79),(.032,.026,1.44),'sand')
     disk(a,-.22,0,1.66,.082,.035,M,10)
     rod(a,(.18,-.18,.18),(.18,-.30,.18),.024,'gold',8)
     rod(a,(.18,-.30,.18),(.18,-.30,.12),.022,'gold',8)
@@ -718,9 +751,9 @@ def adirondack(a):
 def woven_chair(a):
     legs(a,.48,.46,.47,thick=.035)
     box(a,(0,0,.43),(.58,.56,.09),D)
-    box(a,(0,-.02,.50),(.53,.49,.09),'cream')
+    softbox(a,(0,-.02,.50),(.53,.49,.11),'cream')
     box(a,(0,.265,.73),(.57,.065,.49),D,rot=(-.12,0,0))
-    box(a,(0,.219,.75),(.48,.055,.33),'cream',rot=(-.12,0,0))
+    softbox(a,(0,.215,.75),(.48,.36,.10),'cream',rot=(math.pi/2-.12,0,0))
     for x in (-.285,.285):
         box(a,(x,-.015,.64),(.048,.53,.055),D)
         for y in (-.22,.20):box(a,(x,y,.55),(.038,.04,.22),D)
@@ -741,7 +774,7 @@ def chaise(a):
         y=.31+k*.10;z=.405+k*.104
         box(a,(0,y,z),(.62,.123,.028),'cream',rot=(.80,0,0))
     for x in (-.31,.31):wheel(a,x,.34,.095,.085,.035,axis='x')
-    box(a,(0,.66,.825),(.49,.22,.06),'sand',rot=(.8,0,0))
+    softbox(a,(0,.66,.825),(.49,.22,.085),'sand',rot=(.8,0,0))
 
 
 @item('round_patio_dining_table')
@@ -779,18 +812,18 @@ def ottoman(a):
     for z in (.20,.25,.30,.35):
         for y in (-.28,.28):box(a,(0,y,z),(.61,.014,.014),'brown')
         for x in (-.325,.325):box(a,(x,0,z),(.014,.54,.014),'brown')
-    box(a,(0,0,.44),(.65,.56,.12),'sand')
-    for y in (-.26,.26):box(a,(0,y,.46),(.61,.012,.013),'cream')
-    for x in (-.30,.30):box(a,(x,0,.46),(.012,.52,.013),'cream')
+    softbox(a,(0,0,.44),(.65,.56,.15),'sand')
+    edge=outline(.648,.558,.072)
+    a.tube([(x,y,.462) for x,y in edge+edge[:1]],.006,'cream',4)
 
 
 @item('outdoor_deck_storage_box')
 def storagebox(a):
-    box(a,(0,0,.33),(1.22,.56,.59),'sand')
+    a.prism(outline(1.22,.56,.055),.035,.625,'sand')
     for y in (-.29,.29):
         for z in (.12,.23,.34,.45,.56):box(a,(0,y,z),(1.16,.022,.082),'cream')
     for x in (-.59,.59):box(a,(x,-.308,.33),(.06,.021,.55),'sand')
-    box(a,(0,0,.66),(1.29,.63,.065),'cream')
+    softbox(a,(0,0,.66),(1.29,.63,.09),'cream')
     for x in (-.42,.42):box(a,(x,.293,.64),(.10,.04,.035),M)
     box(a,(0,-.33,.56),(.14,.037,.053),M)
     box(a,(0,-.35,.56),(.088,.008,.023),K)
@@ -826,15 +859,16 @@ def hammock(a):
         rod(a,(side*1.66,0,1.23),(side*1.39,0,1.10),.011,S,6)
         rod(a,(side*1.24,-.43,.96),(side*1.24,.43,.96),.027,W,8)
         for y in (-.39,-.26,-.13,0,.13,.26,.39):rod(a,(side*1.39,0,1.10),(side*1.24,y,.96),.006,'cream',6)
-    # Five broad cloth bands follow a catenary-like low-poly sag.
+    # Cloth has both longitudinal sag and transverse cupping between its hems.
     xs=[-1.24,-.85,-.43,0,.43,.85,1.24]
     zs=[.96,.64,.46,.40,.46,.64,.96]
     for j in range(6):
-        y0=-.42+j*.14;y1=y0+.135
+        y0=-.42+j*.14;y1=y0+.14
         for k in range(6):
-            a.mesh([(xs[k],y0,zs[k]),(xs[k+1],y0,zs[k+1]),(xs[k+1],y1,zs[k+1]),(xs[k],y1,zs[k])],[(0,1,2,3)],'cream' if j%2 else 'sand')
+            def sag(xx,yy,zz):return (xx,yy,zz+.075*(yy/.42)**2*(1-abs(xx)/1.24))
+            a.mesh([sag(xs[k],y0,zs[k]),sag(xs[k+1],y0,zs[k+1]),sag(xs[k+1],y1,zs[k+1]),sag(xs[k],y1,zs[k])],[(0,1,2,3)],'cream' if j%2 else 'sand')
     for y in (-.425,.425):
-        a.tube([(x,y,z+.007) for x,z in zip(xs,zs)],.010,mat='cream',sides=6)
+        a.tube([(x,y,z+.075*(1-abs(x)/1.24)+.007) for x,z in zip(xs,zs)],.010,mat='cream',sides=6)
 
 
 @item('rotary_backyard_clothesline','large')

@@ -1,0 +1,3010 @@
+{
+  "scope": "150 assets individually reviewed against silhouette, physical construction and visible mechanisms; retaining sufficient simple geometry is intentional. Counts are measurements, not detail targets.",
+  "summary": {
+    "revised": 75,
+    "retained": 75
+  },
+  "validation": "Independent actual GLB and reopened .blend checks passed for all150: no degenerate triangles, duplicate geometry, budget violations, invalid transforms, off-center pivots or palette differences.",
+  "assets": [
+    {
+      "asset_id": "b08_mature_white_oak",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved. Main boughs now taper through an elbow into visible daughter forks.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 299,
+        "source_vertices": 466,
+        "export_vertices": 1756,
+        "triangles": 868
+      },
+      "after": {
+        "authored_vertices": 954,
+        "source_vertices": 1820,
+        "export_vertices": 6992,
+        "triangles": 3476
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_sugar_maple",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved. Main boughs now taper through an elbow into visible daughter forks.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 729,
+        "source_vertices": 1083,
+        "export_vertices": 4176,
+        "triangles": 2022
+      },
+      "after": {
+        "authored_vertices": 1434,
+        "source_vertices": 1434,
+        "export_vertices": 5112,
+        "triangles": 2544
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_american_elm",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 629,
+        "source_vertices": 944,
+        "export_vertices": 3654,
+        "triangles": 1764
+      },
+      "after": {
+        "authored_vertices": 1890,
+        "source_vertices": 1890,
+        "export_vertices": 7776,
+        "triangles": 3552
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_sycamore",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 380,
+        "source_vertices": 589,
+        "export_vertices": 2288,
+        "triangles": 1102
+      },
+      "after": {
+        "authored_vertices": 962,
+        "source_vertices": 1562,
+        "export_vertices": 6192,
+        "triangles": 3000
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_river_birch_clump",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 855,
+        "source_vertices": 1275,
+        "export_vertices": 4830,
+        "triangles": 2370
+      },
+      "after": {
+        "authored_vertices": 1050,
+        "source_vertices": 1960,
+        "export_vertices": 7284,
+        "triangles": 3740
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_tulip_poplar",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved. Main boughs now taper through an elbow into visible daughter forks.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 688,
+        "source_vertices": 912,
+        "export_vertices": 3584,
+        "triangles": 1696
+      },
+      "after": {
+        "authored_vertices": 1406,
+        "source_vertices": 1406,
+        "export_vertices": 5082,
+        "triangles": 2504
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_ginkgo",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 470,
+        "source_vertices": 729,
+        "export_vertices": 2926,
+        "triangles": 1310
+      },
+      "after": {
+        "authored_vertices": 574,
+        "source_vertices": 1029,
+        "export_vertices": 4066,
+        "triangles": 1910
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_weeping_willow",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 1179,
+        "source_vertices": 1786,
+        "export_vertices": 7412,
+        "triangles": 3308
+      },
+      "after": {
+        "authored_vertices": 1752,
+        "source_vertices": 1752,
+        "export_vertices": 7038,
+        "triangles": 3240
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_eastern_redbud",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 1011,
+        "source_vertices": 1500,
+        "export_vertices": 5952,
+        "triangles": 2796
+      },
+      "after": {
+        "authored_vertices": 1128,
+        "source_vertices": 1718,
+        "export_vertices": 6804,
+        "triangles": 3232
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_flowering_dogwood",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 1302,
+        "source_vertices": 2212,
+        "export_vertices": 9100,
+        "triangles": 3944
+      },
+      "after": {
+        "authored_vertices": 1393,
+        "source_vertices": 2355,
+        "export_vertices": 9686,
+        "triangles": 4230
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_crape_myrtle",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 675,
+        "source_vertices": 745,
+        "export_vertices": 3080,
+        "triangles": 1370
+      },
+      "after": {
+        "authored_vertices": 740,
+        "source_vertices": 1004,
+        "export_vertices": 3994,
+        "triangles": 1888
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_flowering_cherry",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 473,
+        "source_vertices": 681,
+        "export_vertices": 2676,
+        "triangles": 1274
+      },
+      "after": {
+        "authored_vertices": 1540,
+        "source_vertices": 1540,
+        "export_vertices": 6402,
+        "triangles": 2904
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_southern_magnolia",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 791,
+        "source_vertices": 1309,
+        "export_vertices": 5328,
+        "triangles": 2322
+      },
+      "after": {
+        "authored_vertices": 908,
+        "source_vertices": 1728,
+        "export_vertices": 6824,
+        "triangles": 3160
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_blue_spruce",
+      "status": "revised",
+      "reason": "Replaced stacked conical shells with individual drooping boughs, broken whorls and irregular foliage pads.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 441,
+        "source_vertices": 1200,
+        "export_vertices": 4808,
+        "triangles": 2228
+      },
+      "after": {
+        "authored_vertices": 2240,
+        "source_vertices": 2240,
+        "export_vertices": 9042,
+        "triangles": 4136
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_eastern_white_pine",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 884,
+        "source_vertices": 1303,
+        "export_vertices": 5098,
+        "triangles": 2438
+      },
+      "after": {
+        "authored_vertices": 1144,
+        "source_vertices": 1892,
+        "export_vertices": 7382,
+        "triangles": 3616
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_eastern_red_cedar",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 489,
+        "source_vertices": 503,
+        "export_vertices": 2128,
+        "triangles": 922
+      },
+      "after": {
+        "authored_vertices": 854,
+        "source_vertices": 1383,
+        "export_vertices": 5556,
+        "triangles": 2682
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_arborvitae_screen_pair",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 332,
+        "source_vertices": 424,
+        "export_vertices": 1720,
+        "triangles": 784
+      },
+      "after": {
+        "authored_vertices": 548,
+        "source_vertices": 927,
+        "export_vertices": 3714,
+        "triangles": 1790
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_bald_cypress",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 945,
+        "source_vertices": 1450,
+        "export_vertices": 5646,
+        "triangles": 2716
+      },
+      "after": {
+        "authored_vertices": 1218,
+        "source_vertices": 2032,
+        "export_vertices": 7902,
+        "triangles": 3880
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_honeylocust",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 878,
+        "source_vertices": 1498,
+        "export_vertices": 5774,
+        "triangles": 2800
+      },
+      "after": {
+        "authored_vertices": 1166,
+        "source_vertices": 2023,
+        "export_vertices": 7922,
+        "triangles": 3850
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_staked_young_street_tree",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 300,
+        "source_vertices": 456,
+        "export_vertices": 1760,
+        "triangles": 844
+      },
+      "after": {
+        "authored_vertices": 380,
+        "source_vertices": 658,
+        "export_vertices": 2502,
+        "triangles": 1248
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_boxwood_globe",
+      "status": "revised",
+      "reason": "Rebuilt the single large globe with attached bumps as densely overlapping small shoot groups, keeping a clipped spherical habit.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 190,
+        "source_vertices": 204,
+        "export_vertices": 854,
+        "triangles": 376
+      },
+      "after": {
+        "authored_vertices": 704,
+        "source_vertices": 1203,
+        "export_vertices": 4770,
+        "triangles": 2310
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_clipped_yew_hedge",
+      "status": "revised",
+      "reason": "Added shallow leaf growth across clipped side planes and irregular crown tips so the hedge no longer reads as a solid block.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 216,
+        "source_vertices": 342,
+        "export_vertices": 1322,
+        "triangles": 640
+      },
+      "after": {
+        "authored_vertices": 1136,
+        "source_vertices": 1765,
+        "export_vertices": 7196,
+        "triangles": 3406
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_privet_flowering_hedge",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 515,
+        "source_vertices": 1035,
+        "export_vertices": 4000,
+        "triangles": 1970
+      },
+      "after": {
+        "authored_vertices": 580,
+        "source_vertices": 1214,
+        "export_vertices": 4690,
+        "triangles": 2328
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_creeping_juniper",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 540,
+        "source_vertices": 900,
+        "export_vertices": 3546,
+        "triangles": 1692
+      },
+      "after": {
+        "authored_vertices": 666,
+        "source_vertices": 1035,
+        "export_vertices": 4122,
+        "triangles": 1962
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_rhododendron",
+      "status": "retained",
+      "reason": "Radial leathery leaves and individual flowers are already modeled; no generic canopy mass to replace.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 1045,
+        "source_vertices": 1045,
+        "export_vertices": 4200,
+        "triangles": 1590
+      },
+      "after": {
+        "authored_vertices": 1045,
+        "source_vertices": 1045,
+        "export_vertices": 4200,
+        "triangles": 1590
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_azalea_mound",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 1093,
+        "source_vertices": 1093,
+        "export_vertices": 4550,
+        "triangles": 1790
+      },
+      "after": {
+        "authored_vertices": 1200,
+        "source_vertices": 1200,
+        "export_vertices": 4978,
+        "triangles": 2004
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_hydrangea",
+      "status": "retained",
+      "reason": "Existing branching stems, broad leaves and compound rounded blossom heads already provide species-specific structure.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 917,
+        "source_vertices": 917,
+        "export_vertices": 3780,
+        "triangles": 1610
+      },
+      "after": {
+        "authored_vertices": 917,
+        "source_vertices": 917,
+        "export_vertices": 3780,
+        "triangles": 1610
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_forsythia",
+      "status": "retained",
+      "reason": "Existing arched twig structure and small separate flowers are appropriate for open spring growth.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 1152,
+        "source_vertices": 1152,
+        "export_vertices": 4464,
+        "triangles": 1836
+      },
+      "after": {
+        "authored_vertices": 1152,
+        "source_vertices": 1152,
+        "export_vertices": 4464,
+        "triangles": 1836
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_common_lilac",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 448,
+        "source_vertices": 693,
+        "export_vertices": 2646,
+        "triangles": 1246
+      },
+      "after": {
+        "authored_vertices": 504,
+        "source_vertices": 874,
+        "export_vertices": 3280,
+        "triangles": 1608
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_redtwig_dogwood_winter",
+      "status": "retained",
+      "reason": "Bare tapered branches and paired secondary twigs are appropriate for the winter state.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 352,
+        "source_vertices": 946,
+        "export_vertices": 4004,
+        "triangles": 1760
+      },
+      "after": {
+        "authored_vertices": 352,
+        "source_vertices": 946,
+        "export_vertices": 4004,
+        "triangles": 1760
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_maiden_grass",
+      "status": "retained",
+      "reason": "Curved blades and lobed panicles already supply the essential structure.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 628,
+        "source_vertices": 628,
+        "export_vertices": 2526,
+        "triangles": 1052
+      },
+      "after": {
+        "authored_vertices": 628,
+        "source_vertices": 628,
+        "export_vertices": 2526,
+        "triangles": 1052
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_fountain_grass",
+      "status": "retained",
+      "reason": "Curving blades and bent seed stems already form the appropriate fountain habit.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 414,
+        "source_vertices": 1059,
+        "export_vertices": 4266,
+        "triangles": 1926
+      },
+      "after": {
+        "authored_vertices": 414,
+        "source_vertices": 1059,
+        "export_vertices": 4266,
+        "triangles": 1926
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_pampas_grass",
+      "status": "retained",
+      "reason": "Separate arching leaves and elongated compound plumes already distinguish the grass.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 498,
+        "source_vertices": 806,
+        "export_vertices": 3300,
+        "triangles": 1452
+      },
+      "after": {
+        "authored_vertices": 498,
+        "source_vertices": 806,
+        "export_vertices": 3300,
+        "triangles": 1452
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_switchgrass",
+      "status": "retained",
+      "reason": "Open secondary seed panicles and upright blades are already structurally specific.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 1046,
+        "source_vertices": 1046,
+        "export_vertices": 3848,
+        "triangles": 1736
+      },
+      "after": {
+        "authored_vertices": 1046,
+        "source_vertices": 1046,
+        "export_vertices": 3848,
+        "triangles": 1736
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_cattail_cluster",
+      "status": "retained",
+      "reason": "Separate leaf blades, seed cylinders, tips and varied stem heights already resolve the silhouette.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 300,
+        "source_vertices": 674,
+        "export_vertices": 2672,
+        "triangles": 1220
+      },
+      "after": {
+        "authored_vertices": 300,
+        "source_vertices": 674,
+        "export_vertices": 2672,
+        "triangles": 1220
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_daylily_clump",
+      "status": "retained",
+      "reason": "Long separate tepals, throat, keeled foliage and varying stem heights already support the intended form.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 482,
+        "source_vertices": 970,
+        "export_vertices": 3990,
+        "triangles": 1692
+      },
+      "after": {
+        "authored_vertices": 482,
+        "source_vertices": 970,
+        "export_vertices": 3990,
+        "triangles": 1692
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_flowering_hosta",
+      "status": "retained",
+      "reason": "Broad keeled basal leaves and separate hanging flowers already represent the species.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 318,
+        "source_vertices": 902,
+        "export_vertices": 3728,
+        "triangles": 1640
+      },
+      "after": {
+        "authored_vertices": 318,
+        "source_vertices": 902,
+        "export_vertices": 3728,
+        "triangles": 1640
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_bearded_iris",
+      "status": "retained",
+      "reason": "Existing keeled leaf fans, separate fall/standard petals and staggered stems already convey iris structure.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 270,
+        "source_vertices": 562,
+        "export_vertices": 2252,
+        "triangles": 980
+      },
+      "after": {
+        "authored_vertices": 270,
+        "source_vertices": 562,
+        "export_vertices": 2252,
+        "triangles": 980
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_purple_coneflowers",
+      "status": "retained",
+      "reason": "Separate drooping petals and raised cone centres already provide the botanical shape.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 553,
+        "source_vertices": 1063,
+        "export_vertices": 4236,
+        "triangles": 1790
+      },
+      "after": {
+        "authored_vertices": 553,
+        "source_vertices": 1063,
+        "export_vertices": 4236,
+        "triangles": 1790
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_black_eyed_susans",
+      "status": "retained",
+      "reason": "Separate keeled petals, flower centres and paired stem leaves already carry the needed structure.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 930,
+        "source_vertices": 930,
+        "export_vertices": 3680,
+        "triangles": 1380
+      },
+      "after": {
+        "authored_vertices": 930,
+        "source_vertices": 930,
+        "export_vertices": 3680,
+        "triangles": 1380
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_tulip_cluster",
+      "status": "retained",
+      "reason": "Separate upright overlapping petals and broad basal leaves already define the bloom.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 560,
+        "source_vertices": 1150,
+        "export_vertices": 4568,
+        "triangles": 2020
+      },
+      "after": {
+        "authored_vertices": 560,
+        "source_vertices": 1150,
+        "export_vertices": 4568,
+        "triangles": 2020
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_daffodil_cluster",
+      "status": "retained",
+      "reason": "Existing six petals, projecting trumpet and bending stems are species-specific; no extra tessellation needed.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 636,
+        "source_vertices": 636,
+        "export_vertices": 2376,
+        "triangles": 980
+      },
+      "after": {
+        "authored_vertices": 636,
+        "source_vertices": 636,
+        "export_vertices": 2376,
+        "triangles": 980
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_lavender_patch",
+      "status": "retained",
+      "reason": "Narrow leaves, multi-lobed spikes and varied heights already provide botanical construction.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 1144,
+        "source_vertices": 1144,
+        "export_vertices": 4602,
+        "triangles": 1924
+      },
+      "after": {
+        "authored_vertices": 1144,
+        "source_vertices": 1144,
+        "export_vertices": 4602,
+        "triangles": 1924
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_salvia_border",
+      "status": "retained",
+      "reason": "Paired broad leaves and tapered whorled flower spikes already define this perennial.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 1098,
+        "source_vertices": 1098,
+        "export_vertices": 4482,
+        "triangles": 1908
+      },
+      "after": {
+        "authored_vertices": 1098,
+        "source_vertices": 1098,
+        "export_vertices": 4482,
+        "triangles": 1908
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_geranium_window_box",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 1116,
+        "source_vertices": 1116,
+        "export_vertices": 4512,
+        "triangles": 1752
+      },
+      "after": {
+        "authored_vertices": 1140,
+        "source_vertices": 1140,
+        "export_vertices": 4608,
+        "triangles": 1800
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_hanging_petunia_basket",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 842,
+        "source_vertices": 842,
+        "export_vertices": 3394,
+        "triangles": 1408
+      },
+      "after": {
+        "authored_vertices": 905,
+        "source_vertices": 905,
+        "export_vertices": 3646,
+        "triangles": 1534
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_whiskey_barrel_flowers",
+      "status": "retained",
+      "reason": "Individual flowers/blades and geometric barrel staves/hoops already carry sufficient construction.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 1026,
+        "source_vertices": 1026,
+        "export_vertices": 3908,
+        "triangles": 1600
+      },
+      "after": {
+        "authored_vertices": 1026,
+        "source_vertices": 1026,
+        "export_vertices": 3908,
+        "triangles": 1600
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_concrete_mixed_planter",
+      "status": "revised",
+      "reason": "Replaced repeated spherical foliage with asymmetrical, scalloped, tapered crown topology; species branching/proportions preserved.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 608,
+        "source_vertices": 1096,
+        "export_vertices": 4534,
+        "triangles": 1912
+      },
+      "after": {
+        "authored_vertices": 643,
+        "source_vertices": 643,
+        "export_vertices": 2578,
+        "triangles": 1006
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_circular_civic_flower_bed",
+      "status": "retained",
+      "reason": "The brick ring and individually modeled flowering plants already carry necessary detail.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 1641,
+        "source_vertices": 1641,
+        "export_vertices": 6328,
+        "triangles": 2462
+      },
+      "after": {
+        "authored_vertices": 1641,
+        "source_vertices": 1641,
+        "export_vertices": 6328,
+        "triangles": 2462
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b08_raised_perennial_bed",
+      "status": "retained",
+      "reason": "Existing board corners, stakes and separate species are structurally developed.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 1725,
+        "source_vertices": 1725,
+        "export_vertices": 6880,
+        "triangles": 2862
+      },
+      "after": {
+        "authored_vertices": 1725,
+        "source_vertices": 1725,
+        "export_vertices": 6880,
+        "triangles": 2862
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_straight_slide",
+      "status": "revised",
+      "reason": "Rebuilt separate chute panels as a continuous formed trough with thickness, hemmed lips and softened transitions; added entrance grab rails and deck mounts.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 560,
+        "source_vertices": 1440,
+        "export_vertices": 5728,
+        "triangles": 2688
+      },
+      "after": {
+        "authored_vertices": 680,
+        "source_vertices": 1704,
+        "export_vertices": 6704,
+        "triangles": 3200
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_wave_slide",
+      "status": "revised",
+      "reason": "Rebuilt faceted panel chute as a continuous formed trough, refined transition profile and added entrance grab rails and deck supports.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 680,
+        "source_vertices": 1800,
+        "export_vertices": 7168,
+        "triangles": 3356
+      },
+      "after": {
+        "authored_vertices": 776,
+        "source_vertices": 1944,
+        "export_vertices": 7640,
+        "triangles": 3664
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_curved_slide",
+      "status": "retained",
+      "reason": "Existing swept curved chute, central radial supports, platform and ladder already form a mechanically readable installation.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 290,
+        "source_vertices": 720,
+        "export_vertices": 2792,
+        "triangles": 1324
+      },
+      "after": {
+        "authored_vertices": 290,
+        "source_vertices": 720,
+        "export_vertices": 2792,
+        "triangles": 1324
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_double_swing",
+      "status": "revised",
+      "reason": "Replaced rigid slab seats with dipped, thickened flexible belt-seat geometry.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 696,
+        "source_vertices": 1592,
+        "export_vertices": 6352,
+        "triangles": 3084
+      },
+      "after": {
+        "authored_vertices": 720,
+        "source_vertices": 1640,
+        "export_vertices": 6520,
+        "triangles": 3180
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_toddler_bucket_swing",
+      "status": "retained",
+      "reason": "Existing bucket seat leg openings, four sides, chains and braced frame define the appropriate design.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 440,
+        "source_vertices": 1096,
+        "export_vertices": 4400,
+        "triangles": 2084
+      },
+      "after": {
+        "authored_vertices": 440,
+        "source_vertices": 1096,
+        "export_vertices": 4400,
+        "triangles": 2084
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_tire_swing",
+      "status": "retained",
+      "reason": "Existing tread blocks, three-point suspension and braced frame already carry specific construction.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 656,
+        "source_vertices": 1584,
+        "export_vertices": 6336,
+        "triangles": 3028
+      },
+      "after": {
+        "authored_vertices": 656,
+        "source_vertices": 1584,
+        "export_vertices": 6336,
+        "triangles": 3028
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_monkey_bars",
+      "status": "retained",
+      "reason": "Existing rung spacing, ladder sides, capped posts and anchor plates are appropriately economical.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 516,
+        "source_vertices": 1308,
+        "export_vertices": 5200,
+        "triangles": 2452
+      },
+      "after": {
+        "authored_vertices": 516,
+        "source_vertices": 1308,
+        "export_vertices": 5200,
+        "triangles": 2452
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_dome_climber",
+      "status": "retained",
+      "reason": "Existing triangular geodesic tubes, separate node joints and base anchors provide complete structure.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 1360,
+        "source_vertices": 1360,
+        "export_vertices": 4512,
+        "triangles": 2272
+      },
+      "after": {
+        "authored_vertices": 1360,
+        "source_vertices": 1360,
+        "export_vertices": 4512,
+        "triangles": 2272
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_climbing_wall",
+      "status": "retained",
+      "reason": "Existing separate wall panels, staggered faceted handholds and bolts carry the needed detail.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 540,
+        "source_vertices": 1484,
+        "export_vertices": 6112,
+        "triangles": 2788
+      },
+      "after": {
+        "authored_vertices": 540,
+        "source_vertices": 1484,
+        "export_vertices": 6112,
+        "triangles": 2788
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_rope_pyramid",
+      "status": "retained",
+      "reason": "Existing nested cable rings, radial ropes and top/base anchors are already functional.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 531,
+        "source_vertices": 1427,
+        "export_vertices": 5696,
+        "triangles": 2654
+      },
+      "after": {
+        "authored_vertices": 531,
+        "source_vertices": 1427,
+        "export_vertices": 5696,
+        "triangles": 2654
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_seesaw",
+      "status": "revised",
+      "reason": "Added pivot bearing assembly, beam saddle brackets and bumper contact plates.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 248,
+        "source_vertices": 640,
+        "export_vertices": 2504,
+        "triangles": 1192
+      },
+      "after": {
+        "authored_vertices": 404,
+        "source_vertices": 1080,
+        "export_vertices": 4212,
+        "triangles": 2020
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_four_seat_spring_rocker",
+      "status": "revised",
+      "reason": "Added upper/lower spring mounting plates, anchor fasteners and seat supports.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 632,
+        "source_vertices": 632,
+        "export_vertices": 1896,
+        "triangles": 1012
+      },
+      "after": {
+        "authored_vertices": 800,
+        "source_vertices": 800,
+        "export_vertices": 2400,
+        "triangles": 1292
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_merry_go_round",
+      "status": "revised",
+      "reason": "Added radial deck underframe and center bearing support flange.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 312,
+        "source_vertices": 800,
+        "export_vertices": 3064,
+        "triangles": 1524
+      },
+      "after": {
+        "authored_vertices": 400,
+        "source_vertices": 1040,
+        "export_vertices": 4000,
+        "triangles": 1968
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_zigzag_balance_beam",
+      "status": "retained",
+      "reason": "Existing beam joints, independent support posts and anchor feet are complete for a simple fixture.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 184,
+        "source_vertices": 456,
+        "export_vertices": 1824,
+        "triangles": 836
+      },
+      "after": {
+        "authored_vertices": 184,
+        "source_vertices": 456,
+        "export_vertices": 1824,
+        "triangles": 836
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_stepping_log_course",
+      "status": "retained",
+      "reason": "Existing height progression, faceted bark, separate cut ends and endgrain rings define the simple object.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 420,
+        "source_vertices": 720,
+        "export_vertices": 2640,
+        "triangles": 1392
+      },
+      "after": {
+        "authored_vertices": 420,
+        "source_vertices": 720,
+        "export_vertices": 2640,
+        "triangles": 1392
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_crawl_tunnel",
+      "status": "revised",
+      "reason": "Added shaped support cradles and end-rim assembly fasteners.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 160,
+        "source_vertices": 336,
+        "export_vertices": 1200,
+        "triangles": 664
+      },
+      "after": {
+        "authored_vertices": 432,
+        "source_vertices": 960,
+        "export_vertices": 3888,
+        "triangles": 1816
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_overhead_ring_traverse",
+      "status": "retained",
+      "reason": "Existing hanging rings, suspension rods, access rungs and capped supporting structure are sufficient.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 806,
+        "source_vertices": 1840,
+        "export_vertices": 7412,
+        "triangles": 3536
+      },
+      "after": {
+        "authored_vertices": 806,
+        "source_vertices": 1840,
+        "export_vertices": 7412,
+        "triangles": 3536
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_roofed_play_tower",
+      "status": "revised",
+      "reason": "Added deck joists and diagonal roof support braces.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 494,
+        "source_vertices": 1386,
+        "export_vertices": 5544,
+        "triangles": 2564
+      },
+      "after": {
+        "authored_vertices": 558,
+        "source_vertices": 1578,
+        "export_vertices": 6312,
+        "triangles": 2916
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_accessible_sand_table",
+      "status": "revised",
+      "reason": "Added structural tray rim support rails and leg socket brackets.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 336,
+        "source_vertices": 752,
+        "export_vertices": 2960,
+        "triangles": 1392
+      },
+      "after": {
+        "authored_vertices": 400,
+        "source_vertices": 944,
+        "export_vertices": 3728,
+        "triangles": 1744
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_playground_abacus_panel",
+      "status": "revised",
+      "reason": "Added rod end bearings where the beads slide into frame.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 424,
+        "source_vertices": 960,
+        "export_vertices": 3584,
+        "triangles": 1800
+      },
+      "after": {
+        "authored_vertices": 520,
+        "source_vertices": 1152,
+        "export_vertices": 4256,
+        "triangles": 2160
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_three_height_pullup_station",
+      "status": "retained",
+      "reason": "Existing varied bar heights, grips, capped posts and anchor plates match a simple static installation.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 380,
+        "source_vertices": 996,
+        "export_vertices": 3952,
+        "triangles": 1872
+      },
+      "after": {
+        "authored_vertices": 380,
+        "source_vertices": 996,
+        "export_vertices": 3952,
+        "triangles": 1872
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_parallel_dip_station",
+      "status": "retained",
+      "reason": "Existing gripped parallel bars, lower ties and anchors provide complete structure.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 336,
+        "source_vertices": 768,
+        "export_vertices": 3040,
+        "triangles": 1432
+      },
+      "after": {
+        "authored_vertices": 336,
+        "source_vertices": 768,
+        "export_vertices": 3040,
+        "triangles": 1432
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_incline_situp_bench",
+      "status": "retained",
+      "reason": "Existing slatted inclined support frame, paired rollers and post anchors carry the needed form.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 348,
+        "source_vertices": 772,
+        "export_vertices": 3024,
+        "triangles": 1432
+      },
+      "after": {
+        "authored_vertices": 348,
+        "source_vertices": 772,
+        "export_vertices": 3024,
+        "triangles": 1432
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_outdoor_elliptical",
+      "status": "revised",
+      "reason": "Molded footpads, crank and linkage bearings, anti-slip ribs and drivetrain guard base.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 224,
+        "source_vertices": 632,
+        "export_vertices": 2488,
+        "triangles": 1184
+      },
+      "after": {
+        "authored_vertices": 600,
+        "source_vertices": 600,
+        "export_vertices": 1816,
+        "triangles": 1020
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_air_walker",
+      "status": "revised",
+      "reason": "Connected swinging arms to bushed pivot axles with mechanical stop housings.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 268,
+        "source_vertices": 652,
+        "export_vertices": 2560,
+        "triangles": 1216
+      },
+      "after": {
+        "authored_vertices": 468,
+        "source_vertices": 1116,
+        "export_vertices": 4280,
+        "triangles": 2088
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_seated_chest_press",
+      "status": "revised",
+      "reason": "Contoured molded seat/back, visible pivot housings and linked resistance struts.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 242,
+        "source_vertices": 610,
+        "export_vertices": 2376,
+        "triangles": 1144
+      },
+      "after": {
+        "authored_vertices": 494,
+        "source_vertices": 1122,
+        "export_vertices": 4220,
+        "triangles": 2108
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_outdoor_rowing_station",
+      "status": "revised",
+      "reason": "Contoured seat, axle bearings, linkage/resistance struts and non-slip footplate ribs.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 188,
+        "source_vertices": 532,
+        "export_vertices": 2096,
+        "triangles": 996
+      },
+      "after": {
+        "authored_vertices": 448,
+        "source_vertices": 1084,
+        "export_vertices": 4108,
+        "triangles": 2028
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_seated_leg_press",
+      "status": "revised",
+      "reason": "Contoured seat/back shells, axle housings, resistance linkages and footplate heel stops.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 132,
+        "source_vertices": 380,
+        "export_vertices": 1504,
+        "triangles": 708
+      },
+      "after": {
+        "authored_vertices": 392,
+        "source_vertices": 896,
+        "export_vertices": 3360,
+        "triangles": 1676
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_shoulder_rotation_wheels",
+      "status": "revised",
+      "reason": "Added visible bearing bushes and axle-end hardware at wheel rotation axes.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 350,
+        "source_vertices": 862,
+        "export_vertices": 3408,
+        "triangles": 1652
+      },
+      "after": {
+        "authored_vertices": 502,
+        "source_vertices": 1166,
+        "export_vertices": 4520,
+        "triangles": 2220
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_triple_twist_disc_station",
+      "status": "retained",
+      "reason": "Existing separate rotating plates, arm supports and handle geometry already resolve the equipment.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 354,
+        "source_vertices": 858,
+        "export_vertices": 3280,
+        "triangles": 1624
+      },
+      "after": {
+        "authored_vertices": 354,
+        "source_vertices": 858,
+        "export_vertices": 3280,
+        "triangles": 1624
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_basketball_gooseneck_pole",
+      "status": "revised",
+      "reason": "Added backboard mounting plates and spread support struts.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 350,
+        "source_vertices": 772,
+        "export_vertices": 3040,
+        "triangles": 1432
+      },
+      "after": {
+        "authored_vertices": 382,
+        "source_vertices": 868,
+        "export_vertices": 3424,
+        "triangles": 1608
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_wall_mount_basketball_goal",
+      "status": "revised",
+      "reason": "Added backboard support rails and mounting connection plates.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 386,
+        "source_vertices": 928,
+        "export_vertices": 3712,
+        "triangles": 1728
+      },
+      "after": {
+        "authored_vertices": 410,
+        "source_vertices": 1000,
+        "export_vertices": 4000,
+        "triangles": 1860
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_tennis_net",
+      "status": "retained",
+      "reason": "Existing net sag, centre strap, winding housings and posts are already structurally specific.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 668,
+        "source_vertices": 1092,
+        "export_vertices": 4352,
+        "triangles": 1876
+      },
+      "after": {
+        "authored_vertices": 668,
+        "source_vertices": 1092,
+        "export_vertices": 4352,
+        "triangles": 1876
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_volleyball_net",
+      "status": "retained",
+      "reason": "Existing net mesh, tape borders, antennas, padded posts and guy wires are complete.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 708,
+        "source_vertices": 1310,
+        "export_vertices": 5224,
+        "triangles": 2304
+      },
+      "after": {
+        "authored_vertices": 708,
+        "source_vertices": 1310,
+        "export_vertices": 5224,
+        "triangles": 2304
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_soccer_goal",
+      "status": "retained",
+      "reason": "Existing bent rear supports and net following top/back/side geometry provide the required construction.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 744,
+        "source_vertices": 1050,
+        "export_vertices": 4040,
+        "triangles": 1768
+      },
+      "after": {
+        "authored_vertices": 744,
+        "source_vertices": 1050,
+        "export_vertices": 4040,
+        "triangles": 1768
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_lacrosse_goal",
+      "status": "retained",
+      "reason": "Existing triangular rear net and frames are complete and appropriately economical.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 480,
+        "source_vertices": 702,
+        "export_vertices": 2728,
+        "triangles": 1188
+      },
+      "after": {
+        "authored_vertices": 480,
+        "source_vertices": 702,
+        "export_vertices": 2728,
+        "triangles": 1188
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_baseball_backstop",
+      "status": "retained",
+      "reason": "Existing side panels, overhanging top fence, post feet and wire mesh already resolve construction.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 1142,
+        "source_vertices": 1972,
+        "export_vertices": 7848,
+        "triangles": 3452
+      },
+      "after": {
+        "authored_vertices": 1142,
+        "source_vertices": 1972,
+        "export_vertices": 7848,
+        "triangles": 3452
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_dugout_equipment_bench",
+      "status": "revised",
+      "reason": "Added board support brackets and seat fixing heads.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 544,
+        "source_vertices": 1272,
+        "export_vertices": 5040,
+        "triangles": 2356
+      },
+      "after": {
+        "authored_vertices": 640,
+        "source_vertices": 1560,
+        "export_vertices": 6192,
+        "triangles": 2896
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_baseball_scoreboard",
+      "status": "revised",
+      "reason": "Added rear support rails, mounting clamps and rear service ventilation panel.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 868,
+        "source_vertices": 2388,
+        "export_vertices": 9392,
+        "triangles": 4404
+      },
+      "after": {
+        "authored_vertices": 932,
+        "source_vertices": 932,
+        "export_vertices": 2848,
+        "triangles": 1460
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_four_row_bleachers",
+      "status": "retained",
+      "reason": "Existing stepped footboards, seat lips, diagonal framework and guardrails already resolve construction.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 444,
+        "source_vertices": 1332,
+        "export_vertices": 5328,
+        "triangles": 2476
+      },
+      "after": {
+        "authored_vertices": 444,
+        "source_vertices": 1332,
+        "export_vertices": 5328,
+        "triangles": 2476
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_tennis_umpire_chair",
+      "status": "revised",
+      "reason": "Added exposed ladder-frame joint fasteners.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 244,
+        "source_vertices": 732,
+        "export_vertices": 2928,
+        "triangles": 1372
+      },
+      "after": {
+        "authored_vertices": 340,
+        "source_vertices": 1020,
+        "export_vertices": 4080,
+        "triangles": 1916
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_skate_quarter_pipe",
+      "status": "revised",
+      "reason": "Added transition-panel fixing points along supported side edges.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 188,
+        "source_vertices": 538,
+        "export_vertices": 2126,
+        "triangles": 1016
+      },
+      "after": {
+        "authored_vertices": 260,
+        "source_vertices": 682,
+        "export_vertices": 2774,
+        "triangles": 1280
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_skate_funbox",
+      "status": "revised",
+      "reason": "Added wrap-around grind ledge facing and side fixing heads.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 44,
+        "source_vertices": 128,
+        "export_vertices": 508,
+        "triangles": 236
+      },
+      "after": {
+        "authored_vertices": 108,
+        "source_vertices": 272,
+        "export_vertices": 1132,
+        "triangles": 500
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_kinked_grind_rail",
+      "status": "revised",
+      "reason": "Added structural saddle plates between posts and grind rail.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 184,
+        "source_vertices": 552,
+        "export_vertices": 2208,
+        "triangles": 1028
+      },
+      "after": {
+        "authored_vertices": 216,
+        "source_vertices": 648,
+        "export_vertices": 2592,
+        "triangles": 1204
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_skate_bowl_corner",
+      "status": "retained",
+      "reason": "Existing radial curved transition and coping form a correct simple concrete section.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 160,
+        "source_vertices": 396,
+        "export_vertices": 1562,
+        "triangles": 756
+      },
+      "after": {
+        "authored_vertices": 160,
+        "source_vertices": 396,
+        "export_vertices": 1562,
+        "triangles": 756
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_skate_manual_pad",
+      "status": "retained",
+      "reason": "Existing entrance step, wrap-around steel edging and edge fasteners define the simple object.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 120,
+        "source_vertices": 288,
+        "export_vertices": 1152,
+        "triangles": 528
+      },
+      "after": {
+        "authored_vertices": 120,
+        "source_vertices": 288,
+        "export_vertices": 1152,
+        "triangles": 528
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_disc_golf_basket",
+      "status": "revised",
+      "reason": "Added the inner catching-chain array distinct from the outer basket wires.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 638,
+        "source_vertices": 638,
+        "export_vertices": 2096,
+        "triangles": 1056
+      },
+      "after": {
+        "authored_vertices": 734,
+        "source_vertices": 734,
+        "export_vertices": 2384,
+        "triangles": 1200
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_horseshoe_pitching_pit",
+      "status": "revised",
+      "reason": "Added timber assembly bolts and separate horseshoes as functional equipment.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 88,
+        "source_vertices": 248,
+        "export_vertices": 976,
+        "triangles": 456
+      },
+      "after": {
+        "authored_vertices": 208,
+        "source_vertices": 552,
+        "export_vertices": 2136,
+        "triangles": 1040
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_outdoor_table_tennis",
+      "status": "retained",
+      "reason": "Existing pedestal supports, field markings and perforated rigid net complete the table.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 296,
+        "source_vertices": 566,
+        "export_vertices": 2264,
+        "triangles": 988
+      },
+      "after": {
+        "authored_vertices": 296,
+        "source_vertices": 566,
+        "export_vertices": 2264,
+        "triangles": 988
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b09_tetherball_pole",
+      "status": "retained",
+      "reason": "Existing swivel ring, rope bend, ball seam and weighted base are complete.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 210,
+        "source_vertices": 404,
+        "export_vertices": 1564,
+        "triangles": 772
+      },
+      "after": {
+        "authored_vertices": 210,
+        "source_vertices": 404,
+        "export_vertices": 1564,
+        "triangles": 772
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_scored_concrete_sidewalk_bay",
+      "status": "retained",
+      "reason": "Simple cast slab already has control joints, curb bevel and edge gutter.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 50,
+        "source_vertices": 122,
+        "export_vertices": 484,
+        "triangles": 220
+      },
+      "after": {
+        "authored_vertices": 50,
+        "source_vertices": 122,
+        "export_vertices": 484,
+        "triangles": 220
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_radius_sidewalk_corner",
+      "status": "revised",
+      "reason": "Replaced rectangular arc blocks with jointed, chamfered curved curb units.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 120,
+        "source_vertices": 326,
+        "export_vertices": 1286,
+        "triangles": 600
+      },
+      "after": {
+        "authored_vertices": 160,
+        "source_vertices": 398,
+        "export_vertices": 1526,
+        "triangles": 736
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_reentrant_sidewalk_corner",
+      "status": "retained",
+      "reason": "L-shaped slab, short return curb units and control joints already provide necessary modular form.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 66,
+        "source_vertices": 178,
+        "export_vertices": 708,
+        "triangles": 324
+      },
+      "after": {
+        "authored_vertices": 66,
+        "source_vertices": 178,
+        "export_vertices": 708,
+        "triangles": 324
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_flared_accessible_curb_ramp",
+      "status": "revised",
+      "reason": "Corrected tactile tile and warning domes to lie on the actual ramp slope.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 472,
+        "source_vertices": 984,
+        "export_vertices": 3508,
+        "triangles": 1804
+      },
+      "after": {
+        "authored_vertices": 472,
+        "source_vertices": 984,
+        "export_vertices": 3436,
+        "triangles": 1804
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_dual_direction_corner_ramps",
+      "status": "revised",
+      "reason": "Corrected both perpendicular tactile panels to lie on their ramp planes.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 938,
+        "source_vertices": 1930,
+        "export_vertices": 6852,
+        "triangles": 3536
+      },
+      "after": {
+        "authored_vertices": 938,
+        "source_vertices": 1930,
+        "export_vertices": 6708,
+        "triangles": 3536
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_parallel_depressed_curb_ramp",
+      "status": "retained",
+      "reason": "Existing paired sloping approaches, depressed central landing, warning tile and raised back curb are resolved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 472,
+        "source_vertices": 984,
+        "export_vertices": 3504,
+        "triangles": 1804
+      },
+      "after": {
+        "authored_vertices": 472,
+        "source_vertices": 984,
+        "export_vertices": 3504,
+        "triangles": 1804
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_residential_driveway_apron",
+      "status": "revised",
+      "reason": "Added solid lateral transition wings between the depressed driveway and raised sidewalk edge.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 52,
+        "source_vertices": 132,
+        "export_vertices": 520,
+        "triangles": 240
+      },
+      "after": {
+        "authored_vertices": 68,
+        "source_vertices": 180,
+        "export_vertices": 716,
+        "triangles": 328
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_reinforced_alley_sidewalk_crossover",
+      "status": "retained",
+      "reason": "Existing slab joints, reinforced margins and edge lips sufficiently define this simple pavement module.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 120,
+        "source_vertices": 336,
+        "export_vertices": 1344,
+        "triangles": 612
+      },
+      "after": {
+        "authored_vertices": 120,
+        "source_vertices": 336,
+        "export_vertices": 1344,
+        "triangles": 612
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_truncated_dome_warning_panel",
+      "status": "retained",
+      "reason": "Existing regular truncated domes, carrier slab and four fasteners resolve the panel.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 856,
+        "source_vertices": 856,
+        "export_vertices": 2568,
+        "triangles": 1424
+      },
+      "after": {
+        "authored_vertices": 856,
+        "source_vertices": 856,
+        "export_vertices": 2568,
+        "triangles": 1424
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_directional_ribbed_guidance_paving",
+      "status": "retained",
+      "reason": "Existing tactile bars, two panel bays and central joint are sufficient for this simple module.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 96,
+        "source_vertices": 288,
+        "export_vertices": 1152,
+        "triangles": 528
+      },
+      "after": {
+        "authored_vertices": 96,
+        "source_vertices": 288,
+        "export_vertices": 1152,
+        "triangles": 528
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_zebra_crossing_road_section",
+      "status": "retained",
+      "reason": "Flat road surface, crossing markings and edge kerbs are intentional economical construction.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 72,
+        "source_vertices": 216,
+        "export_vertices": 864,
+        "triangles": 396
+      },
+      "after": {
+        "authored_vertices": 72,
+        "source_vertices": 216,
+        "export_vertices": 864,
+        "triangles": 396
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_ladder_crossing_road_section",
+      "status": "retained",
+      "reason": "Simple road section and raised paint-thickness marking geometry need no extra tessellation.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 72,
+        "source_vertices": 208,
+        "export_vertices": 832,
+        "triangles": 380
+      },
+      "after": {
+        "authored_vertices": 72,
+        "source_vertices": 208,
+        "export_vertices": 832,
+        "triangles": 380
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_raised_pedestrian_crossing_table",
+      "status": "retained",
+      "reason": "Existing raised slab and two planar approach ramps correctly describe its designed form.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 80,
+        "source_vertices": 184,
+        "export_vertices": 736,
+        "triangles": 328
+      },
+      "after": {
+        "authored_vertices": 80,
+        "source_vertices": 184,
+        "export_vertices": 736,
+        "triangles": 328
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_pedestrian_median_refuge_island",
+      "status": "retained",
+      "reason": "Existing tapered island noses, accessible passage and warning panels resolve construction.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 1016,
+        "source_vertices": 2064,
+        "export_vertices": 7280,
+        "triangles": 3784
+      },
+      "after": {
+        "authored_vertices": 1016,
+        "source_vertices": 2064,
+        "export_vertices": 7280,
+        "triangles": 3784
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_curb_extension_bulbout",
+      "status": "retained",
+      "reason": "Existing polygonal curb projection, edge bands and control joints define this simple cast module.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 78,
+        "source_vertices": 208,
+        "export_vertices": 822,
+        "triangles": 380
+      },
+      "after": {
+        "authored_vertices": 78,
+        "source_vertices": 208,
+        "export_vertices": 822,
+        "triangles": 380
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_bus_bulb_boarding_pad",
+      "status": "retained",
+      "reason": "Existing tapered platform ends, individual curb units, warning tile and slab joints are sufficient.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 710,
+        "source_vertices": 1462,
+        "export_vertices": 5196,
+        "triangles": 2680
+      },
+      "after": {
+        "authored_vertices": 710,
+        "source_vertices": 1462,
+        "export_vertices": 5196,
+        "triangles": 2680
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_cycletrack_driveway_crossing",
+      "status": "retained",
+      "reason": "Existing raised cycle surface, bilateral slope transitions and dotted markings resolve the crossing.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 112,
+        "source_vertices": 336,
+        "export_vertices": 1344,
+        "triangles": 616
+      },
+      "after": {
+        "authored_vertices": 112,
+        "source_vertices": 336,
+        "export_vertices": 1344,
+        "triangles": 616
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_raised_neighborhood_intersection",
+      "status": "retained",
+      "reason": "Existing four approach slopes, paving joints and margins resolve the module.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 184,
+        "source_vertices": 440,
+        "export_vertices": 1760,
+        "triangles": 788
+      },
+      "after": {
+        "authored_vertices": 184,
+        "source_vertices": 440,
+        "export_vertices": 1760,
+        "triangles": 788
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_crowned_cobblestone_alley",
+      "status": "retained",
+      "reason": "Existing individual setts follow the crossfall and raised side boundaries.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 728,
+        "source_vertices": 2184,
+        "export_vertices": 8736,
+        "triangles": 4004
+      },
+      "after": {
+        "authored_vertices": 728,
+        "source_vertices": 2184,
+        "export_vertices": 8736,
+        "triangles": 4004
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_basketweave_brick_sidewalk_panel",
+      "status": "retained",
+      "reason": "Existing individual brick bond and border units already carry the construction detail.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 440,
+        "source_vertices": 1320,
+        "export_vertices": 5280,
+        "triangles": 2420
+      },
+      "after": {
+        "authored_vertices": 440,
+        "source_vertices": 1320,
+        "export_vertices": 5280,
+        "triangles": 2420
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_granite_curb_sett_course",
+      "status": "retained",
+      "reason": "Existing chamfered kerbs and separate gutter setts are appropriately simple.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 102,
+        "source_vertices": 294,
+        "export_vertices": 1164,
+        "triangles": 540
+      },
+      "after": {
+        "authored_vertices": 102,
+        "source_vertices": 294,
+        "export_vertices": 1164,
+        "triangles": 540
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_rolled_concrete_gutter_curb",
+      "status": "retained",
+      "reason": "Existing multi-breakpoint rolled gutter cross-section and control joints resolve the shape.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 64,
+        "source_vertices": 174,
+        "export_vertices": 694,
+        "triangles": 316
+      },
+      "after": {
+        "authored_vertices": 64,
+        "source_vertices": 174,
+        "export_vertices": 694,
+        "triangles": 316
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_permeable_concrete_grid_paving",
+      "status": "retained",
+      "reason": "Existing open concrete lattice and recessed infill cells are the necessary geometry.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 408,
+        "source_vertices": 1224,
+        "export_vertices": 4896,
+        "triangles": 2244
+      },
+      "after": {
+        "authored_vertices": 408,
+        "source_vertices": 1224,
+        "export_vertices": 4896,
+        "triangles": 2244
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_bridge_approach_settlement_slab",
+      "status": "retained",
+      "reason": "Existing longitudinal slope, raised edge guides, movement joint and markings resolve the slab.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 64,
+        "source_vertices": 176,
+        "export_vertices": 704,
+        "triangles": 320
+      },
+      "after": {
+        "authored_vertices": 64,
+        "source_vertices": 176,
+        "export_vertices": 704,
+        "triangles": 320
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_road_bridge_finger_expansion_joint",
+      "status": "retained",
+      "reason": "Existing interleaved fingers, bolted support strips and recessed rubber seal are complete.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 440,
+        "source_vertices": 1320,
+        "export_vertices": 5280,
+        "triangles": 2456
+      },
+      "after": {
+        "authored_vertices": 440,
+        "source_vertices": 1320,
+        "export_vertices": 5280,
+        "triangles": 2456
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_sidewalk_sliding_expansion_cover",
+      "status": "retained",
+      "reason": "Existing supported cover plate, non-slip strips and fasteners are complete.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 216,
+        "source_vertices": 648,
+        "export_vertices": 2592,
+        "triangles": 1200
+      },
+      "after": {
+        "authored_vertices": 216,
+        "source_vertices": 648,
+        "export_vertices": 2592,
+        "triangles": 1200
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_embedded_grooved_streetcar_track",
+      "status": "retained",
+      "reason": "Existing paired running/flange strips and recessed groove are appropriate for embedded rail.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 80,
+        "source_vertices": 216,
+        "export_vertices": 864,
+        "triangles": 392
+      },
+      "after": {
+        "authored_vertices": 80,
+        "source_vertices": 216,
+        "export_vertices": 864,
+        "triangles": 392
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_curved_streetcar_track_segment",
+      "status": "retained",
+      "reason": "Existing curved paired rail strips, groove and matching paved arc already resolve the embedded track.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 672,
+        "source_vertices": 2016,
+        "export_vertices": 8064,
+        "triangles": 3696
+      },
+      "after": {
+        "authored_vertices": 672,
+        "source_vertices": 2016,
+        "export_vertices": 8064,
+        "triangles": 3696
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_timber_grade_rail_crossing",
+      "status": "revised",
+      "reason": "Replaced three stacked rail cuboids with a continuous shaped rail profile including flared foot, thin web and crowned head.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 728,
+        "source_vertices": 1968,
+        "export_vertices": 7872,
+        "triangles": 3608
+      },
+      "after": {
+        "authored_vertices": 744,
+        "source_vertices": 1984,
+        "export_vertices": 7904,
+        "triangles": 3656
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_rubber_panel_rail_crossing",
+      "status": "revised",
+      "reason": "Replaced three stacked rail cuboids with a continuous shaped rail profile including flared foot, thin web and crowned head.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 488,
+        "source_vertices": 1104,
+        "export_vertices": 4416,
+        "triangles": 1964
+      },
+      "after": {
+        "authored_vertices": 504,
+        "source_vertices": 1120,
+        "export_vertices": 4448,
+        "triangles": 2012
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_ballasted_commuter_rail_track",
+      "status": "revised",
+      "reason": "Rebuilt rails with joined foot/web/head profile, added rail splice bars and bolts, and shaped sloping ballast shoulders.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 700,
+        "source_vertices": 1848,
+        "export_vertices": 7448,
+        "triangles": 3332
+      },
+      "after": {
+        "authored_vertices": 940,
+        "source_vertices": 940,
+        "export_vertices": 3072,
+        "triangles": 1452
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_urban_rail_turnout_frog",
+      "status": "revised",
+      "reason": "Rebuilt continuously swept rail section and added operating linkage, switch drive case, stretcher bar joints and support plates.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 336,
+        "source_vertices": 1008,
+        "export_vertices": 4032,
+        "triangles": 1848
+      },
+      "after": {
+        "authored_vertices": 496,
+        "source_vertices": 1280,
+        "export_vertices": 4992,
+        "triangles": 2428
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_center_island_light_rail_platform",
+      "status": "retained",
+      "reason": "Existing tapered end, warning strips, panel joints and fascia are complete.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 2276,
+        "source_vertices": 2276,
+        "export_vertices": 6828,
+        "triangles": 3776
+      },
+      "after": {
+        "authored_vertices": 2276,
+        "source_vertices": 2276,
+        "export_vertices": 6828,
+        "triangles": 3776
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_low_station_platform_with_access_ramp",
+      "status": "retained",
+      "reason": "Existing sloped entry, handrails, tactile strips and panel joints resolve the platform.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 1548,
+        "source_vertices": 1548,
+        "export_vertices": 4644,
+        "triangles": 2572
+      },
+      "after": {
+        "authored_vertices": 1548,
+        "source_vertices": 1548,
+        "export_vertices": 4644,
+        "triangles": 2572
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_elevated_commuter_platform_end",
+      "status": "revised",
+      "reason": "Added bearing pads, crossheads and deck fascia.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 2264,
+        "source_vertices": 2264,
+        "export_vertices": 6792,
+        "triangles": 3764
+      },
+      "after": {
+        "authored_vertices": 2360,
+        "source_vertices": 2360,
+        "export_vertices": 7080,
+        "triangles": 3908
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_subway_sidewalk_stair_entrance",
+      "status": "retained",
+      "reason": "Existing steps, nosings, parapet/coping, guardrail and sloping handrail are complete.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 936,
+        "source_vertices": 2136,
+        "export_vertices": 7944,
+        "triangles": 3936
+      },
+      "after": {
+        "authored_vertices": 936,
+        "source_vertices": 2136,
+        "export_vertices": 7944,
+        "triangles": 3936
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_sunken_transit_ramp_entrance",
+      "status": "revised",
+      "reason": "Seated warning tile and domes on the inclined approach surface.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 940,
+        "source_vertices": 2006,
+        "export_vertices": 7252,
+        "triangles": 3692
+      },
+      "after": {
+        "authored_vertices": 940,
+        "source_vertices": 2006,
+        "export_vertices": 7150,
+        "triangles": 3692
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_transit_elevator_headhouse",
+      "status": "revised",
+      "reason": "Added door meeting stile, threshold tracks, indicator assembly and roof drip edge.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 192,
+        "source_vertices": 552,
+        "export_vertices": 2192,
+        "triangles": 1012
+      },
+      "after": {
+        "authored_vertices": 280,
+        "source_vertices": 816,
+        "export_vertices": 3248,
+        "triangles": 1496
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_subway_entry_escalator",
+      "status": "revised",
+      "reason": "Rebuilt continuous balustrade panels and complete rounded moving handrail loops with mounts.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 976,
+        "source_vertices": 2208,
+        "export_vertices": 8832,
+        "triangles": 3928
+      },
+      "after": {
+        "authored_vertices": 1312,
+        "source_vertices": 1312,
+        "export_vertices": 3936,
+        "triangles": 2024
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_streetcar_cut_stone_tunnel_portal",
+      "status": "revised",
+      "reason": "Added projecting spring courses and keystone; rebuilt rail cross-sections.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 224,
+        "source_vertices": 624,
+        "export_vertices": 2496,
+        "triangles": 1136
+      },
+      "after": {
+        "authored_vertices": 264,
+        "source_vertices": 712,
+        "export_vertices": 2816,
+        "triangles": 1316
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_timber_creek_pedestrian_bridge",
+      "status": "revised",
+      "reason": "Added post brackets/bolts, transverse joists and abutment bearing plates.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 376,
+        "source_vertices": 1128,
+        "export_vertices": 4512,
+        "triangles": 2068
+      },
+      "after": {
+        "authored_vertices": 800,
+        "source_vertices": 2400,
+        "export_vertices": 9600,
+        "triangles": 4448
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_steel_through_truss_footbridge",
+      "status": "revised",
+      "reason": "Added truss gusset plates, joint bolts, transverse floor beams and bearing pads.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 560,
+        "source_vertices": 1616,
+        "export_vertices": 6400,
+        "triangles": 2976
+      },
+      "after": {
+        "authored_vertices": 1232,
+        "source_vertices": 1232,
+        "export_vertices": 3696,
+        "triangles": 1932
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_concrete_arch_pedestrian_bridge",
+      "status": "revised",
+      "reason": "Added steel bearing seats between arched deck beams and abutments.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 1088,
+        "source_vertices": 1088,
+        "export_vertices": 3264,
+        "triangles": 1800
+      },
+      "after": {
+        "authored_vertices": 1152,
+        "source_vertices": 1152,
+        "export_vertices": 3456,
+        "triangles": 1896
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_city_steps_with_bicycle_gutter",
+      "status": "retained",
+      "reason": "Existing steps, nosings, wheel channel side lips and handrail resolve the equipment.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 304,
+        "source_vertices": 760,
+        "export_vertices": 2960,
+        "triangles": 1392
+      },
+      "after": {
+        "authored_vertices": 304,
+        "source_vertices": 760,
+        "export_vertices": 2960,
+        "triangles": 1392
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_switchback_accessibility_ramp",
+      "status": "retained",
+      "reason": "Existing opposite incline flights, turning landing, central divider and handrails are sufficient.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 672,
+        "source_vertices": 1616,
+        "export_vertices": 6064,
+        "triangles": 3016
+      },
+      "after": {
+        "authored_vertices": 672,
+        "source_vertices": 1616,
+        "export_vertices": 6064,
+        "triangles": 3016
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_quarter_turn_pedestrian_stair",
+      "status": "retained",
+      "reason": "Existing joined flights, landing, nosings and turn-following handrail are resolved.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 476,
+        "source_vertices": 1156,
+        "export_vertices": 4432,
+        "triangles": 2132
+      },
+      "after": {
+        "authored_vertices": 476,
+        "source_vertices": 1156,
+        "export_vertices": 4432,
+        "triangles": 2132
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_open_steel_transit_access_stair",
+      "status": "revised",
+      "reason": "Added tread support cleats, side fixings and upper landing knee braces.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 968,
+        "source_vertices": 2224,
+        "export_vertices": 8656,
+        "triangles": 4036
+      },
+      "after": {
+        "authored_vertices": 1424,
+        "source_vertices": 1424,
+        "export_vertices": 4272,
+        "triangles": 2252
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_portable_rail_boarding_ramp",
+      "status": "revised",
+      "reason": "Added underframe shoes, a tapered approach lip and landing hook flange.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 240,
+        "source_vertices": 680,
+        "export_vertices": 2680,
+        "triangles": 1264
+      },
+      "after": {
+        "authored_vertices": 288,
+        "source_vertices": 824,
+        "export_vertices": 3256,
+        "triangles": 1528
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_hinged_platform_gap_bridge",
+      "status": "revised",
+      "reason": "Added hinge knuckles, mounting plates and fixed-leaf anchors.",
+      "size_class": "person",
+      "vertex_limit": 5000,
+      "before": {
+        "authored_vertices": 116,
+        "source_vertices": 288,
+        "export_vertices": 1132,
+        "triangles": 524
+      },
+      "after": {
+        "authored_vertices": 236,
+        "source_vertices": 568,
+        "export_vertices": 2172,
+        "triangles": 1048
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    },
+    {
+      "asset_id": "b13_pedestrian_underpass_box_section",
+      "status": "revised",
+      "reason": "Added drain channels with grates, cast-panel joints and recessed soffit light housings.",
+      "size_class": "large",
+      "vertex_limit": 10000,
+      "before": {
+        "authored_vertices": 184,
+        "source_vertices": 432,
+        "export_vertices": 1632,
+        "triangles": 796
+      },
+      "after": {
+        "authored_vertices": 376,
+        "source_vertices": 1008,
+        "export_vertices": 3936,
+        "triangles": 1852
+      },
+      "visual_review": "Actual exported GLB contact sheet inspected after revision; silhouette, attachments and functional geometry checked."
+    }
+  ]
+}

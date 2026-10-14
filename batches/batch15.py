@@ -49,8 +49,45 @@ def _pane(a, points, mat='glass', reverse=False):
     a.mesh(points,[tuple(reversed(face)) if reverse else face],mat)
 
 
+def _hull(a, rings, mat='white'):
+    """Eight-sided plan sections give coachwork real corner and roof shoulders.
+
+    Each station is (height, rear x, front x, half width, corner setback).
+    Geometry is shaped at metre scale rather than relying on a tiny edge bevel.
+    """
+    vs=[]
+    for z,lo,hi,w,c in rings:
+        c=min(c,(hi-lo)*.25,w*.35)
+        vs.extend([(lo+c,-w,z),(hi-c,-w,z),(hi,-w+c,z),(hi,w-c,z),
+                   (hi-c,w,z),(lo+c,w,z),(lo,w-c,z),(lo,-w+c,z)])
+    fs=[tuple(reversed(range(8)))]
+    for k in range(len(rings)-1):
+        fs.extend((k*8+j,k*8+(j+1)%8,(k+1)*8+(j+1)%8,(k+1)*8+j) for j in range(8))
+    fs.append(tuple(range((len(rings)-1)*8,len(rings)*8)))
+    a.mesh(vs,fs,mat)
+
+
+def _fender(a,x,W,r=.48,paint='white',depth=.12):
+    """Pressed fender: arch opening, outward shoulder and thin return lip."""
+    for s in (-1,1):
+        rings=[(r+.060,W/2-.035),(r+.145,W/2+.020),
+               (r+.145,W/2+depth),(r+.065,W/2+depth+.012)]
+        vs=[]
+        for rad,y in rings:
+            for j in range(9):
+                t=math.pi-j*math.pi/8
+                vs.append((x+rad*math.cos(t),s*y,r+rad*math.sin(t)))
+        fs=[]
+        for k in range(3):
+            for j in range(8):fs.append((k*9+j,k*9+j+1,(k+1)*9+j+1,(k+1)*9+j))
+        fs += [(j,27+j,28+j,j+1) for j in range(8)]
+        fs += [(0,9,18,27),(8,35,26,17)]
+        if s<0:fs=[tuple(reversed(f)) for f in fs]
+        a.mesh(vs,fs,paint)
+
+
 def _wheel(a, x, y, r=.48, width=.25, outer=True):
-    """Bevelled twelve-sided truck tyre with separate rim and lug hardware."""
+    """Crowned twelve-sided tyre and dished steel rim, vents and lug faces."""
     vs=[]
     rings=[(-width/2,.86),(-width*.32,1),(width*.32,1),(width/2,.86)]
     for yy,rr in rings:
@@ -58,7 +95,6 @@ def _wheel(a, x, y, r=.48, width=.25, outer=True):
             t=2*math.pi*j/12
             vs.append((x+r*rr*math.cos(t),y+yy,r+r*rr*math.sin(t)))
     fs=[]
-    # Cross sections are clockwise when viewed along +Y.
     for k in range(3):
         for j in range(12):
             q=(j+1)%12
@@ -67,12 +103,27 @@ def _wheel(a, x, y, r=.48, width=.25, outer=True):
     a.mesh(vs,fs,'rubber')
     if outer:
         s=1 if y>0 else -1
-        yy=y+s*(width/2+.006)
-        a.cylinder((x,yy-s*.025,r),(x,yy+s*.022,r),r*.57,'silver',sides=10)
-        a.cylinder((x,yy,r),(x,yy+s*.06,r),r*.25,'dark_metal',sides=8)
+        yy=y+s*(width/2+.007)
+        # A rolled rim lip and recessed dish are visible at oblique angles.
+        vs=[]
+        for rad,d in ((.59,0),(.54,.026),(.41,.026),(.35,-.018)):
+            for j in range(10):
+                t=2*math.pi*j/10
+                vs.append((x+r*rad*math.cos(t),yy+s*d,r+r*rad*math.sin(t)))
+        fs=[(k*10+j,k*10+(j+1)%10,(k+1)*10+(j+1)%10,(k+1)*10+j)
+            for k in range(3) for j in range(10)]
+        fs.append(tuple(range(30,40)))
+        if s>0:fs=[tuple(reversed(f)) for f in fs]
+        a.mesh(vs,fs,'silver')
+        a.cylinder((x,yy-s*.017,r),(x,yy+s*.047,r),r*.23,'metal',sides=8)
         for j in range(5):
             t=2*math.pi*j/5
-            a.box((x+r*.35*math.cos(t),yy+s*.025,r+r*.35*math.sin(t)),(.035,.035,.035),'steel')
+            # Flat recessed vent and raised bolt head silhouettes avoid hidden
+            # box backs consuming the normals-split export budget.
+            for rad,rr,mat,d in ((.425,.049,'dark_metal',.029),(.29,.024,'steel',.031)):
+                cx=x+r*rad*math.cos(t);cz=r+r*rad*math.sin(t)
+                pts=[(cx+rr*math.cos(t+q*math.pi/3),yy+s*d,cz+rr*math.sin(t+q*math.pi/3)) for q in range(6)]
+                _pane(a,pts,mat,reverse=s>0)
 
 
 def _chassis(a,L,W,axles,r=.48,dual=True):
@@ -116,56 +167,83 @@ def _cab(a,front,W,paint='white',hood=True,crew=False,r=.48):
     axle=front-(.97 if hood else .89)
     belt=1.56 if hood else 1.65
     h=2.66 if hood else 2.88
+    windshield=front-1.40 if hood else front-.08
+    roofedge=front-1.77 if hood else front-.34
     if hood:
-        top=[(front,1.27),(front-.18,1.49),(front-1.32,1.61),(front-1.52,1.57),(rear,1.57)]
-        windshield=front-1.35; roofedge=front-1.66
+        # Narrow bonnet, rounded plan corners and falling shoulder toward the
+        # radiator. Independent full-width fenders leave real daylight at tyres.
+        _hull(a,[(.57,rear,windshield,W*.47,.075),
+                 (belt-.10,rear,windshield,W*.50,.105),
+                 (belt,rear+.02,windshield-.02,W*.495,.11)],paint)
+        _hull(a,[(.94,windshield-.10,front,W*.34,.10),
+                 (1.29,windshield-.08,front,W*.37,.12),
+                 (1.48,windshield-.08,front-.17,W*.325,.13),
+                 (1.62,windshield-.08,front-.31,W*.29,.12)],paint)
+        # Bonnet center crease and side service latches.
+        a.beam((front-.30,0,1.628),(windshield+.07,0,1.635),.023,mat=paint)
+        for s in (-1,1):
+            a.box((windshield+.25,s*W*.371,1.21),(.10,.028,.105),'dark_metal')
+        _hull(a,[(.99,front-.43,front+.025,W*.485,.11),
+                 (1.30,front-.40,front+.015,W*.475,.12)],paint)
     else:
-        top=[(front,1.48),(front-.04,belt),(rear,belt)]
-        windshield=front-.035; roofedge=front-.30
-    _profile(a,_archpoly(rear,front,.56,[axle],r,top),W,paint)
-    # Tapered cab roof, sloped front glass and separate side panes.
-    rr=rear+.10; rf=roofedge; yb=W/2; yt=W*.46
-    a.mesh([(rear,-yb,belt),(windshield,-yb,belt),(windshield,yb,belt),(rear,yb,belt),
-            (rr,-yt,h),(rf,-yt,h),(rf,yt,h),(rr,yt,h)],
-           [(3,2,1,0),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7),(4,5,6,7)],paint)
-    zlo=belt+.12; zhi=h-.11
-    tl=(zlo-belt)/(h-belt); th=(zhi-belt)/(h-belt)
-    xb=windshield+(rf-windshield)*tl+.012
-    xt=windshield+(rf-windshield)*th+.012
-    yl=yb+(yt-yb)*tl-.09; yh=yb+(yt-yb)*th-.09
+        # Lower cab retains the cut-out wheel wells, with a bevelled nose cap.
+        _profile(a,_archpoly(rear,front-.13,.56,[axle],r,
+                            [(front-.13,1.49),(front-.17,belt),(rear,belt)]),W,paint)
+        _hull(a,[(.57,front-.26,front,W*.465,.06),
+                 (1.43,front-.27,front,W*.49,.085),
+                 (belt,front-.27,windshield,W*.48,.06)],paint)
+    # The cabin has raked glazing, a distinct rounded roof shoulder and a
+    # crowned top. Corner facets continue from the A-pillars into the roof.
+    zshoulder=h-.12
+    _hull(a,[(belt,rear,windshield,W*.495,.13),
+             (zshoulder,rear+.07,roofedge,W*.46,.13),
+             (h,rear+.17,roofedge-.055,W*.425,.105)],paint)
+    zlo=belt+.12; zhi=zshoulder-.065
+    def at(z):
+        t=(z-belt)/(zshoulder-belt)
+        return windshield+(roofedge-windshield)*t,W*.495+(W*.46-W*.495)*t
+    xb,yl=at(zlo);xt,yh=at(zhi)
     for s in (-1,1):
-        _pane(a,[(xb,s*.025,zlo),(xb,s*yl,zlo),(xt,s*yh,zhi),(xt,s*.025,zhi)],reverse=s<0)
+        # Rubber surround, then slightly inset glass, both coplanar to the cab.
+        _pane(a,[(xb+.010,s*.023,zlo),(xb+.010,s*(yl-.16),zlo),
+                 (xt+.010,s*(yh-.16),zhi),(xt+.010,s*.023,zhi)],'black',reverse=s<0)
+        _pane(a,[(xb+.017,s*.050,zlo+.035),(xb+.002,s*(yl-.193),zlo+.035),
+                 (xt+.028,s*(yh-.191),zhi-.035),(xt+.028,s*.050,zhi-.035)],reverse=s<0)
         pane_count=2 if crew else 1
-        xlo=rear+.14; xhi=windshield-.12
+        xlo=rear+.16; xhi=windshield-.17
         for j in range(pane_count):
-            lo=xlo+(xhi-xlo)*j/pane_count+.035
-            hi=xlo+(xhi-xlo)*(j+1)/pane_count-.035
-            hit=min(hi-.12,rf-.10)
-            _pane(a,[(lo,s*(yb-.012),zlo),(hi,s*(yb-.012),zlo),(hit,s*(yt+.012),zhi),(lo+.045,s*(yt+.012),zhi)],reverse=s>0)
-            a.box(((lo+hi)/2,s*(W/2+.015),1.20),(.21,.035,.055),'dark_metal')
-            a.box((lo-.055,s*(W/2+.012),1.18),(.011,.026,.67),'dark_metal')
-        a.box((rear+.72,s*(W/2+.09),.66),(1.12,.24,.11),'metal')
-        a.beam((windshield-.05,s*W*.43,1.8),(windshield+.19,s*(W/2+.22),1.95),.045,mat='dark_metal')
-        a.box((windshield+.19,s*(W/2+.23),2.02),(.16,.09,.32),'dark_metal')
-        a.box((windshield+.105,s*(W/2+.232),2.02),(.015,.072,.27),'silver')
-        # Segmented arch lip follows the body opening.
-        pts=[]
-        for j in range(7):
-            t=math.pi-j*math.pi/6
-            pts.append((axle+(r+.073)*math.cos(t),s*(W/2+.012),r+(r+.073)*math.sin(t)))
-        a.tube(pts,.026,paint,sides=4)
-        a.box((front+.025,s*W*.35,1.19),(.045,.31,.15),'light')
-        a.box((front+.04,s*W*.37,.99),(.05,.18,.065),'orange')
-    a.box((front+.04,0,.74),(.17,W*.97,.18),'silver')
-    a.box((front+.014,0,1.12),(.04,W*.39,.44),'black')
-    for z in (1.00,1.10,1.20,1.30):
-        a.box((front+.042,0,z),(.025,W*.37,.025),'metal')
-    a.box((front+.139,0,.80),(.018,.40,.15),'white')
-    for y in (-W*.33,0,W*.33):
-        a.box((rf-.12,y,h+.035),(.12,.10,.058),'orange')
-    # Two windshield wipers lie against the glass.
+            lo=xlo+(xhi-xlo)*j/pane_count+.028
+            hi=xlo+(xhi-xlo)*(j+1)/pane_count-.028
+            hit=min(hi-.05,roofedge-.16)
+            side=[(lo,s*(yl+.012),zlo),(hi,s*(yl+.012),zlo),
+                  (hit,s*(yh+.012),zhi),(lo+.025,s*(yh+.012),zhi)]
+            _pane(a,side,'black',reverse=s>0)
+            _pane(a,[(lo+.034,s*(yl+.017),zlo+.037),(hi-.047,s*(yl+.017),zlo+.037),
+                     (hit-.025,s*(yh+.020),zhi-.037),(lo+.060,s*(yh+.020),zhi-.037)],reverse=s>0)
+            a.box(((lo+hi)/2,s*(W*.50+.015),1.24),(.22,.032,.050),'dark_metal')
+            a.box((lo-.050,s*(W*.50+.009),1.18),(.012,.018,.68),'dark_metal')
+        # Two tread steps, mirror arms and a clear sill give the driver a scale.
+        for x,z,ww in ((rear+.66,.62,.25),(rear+.66,.82,.17)):
+            a.box((x,s*(W/2+.045),z),(1.00,ww,.075),'dark_metal')
+            a.box((x,s*(W/2+.054),z+.044),(.87,ww-.035,.020),'silver')
+        a.beam((windshield-.15,s*W*.455,1.88),(windshield+.13,s*(W/2+.23),1.99),.039,mat='dark_metal')
+        a.box((windshield+.13,s*(W/2+.24),2.04),(.13,.075,.30),'dark_metal')
+        a.box((windshield+.059,s*(W/2+.241),2.04),(.012,.061,.25),'silver')
+        a.box((front+.030,s*W*.382,1.16),(.045,.31,.20),'dark_metal')
+        a.box((front+.058,s*W*.382,1.18),(.018,.252,.125),'light')
+        a.box((front+.059,s*W*.384,1.065),(.020,.215,.035),'orange')
+    _fender(a,axle,W,r,paint,.11)
+    _hull(a,[(.63,front-.09,front+.15,W*.485,.065),
+             (.80,front-.09,front+.15,W*.485,.065)],'silver')
+    a.box((front+.016,0,1.13),(.045,W*.46,.49),'dark_metal')
+    a.box((front+.045,0,1.13),(.018,W*.405,.414),'black')
+    for z in (1.00,1.09,1.18,1.27):
+        a.box((front+.059,0,z),(.021,W*.395,.023),'metal')
+    a.box((front+.161,0,.73),(.017,.40,.12),'white')
+    for y in (-W*.31,0,W*.31):
+        a.box((roofedge-.15,y,h+.024),(.115,.090,.048),'orange')
     for y in (-W*.23,W*.23):
-        a.beam((xb+.012,y,zlo+.02),(xt+.09,y+.16,zlo+.30),.021,mat='black')
+        a.beam((xb+.028,y,zlo+.045),(xb-.065,y+.15,zlo+.28),.018,mat='black')
     return rear,h
 
 
@@ -204,7 +282,8 @@ def _bed(a,lo,hi,W,z=1.04,mat='dark_metal',th=.14):
 
 
 def _compartments(a,lo,hi,W,z=1.05,h=1.05,paint='white',count=4,slats=False):
-    a.box(((lo+hi)/2,0,z+h/2),(hi-lo,W,h),paint)
+    _hull(a,[(z,lo,hi,W/2-.035,.055),(z+.085,lo,hi,W/2,.055),
+             (z+h-.09,lo,hi,W/2,.055),(z+h,lo+.04,hi-.04,W/2-.055,.05)],paint)
     for s in (-1,1):
         for j in range(count):
             x=lo+(j+.5)*(hi-lo)/count
@@ -222,22 +301,23 @@ def _compartments(a,lo,hi,W,z=1.05,h=1.05,paint='white',count=4,slats=False):
 def _cargo_box(a,lo,hi,W,h=2.40,paint='white',refrigerated=False):
     z=1.07
     # Chamfered top corners avoid a featureless rectangular silhouette.
-    _profile(a,[(lo,z),(hi,z),(hi,z+h-.10),(hi-.14,z+h),(lo+.14,z+h),(lo,z+h-.10)],W,paint)
+    _hull(a,[(z,lo,hi,W/2-.025,.055),(z+.10,lo,hi,W/2,.055),
+             (z+h-.15,lo,hi,W/2,.055),(z+h,lo+.11,hi-.11,W/2-.105,.055)],paint)
     for s in (-1,1):
-        for x in (lo+.05,hi-.05):
-            a.box((x,s*(W/2+.006),z+h/2),(.045,.025,h-.06),'silver')
-        for zz in (z+.10,z+h-.08):
+        for x in (lo+.075,hi-.075):
+            a.box((x,s*(W/2+.006),z+h/2-.055),(.045,.025,h-.22),'silver')
+        for zz in (z+.10,z+h-.19):
             a.box(((lo+hi)/2,s*(W/2+.008),zz),(hi-lo-.06,.025,.045),'silver')
         for j in range(6):
             a.box((lo+.28+j*(hi-lo-.56)/5,s*(W/2+.026),z+.10),(.14,.012,.045),'red' if j%2 else 'white')
         a.box(((lo+hi)/2,s*W*.39,.64),(hi-lo-.35,.07,.08),'metal')
     for sy in (-1,1):
-        a.box((lo-.014,sy*W*.247,z+h/2),(.027,W*.48,h-.12),paint)
+        a.box((lo-.014,sy*W*.247,z+h/2-.06),(.027,W*.48,h-.24),paint)
         a.cylinder((lo-.049,sy*W*.28,z+.18),(lo-.049,sy*W*.28,z+h-.18),.022,'steel',sides=6)
         a.box((lo-.071,sy*W*.28,z+.65),(.03,.22,.055),'dark_metal')
         for zz in (z+.36,z+h-.34):
             a.box((lo-.04,sy*W*.44,zz),(.048,.15,.066),'silver')
-    a.box((lo-.035,0,z+h/2),(.035,.021,h-.04),'dark_metal')
+    a.box((lo-.035,0,z+h/2-.07),(.035,.021,h-.18),'dark_metal')
     if refrigerated:
         a.box((hi+.19,0,z+h-.24),(.42,W*.67,.75),'white')
         for s in (-1,1):
@@ -247,6 +327,15 @@ def _cargo_box(a,lo,hi,W,h=2.40,paint='white',refrigerated=False):
             a.box((hi+.43,0,zz),(.026,W*.51,.025),'metal')
 
 
+def _open_beam(a,p1,p2,width,mat):
+    """Omit rail-contact caps, not visible structural sides."""
+    before=len(a.faces)
+    a.beam(p1,p2,width,mat=mat)
+    # Asset.beam ordering: first and last polygon are the buried end caps.
+    del a.faces[before+5];del a.face_materials[before+5]
+    del a.faces[before];del a.face_materials[before]
+
+
 def _ladder(a,lo,hi,z,width=.64,sideheight=.22,mat='silver',rungs=18):
     for s in (-1,1):
         for zz in (z,z+sideheight):
@@ -254,10 +343,10 @@ def _ladder(a,lo,hi,z,width=.64,sideheight=.22,mat='silver',rungs=18):
         n=max(3,int((hi-lo)/1.0))
         for j in range(n):
             x=lo+(hi-lo)*j/n; xx=lo+(hi-lo)*(j+1)/n
-            a.beam((x,s*width/2,z),(xx,s*width/2,z+sideheight),.034,mat=mat)
+            _open_beam(a,(x,s*width/2,z),(xx,s*width/2,z+sideheight),.034,mat)
     for j in range(rungs):
         x=lo+(hi-lo)*j/(rungs-1)
-        a.beam((x,-width/2,z+.05),(x,width/2,z+.05),.038,mat=mat)
+        _open_beam(a,(x,-width/2,z+.012),(x,width/2,z+.012),.038,mat)
 
 
 def _outriggers(a,x,W,z=.85):
@@ -294,7 +383,9 @@ def _hose_reel(a,x,y,z,r=.42,width=.40,axis='y'):
 
 
 def _roof_ac(a,x,z,W=1.55,L=1.35):
-    a.box((x,0,z+.13),(L,W,.26),'concrete_light')
+    _hull(a,[(z,x-L/2,x+L/2,W/2,.09),
+             (z+.18,x-L/2,x+L/2,W/2,.10),
+             (z+.26,x-L/2+.09,x+L/2-.09,W/2-.075,.08)],'concrete_light')
     for y in (-W*.26,W*.26):
         a.cylinder((x,y,z+.26),(x,y,z+.29),.25,'dark_metal',sides=10)
     for j in range(5):
@@ -303,17 +394,23 @@ def _roof_ac(a,x,z,W=1.55,L=1.35):
 
 def _bus_body(a,lo,hi,W,H,axles,r=.49,paint='white',school=False,open_top=False):
     floor=.51
-    top=[(hi,1.62),(hi-.20,H-.20),(hi-.44,H),(lo+.24,H),(lo,H-.20)]
+    top=[(hi,1.62),(hi-.20,H-.28),(lo,H-.28)]
     _profile(a,_archpoly(lo,hi,floor,axles,r,top),W,paint)
+    _hull(a,[(H-.28,lo,hi-.20,W*.50,.08),
+             (H-.08,lo+.10,hi-.32,W*.475,.12),
+             (H,lo+.24,hi-.44,W*.435,.12)],paint)
+    for x in axles:_fender(a,x,W,r,paint,.035)
     for s in (-1,1):
         a.box(((lo+hi)/2,s*(W/2+.01),1.44),(hi-lo-.12,.026,.075),'dark_metal' if school else 'navy')
         n=max(3,int((hi-lo-.70)/.90))
         for j in range(n):
             x=lo+.35+(j+.5)*(hi-lo-.9)/n
             ww=(hi-lo-.9)/n-.08
-            zh=2.55 if school else H-.20
-            a.box((x,s*(W/2+.018),(1.76+zh)/2),(ww,.027,zh-1.76),'dark_metal')
-            a.box((x,s*(W/2+.035),(1.80+zh)/2),(ww-.065,.014,zh-1.86),'glass')
+            zh=2.55 if school else H-.33
+            _pane(a,[(x-ww/2,s*(W/2+.015),1.76),(x+ww/2,s*(W/2+.015),1.76),
+                     (x+ww/2,s*(W/2+.015),zh),(x-ww/2,s*(W/2+.015),zh)],'black',reverse=s>0)
+            _pane(a,[(x-ww/2+.034,s*(W/2+.019),1.815),(x+ww/2-.034,s*(W/2+.019),1.815),
+                     (x+ww/2-.034,s*(W/2+.019),zh-.045),(x-ww/2+.034,s*(W/2+.019),zh-.045)],reverse=s>0)
             if school:
                 a.box((x,s*(W/2+.047),2.22),(ww-.055,.015,.024),'metal')
         if school:
@@ -370,8 +467,10 @@ def _bus_vehicle(name,kind):
         front=L/2; rear=-L/2; ax=[front-1.0,rear+1.60]
         _chassis(a,L,W,ax,.48,True)
         _bus_body(a,rear,front-1.40,W,H,[ax[1]],.48,'yellow',True)
-        _profile(a,_archpoly(front-1.46,front,.52,[ax[0]],.48,
-                            [(front,1.35),(front-.17,1.55),(front-1.46,1.59)]),W*.82,'yellow')
+        _hull(a,[(.93,front-1.48,front,W*.33,.10),
+                 (1.32,front-1.48,front,W*.34,.12),
+                 (1.57,front-1.48,front-.16,W*.28,.10)],'yellow')
+        _fender(a,ax[0],W*.85,.48,'yellow',.15)
         a.box((front+.045,0,1.13),(.06,W*.43,.53),'black')
         for z in (1.,1.12,1.24): a.box((front+.081,0,z),(.03,W*.41,.022),'metal')
         a.box((front+.08,0,.72),(.20,W*.92,.20),'black')
@@ -476,21 +575,38 @@ def _van_shell(name,L=6.15,W=2.10,H=2.65,paint='white',step=False):
     _chassis(a,L,W,ax,r,False)
     hi=L/2; lo=-L/2
     cabx=hi-(.42 if step else 1.06)
-    top=[(hi,1.12),(hi-.13,1.43),(cabx,1.57),(cabx-.36,H-.17),(cabx-.63,H),(lo+.18,H),(lo,H-.18)]
+    top=[(hi,1.12),(hi-.13,1.38),(cabx,1.57),(cabx-.36,H-.25),(lo,H-.25)]
     _profile(a,_archpoly(lo,hi,.47,ax,r,top),W,paint)
-    zlo=1.63;zhi=H-.22
+    _hull(a,[(H-.25,lo,cabx-.36,W/2,.08),
+             (H-.075,lo+.06,cabx-.47,W*.475,.11),
+             (H,lo+.18,cabx-.63,W*.445,.10)],paint)
+    for x in ax:_fender(a,x,W,r,paint,.025)
+    # Belt rub strip, pressed bonnet crown and a shaped bumper strengthen the
+    # relation between tall cargo volume and a human-scaled driving position.
+    _hull(a,[(1.34,cabx,hi-.12,W*.43,.08),
+             (1.44,cabx-.02,hi-.19,W*.385,.10)],paint)
     for s in (-1,1):
-        _pane(a,[(cabx-.06,s*(W/2+.016),zlo),(cabx-1.10,s*(W/2+.016),zlo),
-                 (cabx-1.10,s*(W/2+.016),zhi),(cabx-.45,s*(W/2+.016),zhi)],reverse=s<0)
+        a.box(((lo+cabx-1.35)/2,s*(W/2+.018),1.05),(cabx-1.35-lo,.025,.045),'dark_metal')
+    zlo=1.63;zhi=H-.32
+    for s in (-1,1):
+        _pane(a,[(cabx-.045,s*(W/2+.016),zlo-.035),(cabx-1.15,s*(W/2+.016),zlo-.035),
+                 (cabx-1.15,s*(W/2+.016),zhi+.025),(cabx-.38,s*(W/2+.016),zhi+.025)],'black',reverse=s<0)
+        _pane(a,[(cabx-.10,s*(W/2+.020),zlo),(cabx-1.105,s*(W/2+.020),zlo),
+                 (cabx-1.105,s*(W/2+.020),zhi-.013),(cabx-.425,s*(W/2+.020),zhi-.013)],reverse=s<0)
         a.box((cabx-.81,s*(W/2+.025),1.39),(.18,.028,.048),'dark_metal')
         a.box((cabx-.16,s*(W/2+.13),1.88),(.18,.16,.21),'black')
         a.box((hi+.016,s*W*.34,1.20),(.04,.29,.15),'light')
         a.box((lo-.026,s*W*.40,1.54),(.04,.13,.35),'red')
         a.box((cabx-1.30,s*(W/2+.018),1.18),(.014,.02,1.17),'dark_metal')
         a.box((cabx-.8,s*(W/2+.063),.52),(1.03,.15,.10),'dark_metal')
-    _pane(a,[(cabx+.006,-W*.44,zlo),(cabx+.006,W*.44,zlo),
-             (cabx-.36,W*.44,zhi),(cabx-.36,-W*.44,zhi)])
-    a.box((hi+.02,0,.73),(.14,W*.92,.18),'dark_metal')
+    def screenx(z):return cabx-.36*(z-1.57)/(H-.25-1.57)+.012
+    _pane(a,[(screenx(zlo-.04),-W*.458,zlo-.04),(screenx(zlo-.04),W*.458,zlo-.04),
+             (screenx(zhi+.02),W*.458,zhi+.02),(screenx(zhi+.02),-W*.458,zhi+.02)],'black')
+    _pane(a,[(screenx(zlo)+.007,-W*.436,zlo),(screenx(zlo)+.007,W*.436,zlo),
+             (screenx(zhi)+.007,W*.436,zhi),(screenx(zhi)+.007,-W*.436,zhi)])
+    for y in (-W*.24,W*.24):
+        a.beam((screenx(zlo)+.02,y,zlo+.02),(screenx(zlo+.20)+.022,y+.12,zlo+.20),.016,mat='black')
+    _hull(a,[(.64,hi-.10,hi+.11,W*.47,.07),(.82,hi-.10,hi+.11,W*.47,.07)],'dark_metal')
     a.box((hi+.021,0,1.04),(.04,W*.52,.17),'black')
     for z in (1.,1.06,1.12): a.box((hi+.047,0,z),(.015,W*.49,.015),'metal')
     for s in (-1,1):
@@ -728,7 +844,8 @@ def _make_fleet(name,kind):
         for y in (-.82,.82): a.beam((L/2+.23,y,.62),(L/2+.23,y,1.49),.10,mat='black')
         a.beam((L/2+.23,-1.02,1.19),(L/2+.23,1.02,1.19),.10,mat='black')
     elif kind=='tactical_rescue_truck':
-        _profile(a,[(lo,1.0),(hi,1.0),(hi,2.47),(hi-.25,2.84),(lo+.28,2.84),(lo,2.53)],W,'dark_metal')
+        _hull(a,[(1.0,lo,hi,W*.46,.10),(1.20,lo,hi,W/2,.10),
+                 (2.47,lo,hi,W/2,.12),(2.84,lo+.24,hi-.24,W*.43,.15)],'dark_metal')
         for s in (-1,1):
             for j in range(3):
                 x=lo+.59+j*(hi-lo-1.18)/2
@@ -876,10 +993,12 @@ def _make_fleet(name,kind):
     elif kind in ('rear_loader_refuse_truck','front_loader_refuse_truck','automated_side_loader_refuse_truck','split_body_recycling_truck'):
         # Faceted compactor body, deep lower sill and hydraulic packer hardware.
         bh=3.35;back=lo+.69 if kind=='rear_loader_refuse_truck' else lo
-        _profile(a,[(back,1.04),(hi,1.04),(hi,2.98),(hi-.26,bh),(back+.26,bh),(back,bh-.32)],W*.96,'green' if kind!='split_body_recycling_truck' else 'blue')
+        _hull(a,[(1.04,back,hi,W*.435,.10),(1.30,back,hi,W*.48,.10),
+                 (2.97,back,hi,W*.48,.14),(bh,back+.24,hi-.24,W*.425,.16)],
+              'green' if kind!='split_body_recycling_truck' else 'blue')
         for s in (-1,1):
             a.box(((back+hi)/2,s*(W/2-.01),1.24),(hi-back,.11,.28),'dark_metal')
-            for x in (back+.29,hi-.31): a.box((x,s*(W/2-.011),2.16),(.12,.055,1.91),'metal')
+            for x in (back+.29,hi-.31): a.box((x,s*(W/2-.011),2.10),(.12,.055,1.65),'metal')
             a.box((mid,s*(W/2+.018),2.14),(hi-lo-1.1,.024,.10),'white')
         if kind=='rear_loader_refuse_truck':
             # Hopper has a visibly open mouth and sloping packer lip.
@@ -1076,7 +1195,8 @@ def _make_fleet(name,kind):
         for y in (-.65,-.32,0,.32,.65): a.cylinder((lo-.14,y,2.25),(lo-.17,y,2.25),.083,'orange',sides=8)
     elif kind=='airport_crash_tender':
         # Broad low airport body, side pump cabinets and roof-mounted foam cannon.
-        _profile(a,[(lo,1.05),(hi,1.05),(hi,2.68),(hi-.4,3.00),(lo+.37,3.00),(lo,2.67)],W*.99,'yellow')
+        _hull(a,[(1.05,lo,hi,W*.46,.11),(1.22,lo,hi,W*.495,.11),
+                 (2.68,lo,hi,W*.495,.16),(3.00,lo+.33,hi-.34,W*.43,.17)],'yellow')
         for s in (-1,1):
             for j in range(4):
                 x=lo+(j+.5)*(hi-lo)/4

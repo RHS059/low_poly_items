@@ -24,12 +24,24 @@ def rod(a, p, q, r=.018, m='metal', sides=8):
     a.cylinder(p, q, r, mat=m, sides=sides)
 
 def wheel(a, x, y, z, r=.14, w=.08):
-    rod(a, (x,y-w/2,z), (x,y+w/2,z), r, 'rubber', 10)
-    rod(a, (x,y-w/2-.003,z), (x,y+w/2+.003,z), r*.38, 'steel', 8)
+    # Rounded tire shoulders, sidewall, steel hub and recessed axle.
+    n=12 if r>=.2 else 10;vs=[]
+    for dy,rr in ((-.5*w,r*.84),(-.35*w,r),( .35*w,r),(.5*w,r*.84)):
+        vs += [(x+rr*cos(j*2*pi/n),y+dy,z+rr*sin(j*2*pi/n)) for j in range(n)]
+    fs=[(k*n+j,k*n+(j+1)%n,(k+1)*n+(j+1)%n,(k+1)*n+j) for k in range(3) for j in range(n)]
+    fs += [tuple(reversed(range(n))),tuple(range(3*n,4*n))];a.mesh(vs,fs,'rubber')
+    rod(a,(x,y-w*.51,z),(x,y+w*.51,z),r*.52,'steel',n)
+    for sign in (-1,1):
+        rod(a,(x,y+sign*w*.514,z),(x,y+sign*w*.55,z),r*.24,'dark_metal',8)
+        if r>=.2:
+            for j in range(5):
+                t=j*2*pi/5
+                rod(a,(x+r*.36*cos(t),y+sign*w*.52,z+r*.36*sin(t)),(x+r*.36*cos(t),y+sign*w*.56,z+r*.36*sin(t)),r*.043,'silver',6)
 
 def cross_wheel(a, x, y, z, r=.14, w=.08):
-    rod(a, (x-w/2,y,z), (x+w/2,y,z), r, 'rubber', 10)
-    rod(a, (x-w/2-.003,y,z), (x+w/2+.003,y,z), r*.38, 'steel', 8)
+    tmp=Asset('wheel');wheel(tmp,0,0,0,r,w)
+    a.mesh([(x+yy,y-xx,z+zz) for xx,yy,zz in tmp.vertices],tmp.faces,tmp.face_materials)
+
 
 def ring(a, z, r, m='dark_metal', center=(0,0)):
     a.torus((center[0],center[1],z), r, .022, mat=m, segments=12,sides=4)
@@ -46,11 +58,53 @@ def hollow_box(a, w,d,h,m='green',z=.0,t=.04):
     box(a,(-w/2+t/2,0,z+h/2),(t,d,h),m)
     box(a,(w/2-t/2,0,z+h/2),(t,d,h),m)
 
+def xz_shell(a,points,y0,y1,m):
+    n=len(points);vs=[(x,y,z) for y in (y0,y1) for x,z in points]
+    a.mesh(vs,[tuple(reversed(range(n))),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)],m)
+
+def cushion(a,c,size,m='brown',sag=.025):
+    # Upholstery rolls inward at each seam instead of ending in a perfect cube.
+    x,y,z=c;w,d,h=size;vs=[]
+    for zz,fw,fd in ((-h*.5,.89,.89),(-h*.31,1,1),(h*.28,1,1),(h*.5,.88,.88)):
+        rr=min(w,d)*.12
+        pts=[(-w*.5+rr,-d*.5),(w*.5-rr,-d*.5),(w*.5,-d*.5+rr),(w*.5,d*.5-rr),(w*.5-rr,d*.5),(-w*.5+rr,d*.5),(-w*.5,d*.5-rr),(-w*.5,-d*.5+rr)]
+        vs += [(x+xx*fw,y+yy*fd,z+zz) for xx,yy in pts]
+    vs.append((x,y,z+h*.5-sag));fs=[(k*8+j,k*8+(j+1)%8,(k+1)*8+(j+1)%8,(k+1)*8+j) for k in range(3) for j in range(8)]
+    fs += [tuple(reversed(range(8)))]+[(24+j,24+(j+1)%8,32) for j in range(8)]
+    a.mesh(vs,fs,m)
+
+def open_lid(a,c,w,d,z,opening=.18,m='dark_metal',n=12):
+    # Rectangular outside edge, actual circular aperture and inner wall.
+    x,y=c;vs=[]
+    for layer in range(4):
+        for j in range(n):
+            t=j*2*pi/n;co=cos(t);si=sin(t)
+            outer=min(w/2/max(abs(co),1e-6),d/2/max(abs(si),1e-6))
+            rr=outer if layer==0 else opening+.024 if layer==1 else opening
+            zz=z-.03 if layer==0 else z+.025 if layer==1 else z+.012 if layer==2 else z-.13
+            vs.append((x+rr*co,y+rr*si,zz))
+    a.mesh(vs,[(k*n+j,k*n+(j+1)%n,(k+1)*n+(j+1)%n,(k+1)*n+j) for k in range(3) for j in range(n)],m)
+    rod(a,(x,y,z-.19),(x,y,z-.18),opening*.97,'black',n)
+
+def brush(a,x,y,z,r=.25):
+    a.cone((x,y,z),(x,y,z+.10),r,'brown',12,radius2=r*.7)
+    rod(a,(x,y,z+.105),(x,y,z+.14),r*.62,'dark_metal',12)
+    rod(a,(x,y,z+.14),(x,y,z+.23),r*.18,'metal',8)
+    for j in range(16):
+        t=j*2*pi/16
+        rod(a,(x+r*.74*cos(t),y+r*.74*sin(t),z+.077),(x+r*.98*cos(t),y+r*.98*sin(t),z+.009),.012,'wood_dark',5)
+
 def bag(a,x=0,y=0,z=0,r=.27,h=.63,m='black'):
-    a.sphere((x,y,z+h*.44),1,mat=m,segments=7,rings=4,scale=(r,r*.83,h*.44))
-    a.cone((x,y,z+h*.74),(x+.025,y,z+h*.94),r*.48,mat=m,sides=7,radius2=r*.12)
-    rod(a,(x+.025,y,z+h*.92),(x+.025,y,z+h*.96),r*.16,'white',6)
-    a.cone((x+.025,y,z+h*.95),(x+.08,y,z+h*1.05),r*.28,mat=m,sides=5)
+    # Asymmetric packed sack with vertical creases that gather at its tied neck.
+    n=10;vs=[]
+    for k,(zh,rr) in enumerate(((.02,.48),(.14,.86),(.39,1),(.65,.88),(.79,.52),(.89,.11))):
+        for j in range(n):
+            t=j*2*pi/n;fac=1+.10*sin(j*2.4+k*.65)+(.055 if j%2 else -.055)
+            vs.append((x+r*rr*cos(t)*fac+.02*sin(k),y+r*.84*rr*sin(t)*fac,z+h*zh))
+    fs=[(k*n+j,k*n+(j+1)%n,(k+1)*n+(j+1)%n,(k+1)*n+j) for k in range(5) for j in range(n)]
+    fs += [tuple(reversed(range(n))),tuple(range(5*n,6*n))];a.mesh(vs,fs,m)
+    rod(a,(x-.015,y,z+h*.883),(x-.015,y,z+h*.916),r*.13,'white',6)
+    a.cone((x-.015,y,z+h*.913),(x+.06,y+.014,z+h*1.025),r*.27,mat=m,sides=5)
 
 def cart(a, w=.62,d=.7,h=1.02,m='black',lid='black',open_lid=False):
     # Tapered injection-molded body, raised front ribs, and full-width pull handle.
@@ -71,6 +125,12 @@ def cart(a, w=.62,d=.7,h=1.02,m='black',lid='black',open_lid=False):
         box(a,(0,0,h+.03),(w+.055,d+.06,.06),lid)
         box(a,(0,-d*.45,h+.065),(w*.35,.09,.04),lid)
     box(a,(0,-d*.505,h*.65),(w*.37,.012,h*.18),'white')
+    for x in (-w*.30,w*.30):
+        rod(a,(x-.05,d*.45,h),(x+.05,d*.45,h),.036,lid,8)
+    for sign in (-1,1):
+        box(a,(sign*w*.49,0,h*.76),(.036,d*.24,.06),m)
+    if not open_lid:
+        for x in (-w*.32,w*.32):box(a,(x,0,h+.068),(.045,d*.74,.025),lid)
 
 def dumpster(a,w=2.0,d=1.12,h=1.25,m='green',lid=True,wheels=True):
     hollow_box(a,w,d,h,m,z=.2,t=.07)
@@ -88,7 +148,13 @@ def dumpster(a,w=2.0,d=1.12,h=1.25,m='green',lid=True,wheels=True):
                 box(a,(x,yy,h+.3),(w*.39,.035,.025),'dark_metal')
     if wheels:
         for x in (-w*.39,w*.39):
-            for y in (-d*.34,d*.34): wheel(a,x,y,.14,.14,.085)
+            for y in (-d*.34,d*.34):
+                wheel(a,x,y,.14,.14,.085)
+                for dy in (-.058,.058):box(a,(x,y+dy,.22),(.10,.02,.19),'metal')
+                rod(a,(x,y,.28),(x,y,.34),.041,'metal',8)
+    if lid:
+        rod(a,(-w*.46,d*.51,h+.24),(w*.46,d*.51,h+.24),.027,'metal',8)
+        for x in (-w*.34,0,w*.34):box(a,(x,d*.51,h+.19),(.12,.07,.14),m)
 
 def recycle_mark(a,x,y,z,scale=.12):
     # Three simple arrows embossed on the front panel, readable at game distance.
@@ -100,13 +166,13 @@ def recycle_mark(a,x,y,z,scale=.12):
 
 @item('slatted_park_litter_bin')
 def build(a):
-    rod(a,(0,0,.07),(0,0,.88),.265,'black',12)
+    rod(a,(0,0,.07),(0,0,.81),.255,'black',12)
     for i in range(12):
         t=2*pi*i/12
         box(a,(.284*cos(t),.284*sin(t),.46),(.052,.10,.78),'wood',rot=t)
     ring(a,.12,.299);ring(a,.80,.299)
-    a.cone((0,0,.89),(0,0,.99),.33,'dark_metal',12,radius2=.25)
-    rod(a,(0,0,.991),(0,0,.999),.19,'black',12)
+    a.cylinder((0,0,.89),(0,0,.99),.33,'dark_metal',12,radius2=.25,cap=False)
+    a.cylinder((0,0,.80),(0,0,.99),.23,'dark_metal',12,cap=False)
     ring(a,.995,.21)
 
 @item('wire_mesh_street_basket')
@@ -129,10 +195,11 @@ def build(a):
 
 @item('square_concrete_park_receptacle')
 def build(a):
-    hollow_box(a,.64,.64,.82,'concrete',t=.10)
+    hollow_box(a,.64,.64,.82,'concrete',t=.07)
     box(a,(0,0,.04),(.7,.7,.08),'concrete_light')
-    box(a,(0,0,.84),(.73,.73,.08),'dark_metal')
-    box(a,(0,0,.887),(.38,.38,.015),'black')
+    for y in (-.283,.283):box(a,(0,y,.85),(.73,.164,.08),'dark_metal')
+    for x in (-.283,.283):box(a,(x,0,.85),(.164,.40,.08),'dark_metal')
+    box(a,(0,0,.68),(.49,.49,.02),'black')
     for x in (-.20,0,.20): box(a,(x,-.325,.45),(.018,.01,.52),'concrete_light')
 
 @item('solar_compacting_public_bin')
@@ -152,9 +219,12 @@ def build(a):
 def build(a):
     box(a,(0,0,.075),(1.43,.64,.15),'dark_metal')
     for x,m in ((-.36,'blue'),(.36,'black')):
-        box(a,(x,0,.62),(.65,.59,1.08),m)
-        a.cone((x,0,1.16),(x,0,1.28),.43,'dark_metal',4,radius2=.32)
-        rod(a,(x,0,1.282),(x,0,1.294),.15,'black',10)
+        start=len(a.vertices);hollow_box(a,.65,.59,1.08,m,z=.08,t=.035)
+        for vi in range(start,len(a.vertices)):
+            vx,vy,vz=a.vertices[vi];a.vertices[vi]=(vx+x,vy,vz)
+        open_lid(a,(x,0),.67,.61,1.25,.145)
+        box(a,(x,-.305,.52),(.56,.035,.85),m)
+        for z in (.30,.90):box(a,(x-.26,-.33,z),(.04,.03,.07),'metal')
         box(a,(x,-.304,.78),(.4,.014,.20),'white')
     rod(a,(-.68,.26,.12),(-.68,.26,1.70),.028,'metal')
     rod(a,(.68,.26,.12),(.68,.26,1.70),.028,'metal')
@@ -195,13 +265,17 @@ def build(a):
 
 @item('perforated_steel_drum_bin')
 def build(a):
-    rod(a,(0,0,.04),(0,0,.88),.285,'metal',12)
-    for z in (.1,.82):ring(a,z,.29,'dark_metal')
-    for i in range(12):
-        t=2*pi*i/12
-        for z in (.27,.44,.61):
-            box(a,(.286*cos(t),.286*sin(t),z),(.007,.065,.075),'black',rot=t)
-    rod(a,(0,0,.881),(0,0,.89),.245,'black',12)
+    # Open slots are geometry: separate webs and hoop bands surround a dark liner.
+    rod(a,(0,0,.04),(0,0,.08),.285,'metal',12)
+    rod(a,(0,0,.08),(0,0,.72),.24,'black',12)
+    for j in range(12):
+        t=j*2*pi/12;q=(j+1)*2*pi/12
+        for z0,z1 in ((.08,.19),(.29,.36),(.46,.53),(.63,.72),(.82,.87)):
+            p=[(.285*cos(t),.285*sin(t),z0),(.285*cos(q),.285*sin(q),z0),(.285*cos(q),.285*sin(q),z1),(.285*cos(t),.285*sin(t),z1)]
+            a.mesh(p,[(0,1,2,3)],'metal')
+        a.beam((.28*cos(t),.28*sin(t),.08),(.28*cos(t),.28*sin(t),.87),.055,.018,'metal')
+    ring(a,.09,.286,'dark_metal');ring(a,.86,.286,'dark_metal')
+    a.torus((0,0,.877),.265,.020,'steel',segments=12,sides=4)
 
 @item('round_household_trash_can')
 def build(a):
@@ -270,8 +344,7 @@ def build(a):bag(a)
 @item('clear_sack_of_recyclables','handheld')
 def build(a):
     # Stylized blue translucent-looking shell and visible protruding recyclables.
-    a.sphere((0,0,.24),1,'glass',7,3,scale=(.26,.22,.24))
-    a.cone((0,0,.40),(0,0,.59),.13,'glass',7,radius2=.024)
+    bag(a,0,0,0,.26,.56,'glass')
     box(a,(.10,-.15,.31),(.15,.07,.24),'paper',rot=(0,.18,.12))
     rod(a,(-.10,-.17,.17),(-.10,-.17,.33),.048,'silver',6)
     rod(a,(.13,.03,.42),(.13,.03,.53),.052,'blue',6)
@@ -333,15 +406,23 @@ def build(a):
 
 @item('compact_open_debris_skip','large')
 def build(a):
-    # Splayed ends and low loading lip distinguish a contractor skip from a dumpster.
-    a.mesh([(-1.1,-.7,.20),(1.1,-.7,.20),(1.1,.7,.20),(-1.1,.7,.20),
-            (-1.6,-.87,1.1),(1.6,-.87,1.1),(1.6,.87,1.1),(-1.6,.87,1.1)],
-           [(0,3,2,1),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7)],'yellow')
-    for y in (-.88,.88):
-        box(a,(0,y,1.1),(3.24,.085,.09),'dark_metal')
-        for x in (-.8,0,.8):box(a,(x,y,.75),(.09,.07,.62),'yellow')
-    for x in (-1.3,1.3):
-        rod(a,(x,-.98,.90),(x,.98,.90),.045,'dark_metal')
+    # Splayed steel shell has an actual wall thickness and open interior.
+    outer=[(-1.1,-.7,.20),(1.1,-.7,.20),(1.1,.7,.20),(-1.1,.7,.20),(-1.6,-.87,1.1),(1.6,-.87,1.1),(1.6,.87,1.1),(-1.6,.87,1.1)]
+    inner=[(-1.07,-.66,.26),(1.07,-.66,.26),(1.07,.66,.26),(-1.07,.66,.26),(-1.54,-.82,1.1),(1.54,-.82,1.1),(1.54,.82,1.1),(-1.54,.82,1.1)]
+    fs=[(0,3,2,1),(8,9,10,11)]
+    for i in range(4):
+        j=(i+1)%4
+        fs += [(i,j,j+4,i+4),(i+8,i+12,j+12,j+8),(i+4,j+4,j+12,i+12)]
+    a.mesh(outer+inner,fs,'yellow')
+    for sign in (-1,1):
+        y=sign*.88
+        box(a,(0,y,1.115),(3.24,.085,.08),'dark_metal')
+        for x in (-.8,0,.8):
+            a.beam((x,sign*.741,.32),(x,sign*.88,1.06),.075,.045,'yellow')
+        for x in (-1.3,1.3):
+            box(a,(x,sign*.867,.88),(.15,.07,.18),'dark_metal')
+            rod(a,(x,sign*.885,.90),(x,sign*.985,.90),.055,'dark_metal',8)
+    for x in (-1.59,1.59):box(a,(x,0,1.115),(.085,1.79,.08),'dark_metal')
     for y in (-.5,.5):box(a,(0,y,.12),(2.3,.12,.2),'dark_metal')
     for x,y in ((-.7,-.2),(.2,.18),(.7,-.25)):
         box(a,(x,y,.42),(.62,.36,.22),'concrete',rot=(0,.22,x))
@@ -370,11 +451,12 @@ def build(a):
 
 @item('three_hole_public_recycling_sorter','large')
 def build(a):
-    box(a,(0,0,.56),(1.66,.64,1.04),'metal')
+    hollow_box(a,1.66,.64,1.04,'metal',z=.04,t=.035)
+    for x in (-.27,.27):box(a,(x,0,.52),(.028,.58,.92),'dark_metal')
     for x,m in ((-.54,'blue'),(0,'green'),(.54,'yellow')):
         box(a,(x,-.33,.55),(.51,.04,.95),m)
-        box(a,(x,0,1.105),(.54,.68,.07),'dark_metal')
-        rod(a,(x,-.04,1.142),(x,-.04,1.154),.16,'black',10)
+        open_lid(a,(x,0),.54,.68,1.12,.15)
+        for z in (.28,.86):box(a,(x-.22,-.36,z),(.028,.025,.07),'metal')
         box(a,(x,-.358,.83),(.27,.015,.14),'white')
         box(a,(x+.20,-.364,.51),(.025,.012,.09),'steel')
     box(a,(0,0,.04),(1.77,.7,.08),'black')
@@ -395,54 +477,66 @@ def build(a):
 
 @item('flattened_cardboard_tied_stack','handheld')
 def build(a):
+    # Compressed flattened cartons with staggered creases and partly folded flaps.
     for i in range(7):
-        box(a,((i%3-1)*.018,(i%2)*.015,.015+i*.027),(.62-(i%2)*.07,.44,.021),'wood_light',rot=(i%3-1)*.035)
+        dx=(i%3-1)*.013;dy=(i%2)*.012;z=.01+i*.017
+        pts=[(-.31+dx,-.21+dy),(.27+dx,-.22+dy),(.31+dx,-.16+dy),(.30+dx,.21+dy),(-.26+dx,.22+dy),(-.31+dx,.17+dy)]
+        a.prism(pts,z,z+.012,'wood_light' if i%3 else 'cream')
+        box(a,(dx,-.216+dy,z+.006),(.40,.007,.003),'brown')
+    a.mesh([(-.29,-.20,.126),(-.09,-.20,.126),(-.09,.20,.126),(-.29,.20,.14)],[(0,1,2,3)],'wood_light')
+    a.mesh([(.10,-.20,.126),(.29,-.19,.146),(.29,.20,.137),(.10,.20,.126)],[(0,1,2,3)],'wood_light')
     for x in (-.18,.18):
-        box(a,(x,0,.207),(.014,.49,.009),'cream')
-        box(a,(x,-.242,.112),(.014,.009,.19),'cream')
-        box(a,(x,.242,.112),(.014,.009,.19),'cream')
-    box(a,(0,0,.209),(.63,.016,.008),'cream')
+        a.tube([(x,-.237,.006),(x,-.238,.139),(x,0,.143),(x,.238,.139),(x,.238,.005)],.005,'cream',4)
+    rod(a,(-.32,0,.146),(.32,0,.146),.005,'cream',4)
 
 @item('twine_bound_newspaper_bundle','handheld')
 def build(a):
-    box(a,(0,0,.105),(.40,.29,.21),'paper')
-    for z in (.035,.065,.095,.125,.155,.185):box(a,(0,-.147,z),(.40,.006,.007),'concrete')
-    for x in (-.09,.09):
-        box(a,(x,0,.214),(.009,.30,.008),'wood_dark')
-        box(a,(x,-.151,.105),(.009,.009,.215),'wood_dark')
-        box(a,(x,.151,.105),(.009,.009,.215),'wood_dark')
-    box(a,(0,0,.216),(.41,.009,.007),'wood_dark')
-    for y in (-.085,-.045,.015,.045):box(a,(0,y,.213),(.27,.013,.003),'concrete')
+    # Seven slightly buckled folded sections, with compressed edges under twine.
+    for j in range(7):
+        x=(j%3-1)*.008;y=(j%2)*.008;z=.015+j*.029
+        pts=[(-.20+x,-.142+y),(-.04+x,-.151+y),(.19+x,-.143+y),(.20+x,.128+y),(.01+x,.145+y),(-.20+x,.132+y)]
+        a.prism(pts,z,z+.024,'paper' if j%3 else 'white')
+    for x in (-.09,.09):a.tube([(x,-.155,.015),(x,-.157,.211),(x,0,.214),(x,.155,.211),(x,.155,.01)],.004,'wood_dark',4)
+    rod(a,(-.20,0,.219),(.20,0,.219),.004,'wood_dark',4)
+    for y in (-.095,-.067,-.039,.025,.048):box(a,(.024,y,.215),(.23,.009,.003),'concrete')
 
 @item('compressed_aluminum_can_bale')
 def build(a):
-    box(a,(0,0,.29),(.67,.57,.56),'silver')
-    for row in range(3):
-        for col in range(5):
-            x=-.26+col*.13;z=.11+row*.18
-            a.cylinder((x,-.31,z),(x,-.345,z),.07,['red','blue','silver','green','silver'][col],6,radius2=.05)
-    for x in (-.25,0,.25):
-        for y in (-.17,.10):
-            a.cylinder((x,y,.574),(x+.015,y,.603),.088,'silver',7,radius2=.064)
-            box(a,(x,y,.609),(.035,.016,.008),'dark_metal')
+    # Compressed crushed cans form every exposed side; the inner packing is hidden.
+    cushion(a,(0,0,.29),(.58,.47,.53),'silver',.016)
+    for side in (-1,1):
+        for row in range(4):
+            for col in range(5):
+                x=-.28+col*.139+(row%2)*.012;z=.083+row*.137
+                a.sphere((x,side*(.237+.016*sin(row+col)),z),1,['silver','red','silver','blue','green'][col],6,3,scale=(.076,.058,.077))
+                if side<0 and (row+col)%2==0:rod(a,(x,-.295,z),(x,-.301,z),.035,'dark_metal',6)
+    for side in (-1,1):
+        for row in range(3):
+            for col in range(3):
+                a.sphere((side*.30,(col-1)*.16,.10+row*.17),1,'silver',6,3,scale=(.048,.082,.083))
+    for x in (-.22,0,.22):
+        for y in (-.16,.02,.16):
+            a.sphere((x,y,.564+.013*sin(x*10+y)),1,'silver',6,3,scale=(.095,.076,.045))
     for x in (-.21,.21):
-        box(a,(x,0,.58),(.018,.60,.012),'dark_metal')
-        box(a,(x,-.354,.29),(.018,.012,.58),'dark_metal')
+        a.tube([(x,-.31,.03),(x,-.32,.55),(x,-.21,.605),(x,.22,.60),(x,.31,.54),(x,.31,.03)],.009,'dark_metal',4)
 
 @item('baled_plastic_bottles')
 def build(a):
-    box(a,(0,0,.29),(.72,.54,.55),'glass')
-    for row in range(3):
-        for col in range(5):
-            x=-.29+col*.145;z=.1+row*.18
-            a.sphere((x,-.287,z),1,['glass','white','blue'][col%3],6,3,scale=(.071,.055,.085))
-    for x in (-.17,.16):
-        for y in (-.19,0,.19):
-            a.sphere((x,y,.586),1,'glass',6,3,scale=(.11,.064,.034))
-            rod(a,(x+.085,y,.59),(x+.14,y,.59),.018,'white',6)
-    for x in (-.24,.24):
-        box(a,(x,0,.58),(.014,.59,.012),'metal')
-        box(a,(x,-.347,.29),(.014,.012,.58),'metal')
+    cushion(a,(0,0,.29),(.63,.45,.52),'glass',.015)
+    for side in (-1,1):
+        for row in range(3):
+            for col in range(5):
+                x=-.29+col*.145+sin(row*2+col)*.012;z=.105+row*.18
+                a.sphere((x,side*.25,z),1,['glass','white','glass','blue','glass'][col],6,3,scale=(.075,.056,.084))
+                if (row+col)%2==0:rod(a,(x+.021,side*.269,z+.058),(x+.037,side*.284,z+.093),.019,'white',6)
+    for side in (-1,1):
+        for row in range(3):
+            for col in range(3):a.sphere((side*.335,(col-1)*.16,.12+row*.17),1,'glass',6,3,scale=(.045,.077,.081))
+    for x in (-.19,.03,.22):
+        for y in (-.16,.02,.16):
+            a.sphere((x,y,.563),1,'glass',6,3,scale=(.092,.070,.041))
+            rod(a,(x+.066,y,.58),(x+.105,y,.595),.016,'white',6)
+    for x in (-.23,.23):a.tube([(x,-.316,.025),(x,-.326,.55),(x,-.20,.61),(x,.20,.61),(x,.318,.54),(x,.318,.025)],.008,'metal',4)
 
 @item('three_bag_yard_clippings_pile')
 def build(a):
@@ -468,28 +562,37 @@ def build(a):
 
 @item('curbside_discarded_mattress','large')
 def build(a):
-    box(a,(0,0,.18),(1.02,1.96,.34),'cream')
-    for z in (.06,.29):
-        box(a,(0,-.982,z),(1.03,.018,.021),'paper')
-        box(a,(0,.982,z),(1.03,.018,.021),'paper')
-        box(a,(-.512,0,z),(.018,1.96,.021),'paper')
-        box(a,(.512,0,z),(.018,1.96,.021),'paper')
-    for x in (-.34,0,.34):
-        for y in (-.71,-.24,.24,.71):
-            rod(a,(x,y,.35),(x,y,.359),.035,'brown',6)
-    for y in (-.5,.5):handle(a,.516,y,.18,.15,.04,'wood_light')
+    cushion(a,(0,0,.17),(1.02,1.96,.31),'cream',.028)
+    # Piping follows the rounded corners; quilting dips inward at each button.
+    pts=[(-.40,-.97),(.40,-.97),(.51,-.87),(.51,.87),(.40,.97),(-.40,.97),(-.51,.87),(-.51,-.87)]
+    for z in (.055,.29):a.tube([(x,y,z) for x,y in pts+[pts[0]]],.009,'paper',6)
+    for x in (-.31,0,.31):
+        for y in (-.68,-.23,.23,.68):
+            zz=.325-.028*(1-max(abs(x)/.448,abs(y)/.862))
+            rod(a,(x,y,zz+.001),(x,y,zz+.005),.017,'wood_light',8)
+    for y in (-.50,.50):
+        a.tube([(.502,y-.10,.14),(.535,y-.10,.18),(.535,y+.10,.18),(.502,y+.10,.14)],.013,'wood_light',6)
 
 @item('bulky_pickup_worn_armchair')
 def build(a):
-    box(a,(0,0,.28),(.86,.83,.33),'brown')
-    box(a,(0,.29,.70),(.86,.25,.72),'brown',rot=(-.10,0,0))
-    for x in (-.36,.36):box(a,(x,0,.54),(.19,.82,.40),'brown')
-    box(a,(0,-.07,.48),(.51,.59,.18),'wood_light')
-    box(a,(0,.172,.78),(.51,.07,.48),'wood_light',rot=(-.10,0,0))
+    cushion(a,(0,0,.28),(.87,.84,.28),'brown',.005)
     for x in (-.31,.31):
-        for y in (-.28,.28):box(a,(x,y,.08),(.075,.075,.16),'wood_dark')
-    box(a,(.358,-.24,.752),(.11,.23,.018),'cream')
-    box(a,(-.1,-.23,.584),(.14,.13,.013),'brown',rot=.25)
+        for y in (-.28,.28):a.cone((x,y,.015),(x*.95,y,.17),.045,'wood_dark',5,radius2=.031)
+    # The reclining back and separate cushions follow a soft, compressed silhouette.
+    start=len(a.vertices);cushion(a,(0,.30,.72),(.85,.23,.75),'brown',.005)
+    for i in range(start,len(a.vertices)):
+        x,y,z=a.vertices[i];a.vertices[i]=(x,y+(z-.72)*.10,z)
+    cushion(a,(0,-.075,.48),(.54,.60,.18),'wood_light',.037)
+    start=len(a.vertices);cushion(a,(0,.17,.77),(.55,.105,.48),'wood_light',.012)
+    for i in range(start,len(a.vertices)):
+        x,y,z=a.vertices[i];a.vertices[i]=(x,y+(z-.77)*.10,z)
+    for sign in (-1,1):
+        cushion(a,(sign*.36,-.012,.56),(.22,.78,.39),'brown',.008)
+        a.tube([(sign*.39,-.37,.70),(sign*.39,-.30,.753),(sign*.39,.27,.755)],.008,'wood_dark',6)
+    a.tube([(-.24,-.34,.526),(0,-.36,.52),(.24,-.34,.526)],.007,'wood_dark',6)
+    for x in (-.14,.14):rod(a,(x,.101,.80),(x,.092,.80),.016,'brown',6)
+    a.mesh([(.30,-.30,.748),(.39,-.32,.753),(.405,-.16,.754),(.34,-.10,.747),(.31,-.19,.749)],[(0,1,2,3,4)],'cream')
+    a.mesh([(-.19,-.24,.554),(-.09,-.28,.55),(-.04,-.18,.55),(-.14,-.13,.554)],[(0,1,2,3)],'brown')
 
 @item('broken_pallet_scrap_stack','large')
 def build(a):
@@ -548,8 +651,9 @@ def build(a):
 
 @item('handheld_litter_collection_hoop_bag','handheld')
 def build(a):
-    a.cylinder((0,0,.05),(0,0,.61),.18,'black',8,radius2=.24)
-    rod(a,(0,0,.612),(0,0,.619),.215,'black',8)
+    a.cylinder((0,0,.05),(0,0,.61),.18,'black',10,radius2=.24,cap=False)
+    rod(a,(0,0,.05),(0,0,.062),.18,'black',10)
+    a.cylinder((0,0,.07),(0,0,.605),.168,'black',10,radius2=.224,cap=False)
     a.torus((0,0,.62),.235,.020,'orange',segments=10,sides=4)
     handle(a,0,.21,.64,.16,.11,'black')
     box(a,(0,-.205,.36),(.19,.018,.16),'white')
@@ -566,57 +670,116 @@ def build(a):
 
 @item('walk_behind_parking_lot_sweeper')
 def build(a):
-    box(a,(0,0,.33),(.79,.58,.39),'orange')
-    box(a,(.21,0,.55),(.34,.53,.14),'dark_metal')
-    box(a,(-.24,0,.30),(.33,.65,.28),'orange',rot=(0,-.15,0))
+    profile=[(-.47,.17),(-.47,.39),(-.32,.53),(.10,.56),(.32,.45),(.38,.20)]
+    xz_shell(a,profile,-.29,.29,'orange')
+    xz_shell(a,[(-.37,.43),(-.26,.54),(.05,.565),(.11,.52)],-.26,.26,'dark_metal')
     for y in (-.32,.32):wheel(a,.20,y,.20,.20,.1)
-    rod(a,(-.25,-.32,.11),(-.25,.32,.11),.09,'black',12)
-    for y in (-.38,.38):
-        rod(a,(-.34,y,.06),(-.34,y,.11),.20,'brown',10)
-        rod(a,(-.34,y,.11),(-.34,y,.15),.11,'dark_metal',10)
-    for y in (-.24,.24):rod(a,(.24,y,.45),(.72,y,1.01),.022,'metal')
+    rod(a,(-.25,-.29,.115),(-.25,.29,.115),.10,'black',12)
+    for y in (-.37,.37):
+        brush(a,-.37,y,.03,.18)
+        rod(a,(-.20,y*.62,.30),(-.37,y,.23),.024,'metal',8)
+    for y in (-.24,.24):
+        rod(a,(.24,y,.45),(.72,y,1.01),.022,'metal')
+        rod(a,(.23,y-.014,.43),(.23,y+.014,.43),.039,'dark_metal',8)
     rod(a,(.72,-.24,1.01),(.72,.24,1.01),.029,'black')
-    box(a,(.2,-.301,.37),(.27,.012,.12),'white')
+    handle(a,-.12,-.04,.57,.22,.09,'black')
+    for y in (-.307,.307):
+        box(a,(-.27,y,.34),(.065,.027,.11),'metal')
+        for x in (-.04,.035,.11):box(a,(x,y,.41),(.045,.013,.03),'dark_metal')
+    rod(a,(.33,-.27,.43),(.68,-.27,.92),.008,'black',6)
+    box(a,(.2,-.307,.29),(.20,.012,.075),'white')
 
 @item('towable_leaf_vacuum','large')
 def build(a):
-    box(a,(0,0,.39),(1.44,.90,.15),'dark_metal')
+    for y in (-.39,.39):box(a,(0,y,.39),(1.48,.09,.14),'dark_metal')
+    for x in (-.61,.59):box(a,(x,0,.39),(.10,.88,.14),'dark_metal')
     for y in (-.56,.56):wheel(a,0,y,.33,.33,.18)
-    box(a,(.12,0,.80),(1.04,.79,.71),'yellow')
-    box(a,(.13,0,1.22),(.84,.70,.15),'yellow',rot=(0,.13,0))
-    rod(a,(-.58,-.06,.72),(-.75,-.06,.72),.25,'black',12)
-    a.tube([(-.75,-.06,.72),(-.98,-.16,.58),(-1.1,-.42,.25),(-1.18,-.72,.14)],.105,'black',10)
-    for z in (.66,.82,.98):box(a,(.22,-.407,z),(.6,.022,.04),'black')
-    a.beam((.65,0,.35),(1.35,0,.29),.085,.1,'dark_metal')
-    a.torus((1.40,0,.29),.08,.02,'steel',segments=8,sides=4)
-    box(a,(-.28,.31,1.36),(.27,.22,.54),'yellow')
-    box(a,(-.25,.53,1.58),(.27,.52,.16),'yellow')
-    box(a,(-.25,.80,1.55),(.20,.028,.11),'black')
+    xz_shell(a,[(-.30,.47),(.61,.47),(.61,.91),(.46,1.10),(-.19,1.10),(-.30,.95)],-.35,.35,'yellow')
+    # Centrifugal blower scroll, intake flange and ribbed hose.
+    rod(a,(-.42,-.34,.88),(-.42,.34,.88),.34,'yellow',12)
+    rod(a,(-.42,-.39,.88),(-.42,-.35,.88),.255,'dark_metal',12)
+    hose=[(-.42,-.41,.88),(-.64,-.63,.77),(-.87,-.75,.48),(-1.12,-.82,.20)]
+    a.tube(hose,.12,'black',10)
+    for i in range(12):
+        t=i/11;xx=-.64-.48*t;yy=-.63-.19*t;zz=.77-.57*t
+        a.torus((xx,yy,zz),.121,.010,'dark_metal',axis=(-.48,-.19,-.57),segments=10,sides=4)
+    a.cone((-1.12,-.82,.20),(-1.27,-.86,.12),.13,'dark_metal',10,radius2=.17)
+    for sign in (-1,1):
+        y=sign*.359
+        box(a,(.23,y,.78),(.54,.025,.47),'yellow')
+        for z in (.67,.75,.83,.91):box(a,(.24,y+sign*.017,z),(.39,.015,.025),'black')
+        box(a,(.45,y+sign*.025,.57),(.04,.025,.09),'metal')
+        a.beam((-.37,sign*.55,.57),(-.22,sign*.55,.72),.23,.035,'yellow')
+        box(a,(0,sign*.55,.725),(.46,.23,.035),'yellow')
+        a.beam((.22,sign*.55,.72),(.36,sign*.55,.57),.23,.035,'yellow')
+    # Square discharge chute has a diagonal elbow and a visible open mouth.
+    xz_shell(a,[(-.56,1.00),(-.28,1.0),(-.28,1.55),(-.48,1.73),(-.75,1.73),(-.75,1.51),(-.56,1.51)],.15,.40,'yellow')
+    box(a,(-.76,.275,1.615),(.018,.17,.15),'black')
+    for y in (-.35,.35):a.beam((.53,y,.38),(1.30,0,.28),.085,.10,'dark_metal')
+    box(a,(1.37,0,.30),(.24,.13,.11),'metal')
+    a.sphere((1.49,0,.285),1,'metal',8,4,scale=(.10,.066,.055))
+    box(a,(1.35,0,.375),(.13,.035,.035),'dark_metal')
+    rod(a,(1.03,.16,.07),(1.03,.16,.41),.028,'metal',8)
+    box(a,(1.03,.16,.05),(.20,.16,.04),'dark_metal')
+    rod(a,(.32,.14,1.11),(.32,.14,1.30),.035,'dark_metal',8)
+    rod(a,(.32,.14,1.30),(.43,.14,1.30),.035,'dark_metal',8)
 
 @item('compact_municipal_street_sweeper','large')
 def build(a):
-    box(a,(0,0,.51),(2.72,1.14,.23),'dark_metal')
+    box(a,(0,0,.48),(2.72,1.06,.20),'dark_metal')
     for x in (-.88,.88):
-        for y in (-.59,.59):wheel(a,x,y,.38,.34,.20)
-    box(a,(.63,0,1.07),(1.24,1.10,.92),'white')
-    box(a,(.71,0,1.59),(1.08,1.08,.16),'white')
-    box(a,(-.74,0,1.22),(.97,1.07,1.20),'yellow')
-    box(a,(-.76,0,1.91),(1.14,1.16,.12),'yellow')
-    box(a,(-1.245,0,1.44),(.025,.94,.56),'glass')
-    for y in (-.548,.548):
-        box(a,(-.76,y,1.45),(.80,.022,.61),'glass')
-        box(a,(-.78,y,.92),(.83,.027,.28),'yellow')
-        box(a,(-.45,y*1.08,1.23),(.11,.045,.03),'dark_metal')
-    box(a,(-1.35,0,.66),(.15,1.20,.18),'black')
-    for y in (-.4,.4):box(a,(-1.431,y,.81),(.028,.20,.14),'light')
-    for y in (-.74,.74):
-        rod(a,(-.49,y,.06),(-.49,y,.17),.30,'brown',12)
-        rod(a,(-.49,y,.18),(-.49,y,.23),.20,'dark_metal',10)
-        rod(a,(-.42,y*.62,.45),(-.49,y,.23),.05,'metal')
-    for z in (.99,1.10,1.21):box(a,(.65,-.56,z),(.73,.025,.035),'dark_metal')
-    rod(a,(-.42,0,2.0),(-.42,0,2.13),.09,'orange',8)
-    box(a,(1.27,0,1.23),(.14,.74,.30),'dark_metal')
-    for y in (-.42,.42):box(a,(1.41,y,.91),(.045,.12,.13),'red')
+        for y in (-.59,.59):wheel(a,x,y,.36,.33,.20)
+    # Cab slopes at the windshield and turns beneath the nose; hopper tapers aft.
+    cab=[(-1.34,.63),(-1.39,1.02),(-1.14,1.86),(-.43,1.91),(-.23,1.77),(-.23,.63)]
+    xz_shell(a,cab,-.535,.535,'yellow')
+    xz_shell(a,[(-1.16,1.87),(-.44,1.92),(-.21,1.81),(-.21,1.92),(-1.20,1.99)],-.58,.58,'yellow')
+    # Windshield is truly raked; rubber seals and center divider follow its plane.
+    wind=[(-1.376,-.46,1.095),(-1.376,.46,1.095),(-1.166,.46,1.806),(-1.166,-.46,1.806)]
+    a.mesh(wind,[(0,1,2,3)],'glass')
+    a.tube(wind+[wind[0]],.019,'dark_metal',6)
+    rod(a,(-1.38,0,1.10),(-1.17,0,1.81),.014,'dark_metal',6)
+    rod(a,(-1.377,-.16,1.10),(-1.283,.27,1.44),.012,'black',6)
+    for sign in (-1,1):
+        yy=sign*.548
+        xz_shell(a,[(-1.25,1.05),(-1.04,1.81),(-.46,1.85),(-.30,1.73),(-.30,1.05)],yy,yy+sign*.007,'dark_metal')
+        xz_shell(a,[(-1.18,1.12),(-1.00,1.75),(-.70,1.78),(-.70,1.12)],yy+sign*.012,yy+sign*.018,'glass')
+        xz_shell(a,[(-.66,1.12),(-.66,1.79),(-.47,1.79),(-.36,1.69),(-.36,1.12)],yy+sign*.012,yy+sign*.018,'glass')
+        box(a,(-.72,yy,.90),(.79,.025,.23),'yellow')
+        box(a,(-.38,yy+sign*.03,1.02),(.14,.025,.034),'dark_metal')
+        for zz in (.91,1.61):box(a,(-1.075,yy+sign*.02,zz),(.038,.032,.082),'metal')
+        a.tube([(-.49,yy,1.64),(-.49,sign*.73,1.72),(-.66,sign*.77,1.72)],.018,'dark_metal',6)
+        box(a,(-.70,sign*.775,1.65),(.11,.07,.22),'black')
+        box(a,(-.47,sign*.63,.64),(.36,.21,.035),'metal')
+        for xx in (-.56,-.45,-.34):box(a,(xx,sign*.64,.665),(.018,.14,.007),'dark_metal')
+    xz_shell(a,[(-.10,.65),(1.24,.65),(1.36,1.32),(1.15,1.68),(.19,1.68),(-.10,1.44)],-.54,.54,'white')
+    for sign in (-1,1):
+        yy=sign*.556
+        xz_shell(a,[(.24,.85),(1.13,.85),(1.20,1.35),(1.06,1.52),(.24,1.52)],yy,yy+sign*.018,'concrete_light')
+        for zz in (1.01,1.10,1.19,1.28):box(a,(.67,yy+sign*.024,zz),(.66,.015,.031),'dark_metal')
+        for xx in (.25,1.11):box(a,(xx,yy+sign*.033,.94),(.045,.025,.08),'metal')
+        # Mudguard arches clear the tire silhouette.
+        for xx in (-.88,.88):
+            pts=[(xx+.39*cos(j*pi/6),yy+sign*.05,.36+.39*sin(j*pi/6)) for j in range(7)]
+            a.tube(pts,.038,'yellow' if xx<0 else 'white',6)
+    box(a,(-1.40,0,.66),(.15,1.17,.14),'black')
+    for y in (-.41,.41):
+        box(a,(-1.481,y,.87),(.03,.19,.14),'dark_metal')
+        box(a,(-1.498,y,.87),(.017,.14,.093),'light')
+    for y in (-.78,.78):
+        brush(a,-.50,y,.018,.29)
+        a.tube([(-.25,y*.59,.44),(-.37,y*.83,.33),(-.50,y,.25)],.035,'metal',8)
+        a.tube([(-.16,y*.62,.63),(-.22,y*.76,.43),(-.48,y,.28)],.018,'black',6)
+    # Central suction shoe and duct connect the brushes to the hopper.
+    box(a,(-.13,0,.15),(.39,.68,.13),'dark_metal')
+    a.tube([(-.10,0,.22),(.03,0,.52),(.16,0,.78)],.12,'black',10)
+    rod(a,(.28,.28,1.68),(.28,.28,1.90),.048,'dark_metal',10)
+    rod(a,(.28,.28,1.90),(.41,.28,1.90),.048,'dark_metal',10)
+    rod(a,(-.67,0,1.99),(-.67,0,2.06),.09,'dark_metal',10)
+    a.cone((-.67,0,2.06),(-.67,0,2.18),.08,'orange',10,radius2=.063)
+    box(a,(1.39,0,.77),(.11,1.09,.16),'dark_metal')
+    for y in (-.41,.41):box(a,(1.453,y,.94),(.032,.14,.16),'red')
+    box(a,(1.45,0,1.22),(.025,.57,.32),'dark_metal')
+    for y in (-.20,-.10,0,.10,.20):box(a,(1.468,y,1.22),(.02,.025,.26),'metal')
 
 @item('street_cleaning_water_hose_cart')
 def build(a):
