@@ -20,7 +20,8 @@ def render(a,size=256):
     lo=p[:,:2].min(axis=0); hi=p[:,:2].max(axis=0)
     scale=(size-30)/max(max(hi-lo),.001)
     xy=(p[:,:2]-(lo+hi)/2)*scale+np.array([size/2,size/2-3])
-    im=Image.new('RGB',(size,size),'#e9e6df');d=ImageDraw.Draw(im)
+    pixels=np.empty((size,size,3),dtype=np.uint8);pixels[:]=[233,230,223]
+    depth=np.full((size,size),-np.inf)
     light=np.array([-.4,-.6,1]);light/=np.linalg.norm(light)
     order=sorted(range(len(a.faces)),key=lambda i: float(np.mean(p[list(a.faces[i]),2])))
     for i in order:
@@ -34,8 +35,23 @@ def render(a,size=256):
         if n@eye<0:n=-n
         shade=.53+.47*max(float(n@light),0)
         h=PALETTE[a.face_materials[i]][0].lstrip('#');color=tuple(int(int(h[j:j+2],16)*shade) for j in (0,2,4))
-        d.polygon([tuple(q) for q in xy[list(f)]],fill=color)
-    return im
+        # Triangulated barycentric depth test: broad panels must not obscure glyphs.
+        for j in range(1,len(f)-1):
+            ids=[f[0],f[j],f[j+1]];tri=xy[ids];zz=p[ids,2]
+            x0=max(0,int(math.floor(tri[:,0].min())));x1=min(size-1,int(math.ceil(tri[:,0].max())))
+            y0=max(0,int(math.floor(tri[:,1].min())));y1=min(size-1,int(math.ceil(tri[:,1].max())))
+            if x0>x1 or y0>y1:continue
+            ax,ay=tri[0];bx,by=tri[1];cx,cy=tri[2]
+            den=(by-cy)*(ax-cx)+(cx-bx)*(ay-cy)
+            if abs(den)<1e-10:continue
+            yy,xx=np.mgrid[y0:y1+1,x0:x1+1];xx=xx+.5;yy=yy+.5
+            u=((by-cy)*(xx-cx)+(cx-bx)*(yy-cy))/den
+            w=((cy-ay)*(xx-cx)+(ax-cx)*(yy-cy))/den
+            t=1-u-w;z=u*zz[0]+w*zz[1]+t*zz[2]
+            region=depth[y0:y1+1,x0:x1+1]
+            mask=(u>=-1e-6)&(w>=-1e-6)&(t>=-1e-6)&(z>region)
+            region[mask]=z[mask];pixels[y0:y1+1,x0:x1+1][mask]=color
+    return Image.fromarray(pixels)
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--batch');args=ap.parse_args();load_batches()

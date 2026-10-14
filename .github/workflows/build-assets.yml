@@ -44,6 +44,8 @@ jobs:
             previews/
             manifest.json
             validation_report.json
+            materials.json
+            SHA256SUMS
           retention-days: 30
       - name: Commit generated assets
         run: |
@@ -51,7 +53,7 @@ jobs:
           test -s city_items.blend
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add city_items.blend exports previews manifest.json validation_report.json
+          git add city_items.blend exports previews manifest.json validation_report.json materials.json SHA256SUMS
           if ! git diff --cached --quiet; then
             git commit -m 'Publish 1,000 validated city models and Blender master'
             git push origin HEAD:main
